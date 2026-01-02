@@ -9,13 +9,18 @@ import { PRICING } from '@/lib/pricing';
 export const dynamic = 'force-dynamic';
 
 export async function POST(req: Request) {
+    console.log('[Related Keywords API] Starting...');
+
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {
+        console.log('[Related Keywords API] Unauthorized - no session');
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     try {
-        const { keyword, country = 'es', limit = 50 } = await req.json();
+        const body = await req.json();
+        const { keyword, country = 'es', limit = 50 } = body;
+        console.log('[Related Keywords API] Request:', { keyword, country, limit });
 
         if (!keyword || typeof keyword !== 'string') {
             return NextResponse.json({ error: 'Keyword is required' }, { status: 400 });
@@ -23,6 +28,8 @@ export async function POST(req: Request) {
 
         // Deduct balance first
         const cost = PRICING.related_keywords;
+        console.log('[Related Keywords API] Deducting balance:', cost);
+
         const deductResult = await deductBalance({
             userId: session.user.id,
             action: 'related_keywords',
@@ -30,24 +37,35 @@ export async function POST(req: Request) {
         });
 
         if (!deductResult.success) {
+            console.log('[Related Keywords API] Balance deduction failed:', deductResult.error);
             return NextResponse.json({
                 error: deductResult.error || 'Saldo insuficiente',
                 required: cost
             }, { status: 402 });
         }
 
+        console.log('[Related Keywords API] Balance deducted. Fetching keywords...');
+
         // Fetch keyword ideas from DataForSEO Labs (better quality)
         const keywords = await DataForSEO.getKeywordIdeas(keyword, country, limit);
 
+        console.log('[Related Keywords API] DataForSEO response:', keywords ? `${keywords.length} keywords` : 'null');
+
         if (!keywords || keywords.length === 0) {
+            console.log('[Related Keywords API] No keywords found from DataForSEO');
             return NextResponse.json({
-                error: 'No se encontraron keywords relacionadas',
+                error: 'No se encontraron keywords relacionadas. Intenta con otra keyword.',
+                keyword,
                 refunded: false
             }, { status: 404 });
         }
 
+        console.log('[Related Keywords API] Running GPT analysis...');
+
         // Analyze keywords with GPT for actionable recommendations
         const analysis = await OpenAIService.analyzeKeywordIdeas(keyword, keywords);
+
+        console.log('[Related Keywords API] Analysis complete. Returning response.');
 
         return NextResponse.json({
             success: true,
@@ -59,8 +77,11 @@ export async function POST(req: Request) {
             newBalance: deductResult.newBalance
         });
 
-    } catch (error) {
-        console.error('Related Keywords API Error:', error);
-        return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    } catch (error: any) {
+        console.error('[Related Keywords API] Error:', error.message, error.stack);
+        return NextResponse.json({
+            error: 'Error interno del servidor',
+            details: error.message
+        }, { status: 500 });
     }
 }
