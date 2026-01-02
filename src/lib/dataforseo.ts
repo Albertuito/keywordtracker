@@ -16,6 +16,26 @@ export class DataForSEO {
     }
 
     /**
+     * Get Money Balance
+     */
+    static async getAccountBalance(): Promise<number | null> {
+        try {
+            const res = await fetch(`${this.baseUrl}/merchant/account`, {
+                method: 'GET',
+                headers: this.headers
+            });
+            const data = await res.json();
+            if (data.tasks?.[0]?.result?.[0]) {
+                return parseFloat(data.tasks[0].result[0].main_balance);
+            }
+            return null;
+        } catch (error) {
+            console.error('DataForSEO Balance Error:', error);
+            return null;
+        }
+    }
+
+    /**
      * Fetch Live Google Organic SERP
      */
     static async getRankings(keyword: string, country: string = 'es', device: string = 'desktop') {

@@ -2,6 +2,7 @@ import prisma from '@/lib/prisma';
 import { formatCurrency } from '@/lib/pricing';
 import Link from 'next/link';
 import { ArrowLeft, User, Mail, Calendar, CreditCard, Shield, Clock, Search, ExternalLink } from 'lucide-react';
+import ImpersonateButton from '@/components/ImpersonateButton';
 
 export const dynamic = 'force-dynamic';
 

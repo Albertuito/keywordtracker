@@ -33,6 +33,8 @@ model User {
   balance       UserBalance?
   registrationIP String?
   reports       KeywordReport[]
+  notifications Notification[]
+  redemptions   CouponRedemption[]
 }
 
 model GlobalDomainLock {
@@ -163,6 +165,46 @@ model KeywordReport {
   country   String
   createdAt DateTime @default(now())
   data      String   // Stores JSON string of analysis
+  
+  @@index([userId])
+}
+
+// Admin Features
+
+model Coupon {
+  id          String   @id @default(cuid())
+  code        String   @unique
+  amount      Float    // Amount in EUR to add to balance
+  maxUses     Int      @default(1)
+  usedCount   Int      @default(0)
+  expiresAt   DateTime?
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  
+  redemptions CouponRedemption[]
+}
+
+model CouponRedemption {
+  id        String   @id @default(cuid())
+  couponId  String
+  coupon    Coupon   @relation(fields: [couponId], references: [id])
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([couponId, userId]) // Prevent double redemption by same user
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String   // User to receive the notification
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  title     String
+  message   String
+  type      String   @default("info") // info, success, warning, error
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
   
   @@index([userId])
 }

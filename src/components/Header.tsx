@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import BalanceWidget from "./BalanceWidget";
+import NotificationsBell from "./NotificationsBell";
 
 export default function Header() {
     const { data: session, status } = useSession();
@@ -57,6 +58,7 @@ export default function Header() {
                             <div className="w-24 h-9 bg-gray-100 rounded-lg animate-pulse"></div>
                         ) : session ? (
                             <div className="flex items-center gap-3">
+                                <NotificationsBell />
                                 <BalanceWidget />
                                 <div className="h-6 w-px bg-gray-200"></div>
                                 <div className="relative group">

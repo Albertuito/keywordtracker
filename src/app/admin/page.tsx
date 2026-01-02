@@ -1,5 +1,6 @@
 import prisma from '@/lib/prisma';
 import { formatCurrency } from '@/lib/pricing';
+import AdminHealthWidget from '@/components/AdminHealthWidget';
 
 export const dynamic = 'force-dynamic';
 
@@ -50,12 +51,18 @@ export default async function AdminDashboard() {
                 </div>
             </div>
 
-            <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
-                <h3 className="text-lg font-bold text-gray-900 mb-4">Pasivo (Saldo Usuarios)</h3>
-                <div className="flex items-center gap-4">
-                    <span className="text-2xl font-mono text-amber-600">{formatCurrency(liability)}</span>
-                    <span className="text-gray-500 text-sm">Crédito pendiente de uso</span>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                {/* Financial Summary */}
+                <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+                    <h3 className="text-lg font-bold text-gray-900 mb-4">Pasivo (Saldo Usuarios)</h3>
+                    <div className="flex items-center gap-4">
+                        <span className="text-2xl font-mono text-amber-600">{formatCurrency(liability)}</span>
+                        <span className="text-gray-500 text-sm">Crédito pendiente de uso</span>
+                    </div>
                 </div>
+
+                {/* API Health */}
+                <AdminHealthWidget />
             </div>
         </div>
     );

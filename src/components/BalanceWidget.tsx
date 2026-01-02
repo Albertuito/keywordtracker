@@ -3,10 +3,13 @@
 import { useState } from 'react';
 import { useBalance } from '@/hooks/useBalance';
 import RechargeModal from './RechargeModal';
+import RedeemCouponModal from './RedeemCouponModal';
+import { Ticket } from 'lucide-react';
 
 export default function BalanceWidget() {
     const { balance, loading } = useBalance();
-    const [showModal, setShowModal] = useState(false);
+    const [showRecharge, setShowRecharge] = useState(false);
+    const [showRedeem, setShowRedeem] = useState(false);
 
     if (loading) {
         return (
@@ -29,16 +32,27 @@ export default function BalanceWidget() {
                 </div>
 
                 <button
-                    onClick={() => setShowModal(true)}
+                    onClick={() => setShowRecharge(true)}
                     className="bg-green-500 hover:bg-green-600 text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors shadow-sm"
                 >
                     Recargar
                 </button>
+                <button
+                    onClick={() => setShowRedeem(true)}
+                    className="bg-indigo-100 hover:bg-indigo-200 text-indigo-700 p-1.5 rounded-lg transition-colors"
+                    title="Canjear Cupón"
+                >
+                    <Ticket className="w-5 h-5" />
+                </button>
             </div>
 
             <RechargeModal
-                isOpen={showModal}
-                onClose={() => setShowModal(false)}
+                isOpen={showRecharge}
+                onClose={() => setShowRecharge(false)}
+            />
+            <RedeemCouponModal
+                isOpen={showRedeem}
+                onClose={() => setShowRedeem(false)}
             />
         </>
     );
