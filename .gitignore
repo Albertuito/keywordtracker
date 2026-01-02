@@ -1,0 +1,55 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Build
+.next/
+out/
+build/
+
+# Debug
+*.log
+npm-debug.log*
+
+# Env files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Debug files
+*.log
+worker-debug.log
+install_debug.log
+dataforseo_debug.json
+
+# Test scripts
+check_*.js
+check_*.ts
+debug_*.js
+debug_*.ts
+create_user.js
+fix_revenue.js
+promote_admin.js
+trigger_sync.js
+
+# Local tools
+stripe.exe
+stripe-cli.zip
+prepare_deploy.ps1
+
+# Prisma
+prisma/dev.db
+prisma/dev.db-journal

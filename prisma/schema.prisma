@@ -1,0 +1,167 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-1.0.x", "debian-openssl-1.1.x", "debian-openssl-3.0.x"]
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?
+  role          String    @default("USER") // USER, ADMIN
+  plan          String    @default("PREPAID") // PREPAID (new default)
+  
+  // Invoicing Data
+  companyName   String?
+  taxId         String?   // NIF/CIF
+  address       String?
+  city          String?
+  zipcode       String?
+  country       String?
+  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  lastLogin     DateTime?
+  projects      Project[]
+  balance       UserBalance?
+  registrationIP String?
+  reports       KeywordReport[]
+}
+
+model GlobalDomainLock {
+  id        String   @id @default(cuid())
+  domain    String   @unique
+  addedBy   String
+  createdAt DateTime @default(now())
+}
+
+model UserBalance {
+  id              String   @id @default(cuid())
+  userId          String   @unique
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  balance         Float    @default(0)      // Current balance in EUR (€)
+  totalSpent      Float    @default(0)      // Lifetime spent
+  totalRecharged  Float    @default(0)      // Lifetime recharged
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  transactions    BalanceTransaction[]
+}
+
+model BalanceTransaction {
+  id              String   @id @default(cuid())
+  userId          String
+  userBalance     UserBalance @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  
+  type            String   // 'recharge', 'keyword_check_standard', 'keyword_check_live', 'ai_check', 'volume_check', 'refund'
+  amount          Float    // Positive for recharge, negative for deductions
+  balanceBefore   Float
+  balanceAfter    Float
+  
+  description     String?
+  metadata        String?  // JSON: { keywordId, projectId, stripePaymentId, package, etc }
+  
+  createdAt       DateTime @default(now())
+  
+  @@index([userId, createdAt])
+}
+
+model PricingConfig {
+  id              String   @id @default(cuid())
+  actionType      String   @unique // 'keyword_check_standard', 'keyword_check_live', 'ai_check', etc.
+  cost            Float    // Cost in EUR (€)
+  description     String?
+  active          Boolean  @default(true)
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Project {
+  id          String       @id @default(cuid())
+  name        String
+  domain      String
+  country     String       @default("ES") // Country code: ES, MX, US, etc.
+  language    String       @default("es") // Language code: es, en, etc.
+  userId      String
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  keywords    Keyword[]
+  competitors Competitor[]
+}
+
+model Competitor {
+  id        String   @id @default(cuid())
+  domain    String
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([projectId, domain]) // No duplicate domains per project
+  @@index([projectId])
+}
+
+model Keyword {
+  id        String            @id @default(cuid())
+  term      String
+  country   String            @default("US") // e.g. "us", "es", "uk"
+  device    String            @default("desktop") // "desktop" or "mobile"
+  volume    Int?              // Monthly search volume
+  projectId String
+  project   Project           @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  positions KeywordPosition[]
+  
+  // DataForSEO Async & Limits
+  dataforseoTaskId String?    // ID of the pending Standard Queue task
+  lastLiveCheck    DateTime?  // Timestamp of the last expensive "Live" check
+  
+  // Auto-Tracking
+  trackingFrequency String   @default("manual") // manual, daily, every_2_days, weekly
+  lastAutoCheck     DateTime? // Last time auto-tracking ran for this keyword
+  
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+  
+  @@index([projectId])
+  @@index([trackingFrequency, lastAutoCheck]) // For efficient cron queries
+}
+
+model KeywordPosition {
+  id         String   @id @default(cuid())
+  position   Int
+  url        String?
+  topDomains String?  // JSON array of top 5 competitor domains
+  date       DateTime @default(now())
+  keywordId  String
+  keyword    Keyword  @relation(fields: [keywordId], references: [id], onDelete: Cascade)
+
+  @@index([keywordId, date])
+}
+
+model CachedVolume {
+  term      String   @id
+  volume    Int
+  updatedAt DateTime @updatedAt
+}
+
+model KeywordReport {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  term      String
+  country   String
+  createdAt DateTime @default(now())
+  data      String   // Stores JSON string of analysis
+  
+  @@index([userId])
+}
