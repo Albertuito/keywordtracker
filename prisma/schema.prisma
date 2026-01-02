@@ -128,6 +128,7 @@ model Keyword {
   // Auto-Tracking
   trackingFrequency String   @default("manual") // manual, daily, every_2_days, weekly
   lastAutoCheck     DateTime? // Last time auto-tracking ran for this keyword
+  lastUpdateError   String?   // Last error message during update
   
   createdAt DateTime          @default(now())
   updatedAt DateTime          @updatedAt
