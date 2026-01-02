@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { DataForSEO } from '@/lib/dataforseo';
+import { OpenAIService } from '@/lib/openai';
 import { deductBalance } from '@/lib/balance';
 import { PRICING } from '@/lib/pricing';
 
@@ -14,7 +15,7 @@ export async function POST(req: Request) {
     }
 
     try {
-        const { keyword, country = 'es', limit = 100 } = await req.json();
+        const { keyword, country = 'es', limit = 50 } = await req.json();
 
         if (!keyword || typeof keyword !== 'string') {
             return NextResponse.json({ error: 'Keyword is required' }, { status: 400 });
@@ -35,22 +36,25 @@ export async function POST(req: Request) {
             }, { status: 402 });
         }
 
-        // Fetch related keywords from DataForSEO
-        const results = await DataForSEO.getRelatedKeywords(keyword, country, limit);
+        // Fetch keyword ideas from DataForSEO Labs (better quality)
+        const keywords = await DataForSEO.getKeywordIdeas(keyword, country, limit);
 
-        if (!results) {
-            // Refund on API failure? For now, we don't refund
+        if (!keywords || keywords.length === 0) {
             return NextResponse.json({
-                error: 'Error fetching related keywords from DataForSEO',
+                error: 'No se encontraron keywords relacionadas',
                 refunded: false
-            }, { status: 500 });
+            }, { status: 404 });
         }
+
+        // Analyze keywords with GPT for actionable recommendations
+        const analysis = await OpenAIService.analyzeKeywordIdeas(keyword, keywords);
 
         return NextResponse.json({
             success: true,
             keyword,
-            results,
-            count: results.length,
+            keywords,
+            analysis,
+            count: keywords.length,
             cost,
             newBalance: deductResult.newBalance
         });

@@ -14,7 +14,7 @@ export const PRICING = {
     competitor_analysis: 0.01,      // €0.01 per competitor analysis
     keyword_research: 0.50,         // €0.50 per report
     onpage_audit: 1.00,             // €1.00 per deep AI audit
-    related_keywords: 0.10,         // €0.10 per related keywords search
+    related_keywords: 0.15,         // €0.15 per related keywords search with AI analysis
 } as const;
 
 export type PricingAction = keyof typeof PRICING;

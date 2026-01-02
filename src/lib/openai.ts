@@ -278,4 +278,83 @@ Responde con un array JSON de las raíces/términos clave que deben coincidir:`
       return [keyword]; // Fallback to original keyword
     }
   }
+
+  /**
+   * Analyze keyword ideas and provide actionable SEO recommendations
+   */
+  static async analyzeKeywordIdeas(
+    seedKeyword: string,
+    keywords: Array<{
+      keyword: string;
+      volume: number;
+      difficulty: number;
+      intent: string;
+      cpc: number;
+    }>
+  ): Promise<{
+    url_keywords: string[];
+    title_keywords: string[];
+    h2_keywords: string[];
+    faq_questions: string[];
+    content_gaps: string[];
+    priority_ranking: Array<{ keyword: string; reason: string; priority: 'high' | 'medium' | 'low' }>;
+    summary: string;
+  }> {
+    if (!this.apiKey) throw new Error("OpenAI API Key missing");
+
+    const prompt = `
+Eres un experto SEO. Analiza estas keywords relacionadas con "${seedKeyword}" y proporciona recomendaciones accionables.
+
+KEYWORDS (con volumen, dificultad 0-100, e intención):
+${JSON.stringify(keywords.slice(0, 30), null, 2)}
+
+Genera un JSON con:
+1. url_keywords: 2-3 keywords cortas para incluir en la URL/slug
+2. title_keywords: 2-3 keywords para el título principal (H1/Title tag)
+3. h2_keywords: 5-7 keywords para usar como subtítulos H2
+4. faq_questions: 5-8 preguntas para una sección FAQ (formato "¿Cómo...?", "¿Qué es...?")
+5. content_gaps: 3-5 temas o ángulos de contenido que deberías cubrir
+6. priority_ranking: Las 5 mejores oportunidades ordenadas, con:
+   - keyword: la keyword
+   - reason: Por qué es buena oportunidad (ej: "Alto volumen (2400/mes), dificultad baja (25)")
+   - priority: "high", "medium" o "low"
+7. summary: Resumen ejecutivo de 2-3 oraciones con la estrategia recomendada
+
+REGLAS:
+- Prioriza keywords con ALTO volumen y BAJA dificultad (< 40)
+- Incluye keywords transaccionales y comerciales primero
+- Las FAQ deben basarse en keywords informacionales
+- Responde SOLO JSON válido, sin explicaciones
+`;
+
+    try {
+      const response = await axios.post(this.baseUrl, {
+        model: "gpt-4o-mini",
+        messages: [
+          { role: "system", content: "Eres un consultor SEO experto. Responde siempre en JSON válido y en ESPAÑOL." },
+          { role: "user", content: prompt }
+        ],
+        response_format: { type: "json_object" }
+      }, {
+        headers: {
+          'Authorization': `Bearer ${this.apiKey}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      return JSON.parse(response.data.choices[0].message.content);
+    } catch (error: any) {
+      console.error('OpenAI Keyword Analysis Error:', error.response?.data || error.message);
+      // Return default structure on error
+      return {
+        url_keywords: [],
+        title_keywords: [],
+        h2_keywords: [],
+        faq_questions: [],
+        content_gaps: [],
+        priority_ranking: [],
+        summary: "No se pudo generar el análisis IA."
+      };
+    }
+  }
 }

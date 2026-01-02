@@ -39,8 +39,65 @@ export class DataForSEO {
     }
 
     /**
-     * Get Related Keywords (Google Ads Keywords for Keywords)
-     * Returns keyword suggestions based on seed keywords
+     * Get Keyword Ideas (DataForSEO Labs - Better quality)
+     * Returns keyword suggestions with difficulty, intent, and more metrics
+     */
+    static async getKeywordIdeas(
+        keyword: string,
+        country: string = 'es',
+        limit: number = 50
+    ): Promise<Array<{
+        keyword: string;
+        volume: number;
+        difficulty: number;
+        intent: string;
+        cpc: number;
+        competition: number;
+    }> | null> {
+        try {
+            const postData = [{
+                keywords: [keyword],
+                language_code: country === 'es' ? 'es' : 'en',
+                location_code: country === 'es' ? 2724 : 2840, // Spain or US
+                limit: limit,
+                include_seed_keyword: false,
+                include_serp_info: false
+            }];
+
+            const res = await fetch(`${this.baseUrl}/dataforseo_labs/google/keyword_ideas/live`, {
+                method: 'POST',
+                headers: this.headers,
+                body: JSON.stringify(postData)
+            });
+
+            const data = await res.json();
+            console.log('DataForSEO Keyword Ideas Response status:', data.status_code);
+
+            if (data.tasks?.[0]?.result?.[0]?.items) {
+                const results = data.tasks[0].result[0].items
+                    .slice(0, limit)
+                    .map((item: any) => ({
+                        keyword: item.keyword,
+                        volume: item.keyword_info?.search_volume || 0,
+                        difficulty: item.keyword_properties?.keyword_difficulty || 0,
+                        intent: item.search_intent_info?.main_intent || 'unknown',
+                        cpc: item.keyword_info?.cpc || 0,
+                        competition: item.keyword_info?.competition_level || 0
+                    }));
+                return results;
+            }
+
+            console.error('DataForSEO Keyword Ideas Error:', data.status_message);
+            return null;
+        } catch (error) {
+            console.error('DataForSEO Keyword Ideas Error:', error);
+            return null;
+        }
+    }
+
+    /**
+     * Get Related Keywords (Legacy - Google Ads)
+     * @deprecated Use getKeywordIdeas instead
      */
     static async getRelatedKeywords(
         keyword: string,
@@ -56,7 +113,7 @@ export class DataForSEO {
             const postData = [{
                 keywords: [keyword],
                 language_code: country === 'es' ? 'es' : 'en',
-                location_code: country === 'es' ? 2724 : 2840, // Spain or US
+                location_code: country === 'es' ? 2724 : 2840,
                 sort_by: 'search_volume',
                 include_adult_keywords: false
             }];
@@ -68,21 +125,14 @@ export class DataForSEO {
             });
 
             const data = await res.json();
-            console.log('DataForSEO Related Keywords Response status:', data.status_code);
-
             if (data.tasks?.[0]?.result) {
-                const results = data.tasks[0].result
-                    .slice(0, limit)
-                    .map((item: any) => ({
-                        keyword: item.keyword,
-                        volume: item.search_volume || 0,
-                        competition: item.competition || 'UNKNOWN',
-                        cpc: item.cpc || 0
-                    }));
-                return results;
+                return data.tasks[0].result.slice(0, limit).map((item: any) => ({
+                    keyword: item.keyword,
+                    volume: item.search_volume || 0,
+                    competition: item.competition || 'UNKNOWN',
+                    cpc: item.cpc || 0
+                }));
             }
-
-            console.error('DataForSEO Related Keywords Error:', data.status_message);
             return null;
         } catch (error) {
             console.error('DataForSEO Related Keywords Error:', error);
