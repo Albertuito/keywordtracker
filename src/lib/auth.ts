@@ -63,7 +63,7 @@ export const authOptions: AuthOptions = {
 
                 // 1. Find User (No more Auto-Create)
                 const user = await prisma.user.findUnique({
-                    where: { email: credentials.username }
+                    where: { email: creds.username }
                 });
 
                 // 2. Check if user exists
@@ -73,7 +73,7 @@ export const authOptions: AuthOptions = {
 
                 // 3. Verify Password
                 if (!user.password) throw new Error("Por favor, configura tu contraseña.");
-                const isValid = await bcrypt.compare(credentials.password, user.password);
+                const isValid = await bcrypt.compare(creds.password, user.password);
                 if (!isValid) throw new Error("Contraseña incorrecta");
 
                 // 4. Check Verification (Bypass for Admin/Dev)
