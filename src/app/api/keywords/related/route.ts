@@ -22,18 +22,16 @@ export async function POST(req: Request) {
 
         // Deduct balance first
         const cost = PRICING.related_keywords;
-        const deductResult = await deductBalance(
-            session.user.id,
-            cost,
-            'related_keywords',
-            { keyword }
-        );
+        const deductResult = await deductBalance({
+            userId: session.user.id,
+            action: 'related_keywords',
+            metadata: { keyword }
+        });
 
         if (!deductResult.success) {
             return NextResponse.json({
-                error: 'Saldo insuficiente',
-                required: cost,
-                balance: deductResult.balance
+                error: deductResult.error || 'Saldo insuficiente',
+                required: cost
             }, { status: 402 });
         }
 
