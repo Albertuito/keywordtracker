@@ -135,7 +135,16 @@ function ProjectContent() {
             if (data.success) {
                 const count = data.enqueued || 0;
                 await fetchProjectData();
-                showToast(`Actualización en cola para ${count} keywords. Revisa en ~2 mins.`, 'success');
+                if (count > 0) {
+                    showToast(`Actualización en cola para ${count} keywords. Revisa en ~2 mins.`, 'success');
+                } else {
+                    const debug = data.debug;
+                    let reason = 'Razón desconocida';
+                    if (debug) {
+                        reason = `Encontradas: ${debug.found}, Pagables: ${debug.payable}, Sin Saldo: ${debug.skippedBalance}`;
+                    }
+                    showToast(`Se han enviado 0 keywords. (${reason})`, 'error');
+                }
             } else {
                 showToast('Error: ' + (data.error || 'Desconocido'), 'error');
             }

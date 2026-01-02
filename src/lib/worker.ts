@@ -178,6 +178,13 @@ export async function enqueueDailyChecks(projectId?: string, keywordIds?: string
 
     let totalEnqueued = 0;
 
+    let debugStats = {
+        found: keywords.length,
+        payable: 0,
+        skippedBalance: 0,
+        enqueued: 0
+    };
+
     for (const [userId, userKeywords] of Object.entries(userGroups)) {
         // Calculate cost for this user's batch
         // Since we deduct per action, we can try to deduct for the whole batch or loop.
@@ -221,11 +228,14 @@ export async function enqueueDailyChecks(projectId?: string, keywordIds?: string
             if (result.success) {
                 payableKeywords.push(kw);
             } else {
+                debugStats.skippedBalance++;
                 logWorker(`❌ Skipping enqueue for ${kw.term}: Insufficient balance.`);
                 // If one fails, others might fail too, but maybe they have exactly enough for N keywords.
                 // We continue trying until 0 balance effectively.
             }
         }
+
+        debugStats.payable += payableKeywords.length;
 
         if (payableKeywords.length === 0) continue;
 
@@ -263,7 +273,7 @@ export async function enqueueDailyChecks(projectId?: string, keywordIds?: string
                             metadata: { keywordId: kw.id, reason: 'DataForSEO API Error' }
                         });
                     }
-                    return { enqueued: 0, error: 'Error de conexión con DataForSEO. Revisa las credenciales.' };
+                    return { enqueued: 0, error: 'Error de conexión con DataForSEO. Revisa las credenciales.', debug: debugStats };
                 }
             } catch (e) {
                 logWorker(`❌ Error enqueueing batch: ${e}`);
@@ -271,7 +281,8 @@ export async function enqueueDailyChecks(projectId?: string, keywordIds?: string
         }
     }
 
-    return { enqueued: totalEnqueued };
+    debugStats.enqueued = totalEnqueued;
+    return { enqueued: totalEnqueued, debug: debugStats };
 }
 
 /**
