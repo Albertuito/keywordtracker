@@ -1,7 +1,9 @@
 'use client';
 
-import { useState } from 'react';
-import { X, Search, Plus, Loader2, TrendingUp, DollarSign, AlertCircle, CheckCircle, Download, Sparkles, Target, FileText, HelpCircle, Lightbulb } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { X, Search, Plus, Loader2, TrendingUp, DollarSign, AlertCircle, CheckCircle, Download, Sparkles, Target, FileText, HelpCircle, Lightbulb, FileDown } from 'lucide-react';
+import { PDFDownloadLink } from '@react-pdf/renderer';
+import { KeywordReportPDF } from './KeywordReportPDF';
 
 interface KeywordIdea {
     keyword: string;
@@ -28,6 +30,11 @@ interface RelatedKeywordsModalProps {
     seedKeyword: string;
     projectId: string;
     onAddKeywords: (keywords: string[]) => void;
+    savedReport?: {
+        keywords: KeywordIdea[];
+        analysis: AIAnalysis;
+        createdAt: string;
+    };
 }
 
 export default function RelatedKeywordsModal({
@@ -35,7 +42,8 @@ export default function RelatedKeywordsModal({
     onClose,
     seedKeyword,
     projectId,
-    onAddKeywords
+    onAddKeywords,
+    savedReport
 }: RelatedKeywordsModalProps) {
     const [loading, setLoading] = useState(false);
     const [keywords, setKeywords] = useState<KeywordIdea[]>([]);
@@ -44,6 +52,24 @@ export default function RelatedKeywordsModal({
     const [searched, setSearched] = useState(false);
     const [message, setMessage] = useState<{ text: string, type: 'error' | 'success' } | null>(null);
     const [activeTab, setActiveTab] = useState<'keywords' | 'analysis'>('keywords');
+
+    // Load saved report if available
+    useEffect(() => {
+        if (savedReport) {
+            setKeywords(savedReport.keywords);
+            setAnalysis(savedReport.analysis);
+            setSearched(true);
+            setActiveTab('analysis'); // Default to analysis view for saved reports
+        } else {
+            // Reset state when opening empty modal
+            if (isOpen && !searched) {
+                setKeywords([]);
+                setAnalysis(null);
+                setSearched(false);
+                setActiveTab('keywords');
+            }
+        }
+    }, [savedReport, isOpen]);
 
     if (!isOpen) return null;
 
@@ -60,7 +86,11 @@ export default function RelatedKeywordsModal({
             const res = await fetch('/api/keywords/related', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ keyword: seedKeyword, limit: 50 })
+                body: JSON.stringify({
+                    keyword: seedKeyword,
+                    projectId,
+                    limit: 50
+                })
             });
 
             const data = await res.json();
@@ -71,12 +101,18 @@ export default function RelatedKeywordsModal({
                 } else {
                     showMessage(data.error || 'Error al obtener keywords', 'error');
                 }
+                setSearched(false); // Reset to show search button again on specific errors? Or keep state
                 return;
             }
 
             setKeywords(data.keywords || []);
             setAnalysis(data.analysis || null);
             showMessage(`Encontradas ${data.count} keywords + Análisis IA`, 'success');
+
+            // Auto switch to analysis tab on success
+            if (data.analysis) {
+                setActiveTab('analysis');
+            }
         } catch (error) {
             showMessage('Error de conexión', 'error');
         } finally {
@@ -162,36 +198,59 @@ export default function RelatedKeywordsModal({
 
     return (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-2xl shadow-2xl w-full max-w-5xl max-h-[90vh] overflow-hidden">
+            <div className="bg-white rounded-2xl shadow-2xl w-full max-w-5xl max-h-[90vh] overflow-hidden flex flex-col">
                 {/* Header */}
-                <div className="p-6 border-b border-gray-200 flex items-center justify-between">
+                <div className="p-6 border-b border-gray-200 flex items-center justify-between shrink-0">
                     <div>
                         <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
                             <Sparkles className="w-5 h-5 text-indigo-500" />
                             Keyword Intelligence
+                            {savedReport && <span className="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full font-normal">Reporte Guardado</span>}
                         </h2>
                         <p className="text-sm text-gray-600 mt-1">
                             Análisis para: <span className="font-semibold text-indigo-600">"{seedKeyword}"</span>
                         </p>
                     </div>
-                    <button
-                        onClick={onClose}
-                        className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-                    >
-                        <X className="w-5 h-5 text-gray-500" />
-                    </button>
+                    <div className="flex items-center gap-2">
+                        {keywords.length > 0 && analysis && (
+                            <PDFDownloadLink
+                                document={
+                                    <KeywordReportPDF
+                                        seedKeyword={seedKeyword}
+                                        keywords={keywords}
+                                        analysis={analysis}
+                                        country="ES"
+                                        date={savedReport ? new Date(savedReport.createdAt).toLocaleDateString() : new Date().toLocaleDateString()}
+                                    />
+                                }
+                                fileName={`reporte_seo_${seedKeyword.replace(/\s+/g, '_')}.pdf`}
+                                className="px-3 py-2 bg-red-50 text-red-700 hover:bg-red-100 rounded-lg text-sm font-medium flex items-center gap-2 transition-colors"
+                            >
+                                {({ blob, url, loading, error }) =>
+                                    loading ? <span className="flex items-center gap-2"><Loader2 className="w-4 h-4 animate-spin" /> Generando PDF...</span>
+                                        : <span className="flex items-center gap-2"><FileDown className="w-4 h-4" /> Exportar PDF</span>
+                                }
+                            </PDFDownloadLink>
+                        )}
+                        <button
+                            onClick={onClose}
+                            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                        >
+                            <X className="w-5 h-5 text-gray-500" />
+                        </button>
+                    </div>
                 </div>
 
                 {/* Message Toast */}
                 {message && (
-                    <div className={`mx-6 mt-4 p-3 rounded-lg flex items-center gap-2 ${message.type === 'error' ? 'bg-red-50 text-red-700' : 'bg-green-50 text-green-700'}`}>
+                    <div className={`mx-6 mt-4 p-3 rounded-lg flex items-center gap-2 shrink-0 ${message.type === 'error' ? 'bg-red-50 text-red-700' : 'bg-green-50 text-green-700'}`}>
                         {message.type === 'error' ? <AlertCircle className="w-4 h-4" /> : <CheckCircle className="w-4 h-4" />}
                         {message.text}
                     </div>
                 )}
 
                 {/* Content */}
-                <div className="overflow-y-auto max-h-[65vh]">
+                <div className="overflow-y-auto flex-1">
                     {!searched ? (
                         <div className="text-center py-16 px-6">
                             <Sparkles className="w-16 h-16 mx-auto text-indigo-300 mb-4" />
@@ -219,29 +278,29 @@ export default function RelatedKeywordsModal({
                         <div className="text-center py-16">
                             <Loader2 className="w-12 h-12 mx-auto text-indigo-600 animate-spin mb-4" />
                             <p className="text-gray-600 font-medium">Obteniendo keywords + Analizando con IA...</p>
-                            <p className="text-sm text-gray-500 mt-1">Esto puede tardar 10-15 segundos</p>
+                            <p className="text-sm text-gray-500 mt-1">Esto puede tardar 10-15 segundos. No cierres la ventana.</p>
                         </div>
                     ) : keywords.length === 0 ? (
                         <div className="text-center py-16">
                             <p className="text-gray-600">No se encontraron keywords relacionadas.</p>
                         </div>
                     ) : (
-                        <div>
+                        <div className="h-full flex flex-col">
                             {/* Tabs */}
-                            <div className="flex border-b border-gray-200 px-6 pt-4">
-                                <button
-                                    onClick={() => setActiveTab('keywords')}
-                                    className={`px-4 py-2 font-medium text-sm border-b-2 transition-colors ${activeTab === 'keywords' ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700'}`}
-                                >
-                                    <TrendingUp className="w-4 h-4 inline mr-1" />
-                                    Keywords ({keywords.length})
-                                </button>
+                            <div className="flex border-b border-gray-200 px-6 pt-4 shrink-0 bg-white sticky top-0 z-10">
                                 <button
                                     onClick={() => setActiveTab('analysis')}
                                     className={`px-4 py-2 font-medium text-sm border-b-2 transition-colors ${activeTab === 'analysis' ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700'}`}
                                 >
                                     <Sparkles className="w-4 h-4 inline mr-1" />
                                     Análisis IA
+                                </button>
+                                <button
+                                    onClick={() => setActiveTab('keywords')}
+                                    className={`px-4 py-2 font-medium text-sm border-b-2 transition-colors ${activeTab === 'keywords' ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700'}`}
+                                >
+                                    <TrendingUp className="w-4 h-4 inline mr-1" />
+                                    Keywords ({keywords.length})
                                 </button>
                             </div>
 
@@ -256,16 +315,8 @@ export default function RelatedKeywordsModal({
                                                 onClick={() => exportCSV(false)}
                                                 className="text-sm px-3 py-1.5 bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-lg flex items-center gap-1"
                                             >
-                                                <Download className="w-3 h-3" /> Exportar todas
+                                                <Download className="w-3 h-3" /> Exportar CSV
                                             </button>
-                                            {selectedKeywords.size > 0 && (
-                                                <button
-                                                    onClick={() => exportCSV(true)}
-                                                    className="text-sm px-3 py-1.5 bg-indigo-100 text-indigo-700 hover:bg-indigo-200 rounded-lg flex items-center gap-1"
-                                                >
-                                                    <Download className="w-3 h-3" /> Exportar selección
-                                                </button>
-                                            )}
                                             <button
                                                 onClick={() => {
                                                     if (selectedKeywords.size === keywords.length) {
@@ -389,21 +440,6 @@ export default function RelatedKeywordsModal({
                                         </div>
                                     </div>
 
-                                    {/* FAQ Questions */}
-                                    <div className="bg-white border border-gray-200 rounded-xl p-4">
-                                        <h4 className="font-semibold text-gray-900 flex items-center gap-2 mb-3">
-                                            <HelpCircle className="w-4 h-4 text-amber-600" /> Preguntas para FAQ
-                                        </h4>
-                                        <ul className="space-y-2">
-                                            {analysis.faq_questions.map((q, i) => (
-                                                <li key={i} className="text-gray-700 text-sm flex items-start gap-2">
-                                                    <span className="text-amber-500 font-bold">?</span>
-                                                    {q}
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </div>
-
                                     {/* Priority Ranking */}
                                     <div className="bg-white border border-gray-200 rounded-xl p-4">
                                         <h4 className="font-semibold text-gray-900 flex items-center gap-2 mb-3">
@@ -422,6 +458,21 @@ export default function RelatedKeywordsModal({
                                                 </div>
                                             ))}
                                         </div>
+                                    </div>
+
+                                    {/* FAQ Questions */}
+                                    <div className="bg-white border border-gray-200 rounded-xl p-4">
+                                        <h4 className="font-semibold text-gray-900 flex items-center gap-2 mb-3">
+                                            <HelpCircle className="w-4 h-4 text-amber-600" /> Preguntas para FAQ
+                                        </h4>
+                                        <ul className="space-y-2">
+                                            {analysis.faq_questions.map((q, i) => (
+                                                <li key={i} className="text-gray-700 text-sm flex items-start gap-2">
+                                                    <span className="text-amber-500 font-bold">?</span>
+                                                    {q}
+                                                </li>
+                                            ))}
+                                        </ul>
                                     </div>
 
                                     {/* Content Gaps */}
@@ -447,8 +498,8 @@ export default function RelatedKeywordsModal({
                 </div>
 
                 {/* Footer */}
-                {keywords.length > 0 && (
-                    <div className="p-6 border-t border-gray-200 flex items-center justify-between bg-gray-50">
+                {keywords.length > 0 && !savedReport && (
+                    <div className="p-6 border-t border-gray-200 flex items-center justify-between bg-gray-50 shrink-0">
                         <p className="text-sm text-gray-600">
                             {selectedKeywords.size} keywords seleccionadas
                         </p>

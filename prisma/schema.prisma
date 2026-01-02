@@ -158,15 +158,18 @@ model CachedVolume {
 }
 
 model KeywordReport {
-  id        String   @id @default(cuid())
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  term      String
-  country   String
-  createdAt DateTime @default(now())
-  data      String   // Stores JSON string of analysis
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  projectId   String?
+  seedKeyword String
+  keywords    Json     // Array of keyword objects with metrics
+  analysis    Json     // GPT analysis results
+  country     String   @default("es")
+  createdAt   DateTime @default(now())
   
   @@index([userId])
+  @@index([projectId])
 }
 
 // Admin Features

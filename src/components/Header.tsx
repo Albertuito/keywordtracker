@@ -42,6 +42,15 @@ export default function Header() {
                                 Dashboard
                             </Link>
                             <Link
+                                href="/reports"
+                                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${isActive('/reports')
+                                    ? 'bg-blue-50 text-blue-600'
+                                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                                    }`}
+                            >
+                                Reportes
+                            </Link>
+                            <Link
                                 href="/pricing"
                                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${isActive('/pricing')
                                     ? 'bg-blue-50 text-blue-600'

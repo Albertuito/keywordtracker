@@ -5,6 +5,7 @@ import { DataForSEO } from '@/lib/dataforseo';
 import { OpenAIService } from '@/lib/openai';
 import { deductBalance } from '@/lib/balance';
 import { PRICING } from '@/lib/pricing';
+import prisma from '@/lib/prisma';
 
 export const dynamic = 'force-dynamic';
 
@@ -19,8 +20,8 @@ export async function POST(req: Request) {
 
     try {
         const body = await req.json();
-        const { keyword, country = 'es', limit = 50 } = body;
-        console.log('[Related Keywords API] Request:', { keyword, country, limit });
+        const { keyword, country = 'es', limit = 50, projectId } = body;
+        console.log('[Related Keywords API] Request:', { keyword, country, limit, projectId });
 
         if (!keyword || typeof keyword !== 'string') {
             return NextResponse.json({ error: 'Keyword is required' }, { status: 400 });
@@ -65,10 +66,25 @@ export async function POST(req: Request) {
         // Analyze keywords with GPT for actionable recommendations
         const analysis = await OpenAIService.analyzeKeywordIdeas(keyword, keywords);
 
-        console.log('[Related Keywords API] Analysis complete. Returning response.');
+        console.log('[Related Keywords API] Analysis complete. Saving report...');
+
+        // Save report to database
+        const report = await prisma.keywordReport.create({
+            data: {
+                userId: session.user.id,
+                projectId: projectId || null,
+                seedKeyword: keyword,
+                keywords: keywords as any,
+                analysis: analysis as any,
+                country
+            }
+        });
+
+        console.log('[Related Keywords API] Report saved:', report.id);
 
         return NextResponse.json({
             success: true,
+            reportId: report.id,
             keyword,
             keywords,
             analysis,
