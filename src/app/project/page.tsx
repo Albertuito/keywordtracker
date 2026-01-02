@@ -448,7 +448,7 @@ function ProjectContent() {
                         <div className="overflow-x-auto">
                             <table className="w-full text-left border-collapse">
                                 <thead>
-                                    <tr className="border-b border-gray-200 text-xs uppercase font-medium text-gray-500 tracking-wider bg-gray-50/30">
+                                    <tr className="border-b border-gray-200 text-xs uppercase font-medium text-gray-700 tracking-wider bg-gray-50/30">
                                         <th className="py-5 px-6 w-12 text-center">
                                             <input
                                                 type="checkbox"
@@ -519,7 +519,7 @@ function ProjectContent() {
                                                             <div className="flex items-center gap-3">
                                                                 <button
                                                                     onClick={() => hasHistory && setExpandedKeywordId(isExpanded ? null : kw.id)}
-                                                                    className={`flex-shrink-0 w-6 h-6 flex items-center justify-center rounded transition-colors ${hasHistory ? 'text-gray-500 hover:text-blue-600 hover:bg-gray-100 cursor-pointer' : 'text-gray-300 cursor-default'}`}
+                                                                    className={`flex-shrink-0 w-6 h-6 flex items-center justify-center rounded transition-colors ${hasHistory ? 'text-gray-600 hover:text-blue-600 hover:bg-gray-100 cursor-pointer' : 'text-gray-400 cursor-default'}`}
                                                                     title={hasHistory ? (isExpanded ? 'Ocultar historial' : 'Ver historial') : 'Sin historial aún'}
                                                                 >
                                                                     <svg className={`w-4 h-4 transition-transform ${isExpanded ? 'rotate-90' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -536,7 +536,7 @@ function ProjectContent() {
                                                                         }
                                                                     }}
                                                                     disabled={!isInCompare && compareKeywords.length >= 2}
-                                                                    className={`ml-2 px-2 py-0.5 rounded text-xs font-medium transition-all ${isInCompare ? 'bg-purple-500/20 text-purple-400 border border-purple-500/30' : compareKeywords.length < 2 ? 'bg-gray-100 text-gray-500 hover:bg-purple-500/10 hover:text-purple-400' : 'bg-white text-slate-700 cursor-not-allowed'}`}
+                                                                    className={`ml-2 px-2 py-0.5 rounded text-xs font-medium transition-all ${isInCompare ? 'bg-purple-500/20 text-purple-600 border border-purple-500/30' : compareKeywords.length < 2 ? 'bg-gray-100 text-gray-600 hover:bg-purple-500/10 hover:text-purple-600' : 'bg-white text-slate-700 cursor-not-allowed'}`}
                                                                     title={isInCompare ? 'Quitar de comparación' : 'Añadir a comparación'}
                                                                 >
                                                                     {isInCompare ? '✓ Comparar' : 'Comparar'}
@@ -598,7 +598,7 @@ function ProjectContent() {
                                                         <td className="py-5 px-6 text-xs text-gray-700 max-w-[200px] truncate" title={url || 'Sin URL'}>
                                                             {url ? url.replace(/https?:\/\/(www\.)?/, '') : <span className="text-gray-400">-</span>}
                                                         </td>
-                                                        <td className="py-5 px-6 text-right text-xs text-gray-500">
+                                                        <td className="py-5 px-6 text-right text-xs text-gray-600">
                                                             <div className="flex items-center justify-end gap-2">
                                                                 {kw.positions?.[0] ? new Date(kw.positions[0].date).toLocaleDateString('es-ES') : 'Nuevo'}
                                                                 {isQueued && (
@@ -635,7 +635,7 @@ function ProjectContent() {
                     <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
                         <div className="p-6 border-b border-gray-200">
                             <h3 className="text-lg font-semibold text-gray-900">Resumen de Auto-Tracking</h3>
-                            <p className="text-sm text-gray-500 mt-1">Keywords con actualización automática programada</p>
+                            <p className="text-sm text-gray-600 mt-1">Keywords con actualización automática programada</p>
                         </div>
 
                         {(() => {

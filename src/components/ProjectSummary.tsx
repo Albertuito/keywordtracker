@@ -110,14 +110,14 @@ function SummaryCard({ title, value, subtitle, icon }: { title: string, value: a
     return (
         <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm hover:border-gray-300 transition-colors">
             <div className="flex justify-between items-start mb-4">
-                <span className="text-gray-500 text-sm font-medium">{title}</span>
-                <div className="p-2 bg-gray-100 rounded-lg text-gray-500">
+                <span className="text-gray-700 text-sm font-medium">{title}</span>
+                <div className="p-2 bg-gray-100 rounded-lg text-gray-600">
                     {icon}
                 </div>
             </div>
             <div className="flex flex-col">
                 <div className="text-3xl font-bold text-gray-900 tracking-tight">{value}</div>
-                <div className="text-sm text-gray-500 mt-2 font-medium">{subtitle}</div>
+                <div className="text-sm text-gray-600 mt-2 font-medium">{subtitle}</div>
             </div>
         </div>
     );

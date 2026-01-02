@@ -39,6 +39,58 @@ export class DataForSEO {
     }
 
     /**
+     * Get Related Keywords (Google Ads Keywords for Keywords)
+     * Returns keyword suggestions based on seed keywords
+     */
+    static async getRelatedKeywords(
+        keyword: string,
+        country: string = 'es',
+        limit: number = 100
+    ): Promise<Array<{
+        keyword: string;
+        volume: number;
+        competition: string;
+        cpc: number;
+    }> | null> {
+        try {
+            const postData = [{
+                keywords: [keyword],
+                language_code: country === 'es' ? 'es' : 'en',
+                location_code: country === 'es' ? 2724 : 2840, // Spain or US
+                sort_by: 'search_volume',
+                include_adult_keywords: false
+            }];
+
+            const res = await fetch(`${this.baseUrl}/keywords_data/google_ads/keywords_for_keywords/live`, {
+                method: 'POST',
+                headers: this.headers,
+                body: JSON.stringify(postData)
+            });
+
+            const data = await res.json();
+            console.log('DataForSEO Related Keywords Response status:', data.status_code);
+
+            if (data.tasks?.[0]?.result) {
+                const results = data.tasks[0].result
+                    .slice(0, limit)
+                    .map((item: any) => ({
+                        keyword: item.keyword,
+                        volume: item.search_volume || 0,
+                        competition: item.competition || 'UNKNOWN',
+                        cpc: item.cpc || 0
+                    }));
+                return results;
+            }
+
+            console.error('DataForSEO Related Keywords Error:', data.status_message);
+            return null;
+        } catch (error) {
+            console.error('DataForSEO Related Keywords Error:', error);
+            return null;
+        }
+    }
+
+    /**
      * Fetch Live Google Organic SERP
      */
     static async getRankings(keyword: string, country: string = 'es', device: string = 'desktop') {
@@ -180,68 +232,6 @@ export class DataForSEO {
         }
     }
 
-    /**
-     * Get Related Keywords (Keyword Intelligence)
-     */
-    static async getRelatedKeywords(keyword: string, country: string = 'es', useSandbox: boolean = false) {
-        const locationCode = country.toLowerCase() === 'es' ? 2724 : 2840;
-
-        // MOCK MODE
-        if (keyword.toLowerCase().startsWith('demo') || keyword.toLowerCase().startsWith('test')) {
-            const base = keyword.replace(/^(demo|test)\s+/i, '').trim();
-            const mockResults = [];
-            const variants = [
-                { suffix: " opiniones", cluster: "Reseñas", intent: "informational", vol: 5400, diff: 35 },
-                { suffix: " barato", cluster: "Precio", intent: "transactional", vol: 12100, diff: 65 },
-                { suffix: " mejor", cluster: "Comparativa", intent: "commercial", vol: 8900, diff: 42 }
-            ];
-            for (let i = 0; i < 30; i++) {
-                const v = variants[i % variants.length];
-                mockResults.push({
-                    keyword: base + v.suffix + (i > 2 ? " " + i : ""),
-                    keyword_info: { search_volume: v.vol, cpc: 1.2 },
-                    keyword_properties: { keyword_difficulty: v.diff, search_intent: [v.intent] },
-                    cluster: v.cluster
-                });
-            }
-            return mockResults;
-        }
-
-        let finalKeyword = keyword;
-        let finalLocation = locationCode;
-        let finalLanguage = country.toLowerCase() === 'es' ? 'es' : 'en';
-
-        if (useSandbox) {
-            finalKeyword = keyword.replace(/^sandbox\s+/i, '').trim() || 'marketing';
-            finalLocation = 2840;
-            finalLanguage = 'en';
-        }
-
-        const postData = [{
-            keywords: [finalKeyword],
-            location_code: finalLocation,
-            language_code: finalLanguage,
-            limit: 100,
-            include_seed_keyword: true
-        }];
-
-        try {
-            const apiHost = useSandbox ? 'https://sandbox.dataforseo.com/v3' : 'https://api.dataforseo.com/v3';
-            const res = await fetch(`${apiHost}/dataforseo_labs/google/keyword_ideas/live`, {
-                method: 'POST',
-                headers: this.headers,
-                body: JSON.stringify(postData)
-            });
-            const data = await res.json();
-            if (data.status_code === 20000 && data.tasks?.[0]?.result) {
-                return data.tasks[0].result;
-            }
-            if (data.status_code === 20000) return [];
-            throw new Error(data.status_message || "API Error");
-        } catch (error: any) {
-            throw error;
-        }
-    }
 
     /**
      * Get SERP results for a keyword (Top 5 for competitors)

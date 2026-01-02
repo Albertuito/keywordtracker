@@ -31,8 +31,8 @@ export default function RankingChart({ keywords, selectedKeywordIds, height = 40
                     <svg className="w-16 h-16 mx-auto text-gray-300 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                     </svg>
-                    <p className="text-gray-500 text-lg font-medium">Selecciona keywords para ver su evolución</p>
-                    <p className="text-gray-400 text-sm mt-2">Puedes comparar hasta 5 keywords simultáneamente</p>
+                    <p className="text-gray-600 text-lg font-medium">Selecciona keywords para ver su evolución</p>
+                    <p className="text-gray-500 text-sm mt-2">Puedes comparar hasta 5 keywords simultáneamente</p>
                 </div>
             </div>
         );
@@ -73,7 +73,7 @@ export default function RankingChart({ keywords, selectedKeywordIds, height = 40
             {!compact && (
                 <div className="mb-6">
                     <h3 className="text-lg font-semibold text-gray-900 mb-2">Evolución de Rankings</h3>
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-gray-600">
                         Mostrando {selectedKeywords.length} keyword{selectedKeywords.length > 1 ? 's' : ''} •
                         Últimos {chartData.length} puntos de datos
                     </p>
@@ -85,7 +85,7 @@ export default function RankingChart({ keywords, selectedKeywordIds, height = 40
                     <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" opacity={0.5} />
                     <XAxis
                         dataKey="date"
-                        stroke="#6b7280"
+                        stroke="#374151"
                         style={{ fontSize: '12px' }}
                         angle={-45}
                         textAnchor="end"
@@ -94,9 +94,9 @@ export default function RankingChart({ keywords, selectedKeywordIds, height = 40
                     <YAxis
                         reversed
                         domain={[1, 100]}
-                        stroke="#6b7280"
+                        stroke="#374151"
                         style={{ fontSize: '12px' }}
-                        label={{ value: 'Posición', angle: -90, position: 'insideLeft', style: { fill: '#6b7280' } }}
+                        label={{ value: 'Posición', angle: -90, position: 'insideLeft', style: { fill: '#374151' } }}
                     />
                     <Tooltip
                         contentStyle={{
@@ -106,7 +106,7 @@ export default function RankingChart({ keywords, selectedKeywordIds, height = 40
                             color: '#1f2937',
                             boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
                         }}
-                        labelStyle={{ color: '#6b7280', marginBottom: '8px', fontWeight: '600' }}
+                        labelStyle={{ color: '#374151', marginBottom: '8px', fontWeight: '600' }}
                     />
                     <Legend
                         wrapperStyle={{ paddingTop: '20px' }}
@@ -150,10 +150,10 @@ export default function RankingChart({ keywords, selectedKeywordIds, height = 40
                                 </div>
                                 <div className="flex items-baseline gap-2">
                                     <span className="text-2xl font-bold text-gray-900">{currentPosition}</span>
-                                    <span className="text-xs text-gray-500">posición actual</span>
+                                    <span className="text-xs text-gray-600">posición actual</span>
                                 </div>
                                 <div className="flex items-center gap-3 mt-2 text-xs">
-                                    <span className="text-gray-500">Promedio: {avgPosition}</span>
+                                    <span className="text-gray-600">Promedio: {avgPosition}</span>
                                     {change !== 0 && (
                                         <span className={`flex items-center gap-1 font-semibold ${change > 0 ? 'text-emerald-600' : 'text-rose-500'}`}>
                                             {change > 0 ? '↑' : '↓'} {Math.abs(change)}
