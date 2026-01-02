@@ -4,7 +4,7 @@ if (!process.env.STRIPE_SECRET_KEY) {
     throw new Error('STRIPE_SECRET_KEY is missing. Please set it in your .env file.');
 }
 
-export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY.trim(), {
     apiVersion: '2023-10-16',
     typescript: true,
 });
