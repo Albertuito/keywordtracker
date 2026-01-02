@@ -2,7 +2,7 @@ import prisma from '@/lib/prisma';
 import fs from 'fs';
 import path from 'path';
 import { DataForSEO } from './dataforseo';
-import { deductBalance } from '@/lib/balance';
+import { deductBalance, addCredits } from '@/lib/balance';
 import { PRICING } from '@/lib/pricing';
 
 // Logging sencillo
@@ -255,22 +255,15 @@ export async function enqueueDailyChecks(projectId?: string, keywordIds?: string
                     totalEnqueued += batch.length;
                     logWorker(`📥 Enqueued batch (User ${userId}) ${i}-${i + batch.length} -> Tasks recorded.`);
                 } else {
-                    // Refund? If enqueue failed, we should refund.
-                    // This is complex. Ideally we deduct AFTER successful enqueue or use "reserve".
-                    // For MVP Pre-paid, we deducted. If API fails, we should refund.
-                    // Let's implement simple refund loop here.
-                    for (const k of batch) {
-                        await deductBalance({
-                            userId,
-                            action: 'keyword_check_standard', // This isn't refund action
-                            // Wait, we need a refund/credit action.
-                            // Let's just log it for now or implement 'refund' type in plain transaction.
-                            // Simpler: assume API works 99%. 
-                            // Real prod: implement refund.
-                            // Hack for MVP: add positive amount manually using addCredits? No 'addCredits' adds 'recharge' type.
+                    logWorker('❌ DataForSEO returned null taskMap');
+                    // Refund the user since service failed
+                    for (const kw of batch) {
+                        await addCredits(userId, PRICING.keyword_check_standard, {
+                            action: 'refund_failed_check',
+                            metadata: { keywordId: kw.id, reason: 'DataForSEO API Error' }
                         });
-                        logWorker(`⚠️ CRITICAL: Enqueue failed for paid keywords. Refund needed for ${k.term}`);
                     }
+                    return { enqueued: 0, error: 'Error de conexión con DataForSEO. Revisa las credenciales.' };
                 }
             } catch (e) {
                 logWorker(`❌ Error enqueueing batch: ${e}`);
