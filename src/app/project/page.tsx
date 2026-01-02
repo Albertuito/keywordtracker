@@ -6,6 +6,7 @@ import ProjectSummary from '@/components/ProjectSummary';
 import CompetitorList from '@/components/CompetitorList';
 import RankingChart from '@/components/RankingChart';
 import FrequencyBadge, { FREQUENCY_CONFIG } from '@/components/FrequencyBadge';
+import RelatedKeywordsModal from '@/components/RelatedKeywordsModal';
 import { PRICING } from '@/lib/pricing';
 
 function ProjectContent() {
@@ -32,6 +33,7 @@ function ProjectContent() {
     const [showVolumeConfirm, setShowVolumeConfirm] = useState<{ keywordIds: string[], count: number, cost: number } | null>(null);
     const [showFrequencyModal, setShowFrequencyModal] = useState<{ keywordIds: string[] } | null>(null);
     const [showRankingConfirm, setShowRankingConfirm] = useState<{ keywordIds: string[], count: number, cost: number } | null>(null);
+    const [relatedModalKeyword, setRelatedModalKeyword] = useState<string | null>(null);
 
     // Fetch Data
     useEffect(() => {
@@ -540,6 +542,16 @@ function ProjectContent() {
                                                                     title={isInCompare ? 'Quitar de comparación' : 'Añadir a comparación'}
                                                                 >
                                                                     {isInCompare ? '✓ Comparar' : 'Comparar'}
+                                                                </button>
+                                                                <button
+                                                                    onClick={(e) => {
+                                                                        e.stopPropagation();
+                                                                        setRelatedModalKeyword(kw.term);
+                                                                    }}
+                                                                    className="ml-1 px-2 py-0.5 rounded text-xs font-medium bg-emerald-100 text-emerald-700 hover:bg-emerald-200 border border-emerald-300/50 transition-all"
+                                                                    title="Buscar keywords relacionadas (€0.10)"
+                                                                >
+                                                                    🔍 Relacionadas
                                                                 </button>
                                                             </div>
                                                         </td>
@@ -1060,6 +1072,36 @@ function ProjectContent() {
                         </button>
                     </div>
                 </div>
+            )}
+
+            {/* Related Keywords Modal */}
+            {relatedModalKeyword && projectId && (
+                <RelatedKeywordsModal
+                    isOpen={!!relatedModalKeyword}
+                    onClose={() => setRelatedModalKeyword(null)}
+                    seedKeyword={relatedModalKeyword}
+                    projectId={projectId}
+                    onAddKeywords={async (keywordTerms) => {
+                        // Add keywords to project
+                        try {
+                            for (const term of keywordTerms) {
+                                await fetch('/api/keywords', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({
+                                        projectId,
+                                        term,
+                                        country: 'es',
+                                        device: 'desktop'
+                                    })
+                                });
+                            }
+                            fetchProjectData();
+                        } catch (err) {
+                            console.error('Error adding keywords:', err);
+                        }
+                    }}
+                />
             )}
         </div>
     );
