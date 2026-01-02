@@ -58,7 +58,7 @@ export async function POST(req: Request) {
     } catch (error) {
         console.error('Error creating checkout session:', error);
         return NextResponse.json(
-            { error: 'Internal Server Error' },
+            { error: error instanceof Error ? error.message : 'Internal Server Error', details: JSON.stringify(error) },
             { status: 500 }
         );
     }
