@@ -20,14 +20,12 @@ export class DataForSEO {
      */
     static async getAccountBalance(): Promise<number | null> {
         try {
-            // DataForSEO uses /appendix/user_data for account info
+            // DataForSEO uses GET (not POST) for /appendix/user_data
             const res = await fetch(`${this.baseUrl}/appendix/user_data`, {
-                method: 'POST',
-                headers: this.headers,
-                body: JSON.stringify([{}])
+                method: 'GET',
+                headers: this.headers
             });
             const data = await res.json();
-            console.log('DataForSEO Balance Response:', JSON.stringify(data));
             if (data.tasks?.[0]?.result?.[0]) {
                 const result = data.tasks[0].result[0];
                 // money.balance contains available credits
