@@ -3,9 +3,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { stripe, getAbsoluteUrl } from '@/lib/stripe';
 
-// Map package IDs to Stripe Price IDs (if using predefined prices)
-// OR use ad-hoc line items. For dynamic amounts/names, let's use ad-hoc line items for simplicity in this MVP.
-// In production, better to use Product/Price IDs.
+export const dynamic = 'force-dynamic';
 
 export async function POST(req: Request) {
     try {
