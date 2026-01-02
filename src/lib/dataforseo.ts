@@ -20,13 +20,18 @@ export class DataForSEO {
      */
     static async getAccountBalance(): Promise<number | null> {
         try {
-            const res = await fetch(`${this.baseUrl}/merchant/account`, {
-                method: 'GET',
-                headers: this.headers
+            // DataForSEO uses /appendix/user_data for account info
+            const res = await fetch(`${this.baseUrl}/appendix/user_data`, {
+                method: 'POST',
+                headers: this.headers,
+                body: JSON.stringify([{}])
             });
             const data = await res.json();
+            console.log('DataForSEO Balance Response:', JSON.stringify(data));
             if (data.tasks?.[0]?.result?.[0]) {
-                return parseFloat(data.tasks[0].result[0].main_balance);
+                const result = data.tasks[0].result[0];
+                // money.balance contains available credits
+                return result.money?.balance ?? null;
             }
             return null;
         } catch (error) {
