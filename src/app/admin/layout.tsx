@@ -39,6 +39,24 @@ export default async function AdminLayout({
                         <span>👥</span> Usuarios
                     </Link>
                     <Link
+                        href="/admin/coupons"
+                        className="flex items-center gap-3 px-4 py-2.5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 rounded-lg transition-colors font-medium"
+                    >
+                        <span>🎟️</span> Cupones
+                    </Link>
+                    <Link
+                        href="/admin/notifications"
+                        className="flex items-center gap-3 px-4 py-2.5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 rounded-lg transition-colors font-medium"
+                    >
+                        <span>📢</span> Mensajes
+                    </Link>
+                    <Link
+                        href="/admin/finance"
+                        className="flex items-center gap-3 px-4 py-2.5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 rounded-lg transition-colors font-medium"
+                    >
+                        <span>💰</span> Finanzas
+                    </Link>
+                    <Link
                         href="/admin/domains"
                         className="flex items-center gap-3 px-4 py-2.5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 rounded-lg transition-colors font-medium"
                     >
