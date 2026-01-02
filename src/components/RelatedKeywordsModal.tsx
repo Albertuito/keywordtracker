@@ -1,8 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { X, Search, Plus, Loader2, TrendingUp, DollarSign } from 'lucide-react';
-import toast from 'react-hot-toast';
+import { X, Search, Plus, Loader2, TrendingUp, DollarSign, AlertCircle, CheckCircle } from 'lucide-react';
 
 interface RelatedKeyword {
     keyword: string;
@@ -30,12 +29,19 @@ export default function RelatedKeywordsModal({
     const [results, setResults] = useState<RelatedKeyword[]>([]);
     const [selectedKeywords, setSelectedKeywords] = useState<Set<string>>(new Set());
     const [searched, setSearched] = useState(false);
+    const [message, setMessage] = useState<{ text: string, type: 'error' | 'success' } | null>(null);
 
     if (!isOpen) return null;
+
+    const showMessage = (text: string, type: 'error' | 'success') => {
+        setMessage({ text, type });
+        setTimeout(() => setMessage(null), 4000);
+    };
 
     const handleSearch = async () => {
         setLoading(true);
         setSearched(true);
+        setMessage(null);
         try {
             const res = await fetch('/api/keywords/related', {
                 method: 'POST',
@@ -47,17 +53,17 @@ export default function RelatedKeywordsModal({
 
             if (!res.ok) {
                 if (res.status === 402) {
-                    toast.error(`Saldo insuficiente. Necesitas €${data.required?.toFixed(2)}`);
+                    showMessage(`Saldo insuficiente. Necesitas €${data.required?.toFixed(2)}`, 'error');
                 } else {
-                    toast.error(data.error || 'Error al obtener keywords');
+                    showMessage(data.error || 'Error al obtener keywords', 'error');
                 }
                 return;
             }
 
             setResults(data.results || []);
-            toast.success(`Encontradas ${data.count} keywords relacionadas`);
+            showMessage(`Encontradas ${data.count} keywords relacionadas`, 'success');
         } catch (error) {
-            toast.error('Error de conexión');
+            showMessage('Error de conexión', 'error');
         } finally {
             setLoading(false);
         }
@@ -75,11 +81,11 @@ export default function RelatedKeywordsModal({
 
     const handleAddSelected = () => {
         if (selectedKeywords.size === 0) {
-            toast.error('Selecciona al menos una keyword');
+            showMessage('Selecciona al menos una keyword', 'error');
             return;
         }
         onAddKeywords(Array.from(selectedKeywords));
-        toast.success(`${selectedKeywords.size} keywords añadidas al proyecto`);
+        showMessage(`${selectedKeywords.size} keywords añadidas al proyecto`, 'success');
         onClose();
     };
 
@@ -110,6 +116,14 @@ export default function RelatedKeywordsModal({
                         <X className="w-5 h-5 text-gray-500" />
                     </button>
                 </div>
+
+                {/* Message Toast */}
+                {message && (
+                    <div className={`mx-6 mt-4 p-3 rounded-lg flex items-center gap-2 ${message.type === 'error' ? 'bg-red-50 text-red-700' : 'bg-green-50 text-green-700'}`}>
+                        {message.type === 'error' ? <AlertCircle className="w-4 h-4" /> : <CheckCircle className="w-4 h-4" />}
+                        {message.text}
+                    </div>
+                )}
 
                 {/* Content */}
                 <div className="p-6 overflow-y-auto max-h-[60vh]">
