@@ -3,6 +3,7 @@ import { formatCurrency } from '@/lib/pricing';
 import Link from 'next/link';
 import { ArrowLeft, User, Mail, Calendar, CreditCard, Shield, Clock, Search, ExternalLink } from 'lucide-react';
 import ImpersonateButton from '@/components/ImpersonateButton';
+import UserActions from '@/components/admin/UserActions';
 
 export const dynamic = 'force-dynamic';
 
@@ -82,6 +83,9 @@ export default async function UserDetailPage({ params }: { params: Promise<{ use
                     </div>
                 </div>
             </div>
+
+            {/* Admin Actions */}
+            <UserActions userId={user.id} userName={user.name || user.email || ''} currentBalance={balance} />
 
             {/* Financial Overview Cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

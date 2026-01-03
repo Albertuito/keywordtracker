@@ -212,3 +212,11 @@ model Notification {
   
   @@index([userId])
 }
+
+// System-wide settings (pricing, feature flags, etc.)
+model SystemSetting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String   // JSON string for complex values
+  updatedAt DateTime @updatedAt
+}

@@ -39,6 +39,18 @@ export default async function AdminLayout({
                         <span>👥</span> Usuarios
                     </Link>
                     <Link
+                        href="/admin/transactions"
+                        className="flex items-center gap-3 px-4 py-2.5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 rounded-lg transition-colors font-medium"
+                    >
+                        <span>📜</span> Transacciones
+                    </Link>
+                    <Link
+                        href="/admin/pricing"
+                        className="flex items-center gap-3 px-4 py-2.5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 rounded-lg transition-colors font-medium"
+                    >
+                        <span>💸</span> Precios
+                    </Link>
+                    <Link
                         href="/admin/coupons"
                         className="flex items-center gap-3 px-4 py-2.5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 rounded-lg transition-colors font-medium"
                     >
@@ -61,6 +73,12 @@ export default async function AdminLayout({
                         className="flex items-center gap-3 px-4 py-2.5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 rounded-lg transition-colors font-medium"
                     >
                         <span>🔒</span> Dominios
+                    </Link>
+                    <Link
+                        href="/admin/settings"
+                        className="flex items-center gap-3 px-4 py-2.5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 rounded-lg transition-colors font-medium"
+                    >
+                        <span>⚙️</span> Ajustes
                     </Link>
                 </nav>
 
