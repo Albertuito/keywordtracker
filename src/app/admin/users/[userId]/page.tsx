@@ -6,8 +6,12 @@ import ImpersonateButton from '@/components/ImpersonateButton';
 
 export const dynamic = 'force-dynamic';
 
-export default async function UserDetailPage({ params }: { params: { userId: string } }) {
-    const { userId } = params;
+export default async function UserDetailPage({ params }: { params: Promise<{ userId: string }> }) {
+    const { userId } = await params;
+
+    if (!userId) {
+        return <div className="p-8 text-center text-red-500">ID de usuario no proporcionado</div>;
+    }
 
     const user = await prisma.user.findUnique({
         where: { id: userId },
