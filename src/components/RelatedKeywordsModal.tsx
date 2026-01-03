@@ -36,7 +36,7 @@ interface AIAnalysis {
     };
     keyword_usage_strategy?: {
         primary_keywords: string[];
-        supporting_keywords: string[];
+        supporting_keywords: Array<{ keyword: string; rationale: string; strategy: string } | string>;
         keywords_to_exclude: Array<{ keyword: string; reason: string }>;
     };
     summary: string;
@@ -569,16 +569,36 @@ export default function RelatedKeywordsModal({
                                             </div>
 
                                             {/* Supporting Keywords */}
-                                            <div className="bg-white border border-gray-200 rounded-xl p-4">
+                                            <div className="bg-white border border-gray-200 rounded-xl p-4 md:col-span-2">
                                                 <h4 className="font-semibold text-gray-900 flex items-center gap-2 mb-3">
-                                                    <TrendingUp className="w-4 h-4 text-blue-600" /> Keywords Secundarias
+                                                    <TrendingUp className="w-4 h-4 text-blue-600" /> Keywords Secundarias (Oportunidades)
                                                 </h4>
-                                                <div className="flex flex-wrap gap-2">
-                                                    {(analysis.keyword_usage_strategy.supporting_keywords || []).map((kw: string, i: number) => (
-                                                        <span key={i} className="px-2 py-1 bg-blue-50 text-blue-700 rounded-full text-sm font-medium">
-                                                            {kw}
-                                                        </span>
-                                                    ))}
+                                                <div className="space-y-3">
+                                                    {(analysis.keyword_usage_strategy.supporting_keywords || []).map((item, i) => {
+                                                        const isObj = typeof item !== 'string';
+                                                        const keyword = isObj ? item.keyword : item;
+                                                        const rationale = isObj ? item.rationale : '';
+                                                        const strategy = isObj ? item.strategy : '';
+
+                                                        return (
+                                                            <div key={i} className="flex flex-col sm:flex-row sm:items-start gap-3 p-3 bg-blue-50/50 border border-blue-100 rounded-lg">
+                                                                <div className="shrink-0 pt-1">
+                                                                    <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 text-xs font-bold">
+                                                                        {i + 1}
+                                                                    </div>
+                                                                </div>
+                                                                <div className="space-y-1">
+                                                                    <div className="font-semibold text-blue-900">{keyword}</div>
+                                                                    {isObj && (
+                                                                        <>
+                                                                            <p className="text-sm text-blue-800"><span className="font-medium">Por qué:</span> {rationale}</p>
+                                                                            <p className="text-sm text-blue-700"><span className="font-medium">Acción:</span> {strategy}</p>
+                                                                        </>
+                                                                    )}
+                                                                </div>
+                                                            </div>
+                                                        );
+                                                    })}
                                                 </div>
                                             </div>
                                         </div>

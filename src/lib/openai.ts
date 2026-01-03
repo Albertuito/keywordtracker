@@ -419,9 +419,11 @@ GENERA UN JSON CON ESTA ESTRUCTURA EXACTA:
    - faq_strategy: array de 3-5 preguntas comunes REALES de los usuarios.
 
 5. keyword_usage_strategy:
-   - primary_keywords: Array [3-5] keywords. La seed + variaciones exactas/sinónimos directos.
-   - supporting_keywords: Array [5-10] keywords. SOLO Long-tails estrictamente relacionados. NADA genérico. (Ej para "hipoteca sin vinculaciones": "hipotecas sin nomina", "hipoteca fija sin productos", "mejores hipotecas sin vinculacion").
-   - keywords_to_exclude: Array [{ keyword, reason }] de términos que aparezcan en la lista pero sean irrelevantes/tóxicos (ej: competencia directa de marca, productos distintos).
+   - primary_keywords: Array [3-5] keywords. La seed + variaciones exactas.
+   - supporting_keywords: Array [5-10] objetos. 
+     Structure: { "keyword": string, "rationale": string (por qué es relevante semánticamente), "strategy": string (acción concreta: interlinking, H2, FAQ) }
+     SOLO Long-tails estrictamente relacionados.
+   - keywords_to_exclude: Array [{ keyword, reason }] de términos irrelevantes.
 
 6. summary: string (Resumen ejecutivo corto).
 
