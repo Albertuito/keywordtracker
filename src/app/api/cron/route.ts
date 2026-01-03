@@ -48,6 +48,19 @@ export async function POST(req: Request) {
         let result;
         if (action === 'queue') {
             result = await enqueueDailyChecks(projectId, keywordIds);
+        } else if (action === 'live') {
+            // Live Check for specific keywords
+            if (!keywordIds || !Array.isArray(keywordIds)) {
+                return NextResponse.json({ success: false, error: 'keywordIds array required for live check' }, { status: 400 });
+            }
+
+            let processed = 0;
+            for (const id of keywordIds) {
+                // processKeywordCheck handles balance deduction and API call
+                await processKeywordCheck(id, true); // Force check
+                processed++;
+            }
+            result = { success: true, count: processed, mode: 'live' };
         } else {
             return NextResponse.json({ success: false, error: 'Invalid action for POST' }, { status: 400 });
         }

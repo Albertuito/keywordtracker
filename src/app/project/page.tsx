@@ -33,6 +33,7 @@ function ProjectContent() {
     const [showVolumeConfirm, setShowVolumeConfirm] = useState<{ keywordIds: string[], count: number, cost: number } | null>(null);
     const [showFrequencyModal, setShowFrequencyModal] = useState<{ keywordIds: string[] } | null>(null);
     const [showRankingConfirm, setShowRankingConfirm] = useState<{ keywordIds: string[], count: number, cost: number } | null>(null);
+    const [updateMode, setUpdateMode] = useState<'queue' | 'live'>('queue');
     const [relatedModalKeyword, setRelatedModalKeyword] = useState<string | null>(null);
 
     // Fetch Data
@@ -112,6 +113,7 @@ function ProjectContent() {
         if (!projectId) return;
         const keywordIds = selectedKeywords.size > 0 ? Array.from(selectedKeywords) : keywords.map(k => k.id);
         const count = keywordIds.length;
+        setUpdateMode('queue'); // Default to Standard
         const costPerKeyword = PRICING.keyword_check_standard;
         const cost = count * costPerKeyword;
         setShowRankingConfirm({ keywordIds, count, cost });
@@ -128,24 +130,30 @@ function ProjectContent() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     projectId,
-                    action: 'queue',
+                    action: updateMode, // 'queue' or 'live'
                     keywordIds
                 })
             });
 
             const data = await res.json();
             if (data.success) {
-                const count = data.enqueued || 0;
+                const count = data.mode === 'live' ? data.count : (data.enqueued || 0);
                 await fetchProjectData();
                 if (count > 0) {
-                    showToast(`Actualización en cola para ${count} keywords. Revisa en ~2 mins.`, 'success');
+                    if (updateMode === 'live') {
+                        showToast(`${count} keywords actualizadas al instante.`, 'success');
+                    } else {
+                        showToast(`Actualización en cola para ${count} keywords. Revisa en ~2 mins.`, 'success');
+                    }
                 } else {
                     const debug = data.debug;
                     let reason = 'Razón desconocida';
                     if (debug) {
                         reason = `Encontradas: ${debug.found}, Pagables: ${debug.payable}, Sin Saldo: ${debug.skippedBalance}`;
                     }
-                    showToast(`Se han enviado 0 keywords. (${reason})`, 'error');
+                    if (data.mode === 'live' && data.count === 0) reason = 'Posible falta de saldo o error API';
+
+                    showToast(`Se han procesado 0 keywords. (${reason})`, 'error');
                 }
             } else {
                 showToast('Error: ' + (data.error || 'Desconocido'), 'error');
@@ -907,6 +915,7 @@ function ProjectContent() {
             )}
 
             {/* Ranking Update Confirmation Modal */}
+            {/* Ranking Update Confirmation Modal */}
             {showRankingConfirm && (
                 <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
                     <div className="bg-white border border-gray-300 w-full max-w-md rounded-xl shadow-2xl p-6 relative animate-in zoom-in-95 duration-200">
@@ -924,24 +933,45 @@ function ProjectContent() {
                             </div>
                         </div>
 
-                        <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-6">
-                            <div className="flex justify-between items-center mb-2">
-                                <span className="text-gray-600 text-sm">Coste por keyword:</span>
-                                <span className="text-gray-900 font-mono">€{PRICING.keyword_check_standard.toFixed(2)}</span>
-                            </div>
-                            <div className="flex justify-between items-center pt-2 border-t border-gray-200">
-                                <span className="text-gray-900 font-semibold">Total a descontar:</span>
-                                <span className="text-blue-600 font-bold text-lg">€{showRankingConfirm.cost.toFixed(2)}</span>
-                            </div>
+                        {/* Mode Selection */}
+                        <div className="flex flex-col gap-3 mb-6">
+                            <label className={`flex items-center justify-between p-3 rounded-lg border cursor-pointer transition-all ${updateMode === 'queue' ? 'bg-blue-50 border-blue-500 ring-1 ring-blue-500' : 'bg-white border-gray-200 hover:border-gray-300'}`} onClick={() => setUpdateMode('queue')}>
+                                <div className="flex items-center gap-3">
+                                    <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${updateMode === 'queue' ? 'border-blue-500 bg-blue-500' : 'border-gray-400'}`}>
+                                        {updateMode === 'queue' && <div className="w-1.5 h-1.5 bg-white rounded-full" />}
+                                    </div>
+                                    <div>
+                                        <div className="font-medium text-gray-900">Estándar (Cola)</div>
+                                        <div className="text-xs text-gray-500">Resultados en ~2-5 minutos</div>
+                                    </div>
+                                </div>
+                                <div className="font-mono text-sm text-gray-700">€{PRICING.keyword_check_standard.toFixed(2)}/kw</div>
+                            </label>
+
+                            <label className={`flex items-center justify-between p-3 rounded-lg border cursor-pointer transition-all ${updateMode === 'live' ? 'bg-indigo-50 border-indigo-500 ring-1 ring-indigo-500' : 'bg-white border-gray-200 hover:border-gray-300'}`} onClick={() => setUpdateMode('live')}>
+                                <div className="flex items-center gap-3">
+                                    <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${updateMode === 'live' ? 'border-indigo-500 bg-indigo-500' : 'border-gray-400'}`}>
+                                        {updateMode === 'live' && <div className="w-1.5 h-1.5 bg-white rounded-full" />}
+                                    </div>
+                                    <div>
+                                        <div className="font-medium text-indigo-900 flex items-center gap-2">
+                                            Modo Rápido (Live)
+                                            <span className="px-1.5 py-0.5 bg-indigo-100 text-indigo-700 text-[10px] rounded-full uppercase tracking-wider font-bold">⚡ Rápido</span>
+                                        </div>
+                                        <div className="text-xs text-indigo-600">Actualización en tiempo real</div>
+                                    </div>
+                                </div>
+                                <div className="font-mono text-sm text-indigo-700 font-bold">€{PRICING.keyword_check_live.toFixed(2)}/kw</div>
+                            </label>
                         </div>
 
-                        <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 mb-6">
-                            <p className="text-amber-700 text-xs flex items-start gap-2">
-                                <svg className="w-4 h-4 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                                <span>Los resultados estarán disponibles en aproximadamente 2 minutos.</span>
-                            </p>
+                        <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-6">
+                            <div className="flex justify-between items-center pt-1">
+                                <span className="text-gray-900 font-semibold">Total a descontar:</span>
+                                <span className="text-blue-600 font-bold text-lg">
+                                    €{((showRankingConfirm.count * (updateMode === 'queue' ? PRICING.keyword_check_standard : PRICING.keyword_check_live))).toFixed(2)}
+                                </span>
+                            </div>
                         </div>
 
                         <div className="flex gap-3">
@@ -962,148 +992,153 @@ function ProjectContent() {
                 </div>
             )}
 
+
             {/* Frequency Change Modal */}
-            {showFrequencyModal && (
-                <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-                    <div className="bg-white border border-gray-300 w-full max-w-md rounded-xl shadow-2xl p-6">
-                        <h3 className="text-xl font-bold text-gray-900 mb-4">Cambiar Frecuencia de Tracking</h3>
-                        <p className="text-gray-600 text-sm mb-4">
-                            Configurando {showFrequencyModal.keywordIds.length} keyword(s):
-                        </p>
-
-                        {/* Cost Warning */}
-                        <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 mb-5">
-                            <p className="text-amber-800 text-xs font-medium flex items-start gap-2">
-                                <svg className="w-4 h-4 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                                <span>El auto-tracking descuenta automáticamente de tu saldo cada vez que se actualizan las keywords.</span>
+            {
+                showFrequencyModal && (
+                    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+                        <div className="bg-white border border-gray-300 w-full max-w-md rounded-xl shadow-2xl p-6">
+                            <h3 className="text-xl font-bold text-gray-900 mb-4">Cambiar Frecuencia de Tracking</h3>
+                            <p className="text-gray-600 text-sm mb-4">
+                                Configurando {showFrequencyModal.keywordIds.length} keyword(s):
                             </p>
+
+                            {/* Cost Warning */}
+                            <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 mb-5">
+                                <p className="text-amber-800 text-xs font-medium flex items-start gap-2">
+                                    <svg className="w-4 h-4 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    <span>El auto-tracking descuenta automáticamente de tu saldo cada vez que se actualizan las keywords.</span>
+                                </p>
+                            </div>
+
+                            <div className="space-y-3 mb-6">
+                                {/* Manual - No cost */}
+                                <button
+                                    onClick={() => changeFrequency(showFrequencyModal.keywordIds, 'manual')}
+                                    className="w-full px-4 py-3 rounded-lg text-left transition-all border bg-gray-50 border-gray-200 hover:bg-gray-100"
+                                >
+                                    <div className="flex items-center justify-between">
+                                        <div className="flex items-center gap-3">
+                                            <span className="text-2xl">⚙️</span>
+                                            <div>
+                                                <div className="font-semibold text-gray-900">Manual</div>
+                                                <div className="text-xs text-gray-500">Solo actualiza cuando tú lo pidas</div>
+                                            </div>
+                                        </div>
+                                        <span className="text-xs font-medium text-gray-400">Sin coste automático</span>
+                                    </div>
+                                </button>
+
+                                {/* Daily */}
+                                <button
+                                    onClick={() => changeFrequency(showFrequencyModal.keywordIds, 'daily')}
+                                    className="w-full px-4 py-3 rounded-lg text-left transition-all border bg-emerald-50 border-emerald-200 hover:bg-emerald-100"
+                                >
+                                    <div className="flex items-center justify-between">
+                                        <div className="flex items-center gap-3">
+                                            <span className="text-2xl">📅</span>
+                                            <div>
+                                                <div className="font-semibold text-emerald-900">Diaria</div>
+                                                <div className="text-xs text-emerald-700">Actualiza cada 24 horas</div>
+                                            </div>
+                                        </div>
+                                        <div className="text-right">
+                                            <div className="text-xs font-bold text-emerald-700">€{(showFrequencyModal.keywordIds.length * PRICING.keyword_check_standard * 30).toFixed(2)}/mes</div>
+                                            <div className="text-xs text-emerald-600">~30 updates</div>
+                                        </div>
+                                    </div>
+                                </button>
+
+                                {/* Every 2 days */}
+                                <button
+                                    onClick={() => changeFrequency(showFrequencyModal.keywordIds, 'every_2_days')}
+                                    className="w-full px-4 py-3 rounded-lg text-left transition-all border bg-blue-50 border-blue-200 hover:bg-blue-100"
+                                >
+                                    <div className="flex items-center justify-between">
+                                        <div className="flex items-center gap-3">
+                                            <span className="text-2xl">📆</span>
+                                            <div>
+                                                <div className="font-semibold text-blue-900">Cada 2 días</div>
+                                                <div className="text-xs text-blue-700">Actualiza cada 48 horas</div>
+                                            </div>
+                                        </div>
+                                        <div className="text-right">
+                                            <div className="text-xs font-bold text-blue-700">€{(showFrequencyModal.keywordIds.length * PRICING.keyword_check_standard * 15).toFixed(2)}/mes</div>
+                                            <div className="text-xs text-blue-600">~15 updates</div>
+                                        </div>
+                                    </div>
+                                </button>
+
+                                {/* Weekly */}
+                                <button
+                                    onClick={() => changeFrequency(showFrequencyModal.keywordIds, 'weekly')}
+                                    className="w-full px-4 py-3 rounded-lg text-left transition-all border bg-purple-50 border-purple-200 hover:bg-purple-100"
+                                >
+                                    <div className="flex items-center justify-between">
+                                        <div className="flex items-center gap-3">
+                                            <span className="text-2xl">📊</span>
+                                            <div>
+                                                <div className="font-semibold text-purple-900">Semanal</div>
+                                                <div className="text-xs text-purple-700">Actualiza cada 7 días</div>
+                                            </div>
+                                        </div>
+                                        <div className="text-right">
+                                            <div className="text-xs font-bold text-purple-700">€{(showFrequencyModal.keywordIds.length * PRICING.keyword_check_standard * 4).toFixed(2)}/mes</div>
+                                            <div className="text-xs text-purple-600">~4 updates</div>
+                                        </div>
+                                    </div>
+                                </button>
+                            </div>
+
+                            <div className="text-xs text-gray-500 mb-4 text-center">
+                                Coste por actualización: €{PRICING.keyword_check_standard.toFixed(2)} × {showFrequencyModal.keywordIds.length} keyword(s) = €{(showFrequencyModal.keywordIds.length * PRICING.keyword_check_standard).toFixed(2)}
+                            </div>
+
+                            <button
+                                onClick={() => setShowFrequencyModal(null)}
+                                className="w-full px-4 py-2 text-gray-600 hover:text-gray-900 text-sm font-medium border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors"
+                            >
+                                Cancelar
+                            </button>
                         </div>
-
-                        <div className="space-y-3 mb-6">
-                            {/* Manual - No cost */}
-                            <button
-                                onClick={() => changeFrequency(showFrequencyModal.keywordIds, 'manual')}
-                                className="w-full px-4 py-3 rounded-lg text-left transition-all border bg-gray-50 border-gray-200 hover:bg-gray-100"
-                            >
-                                <div className="flex items-center justify-between">
-                                    <div className="flex items-center gap-3">
-                                        <span className="text-2xl">⚙️</span>
-                                        <div>
-                                            <div className="font-semibold text-gray-900">Manual</div>
-                                            <div className="text-xs text-gray-500">Solo actualiza cuando tú lo pidas</div>
-                                        </div>
-                                    </div>
-                                    <span className="text-xs font-medium text-gray-400">Sin coste automático</span>
-                                </div>
-                            </button>
-
-                            {/* Daily */}
-                            <button
-                                onClick={() => changeFrequency(showFrequencyModal.keywordIds, 'daily')}
-                                className="w-full px-4 py-3 rounded-lg text-left transition-all border bg-emerald-50 border-emerald-200 hover:bg-emerald-100"
-                            >
-                                <div className="flex items-center justify-between">
-                                    <div className="flex items-center gap-3">
-                                        <span className="text-2xl">📅</span>
-                                        <div>
-                                            <div className="font-semibold text-emerald-900">Diaria</div>
-                                            <div className="text-xs text-emerald-700">Actualiza cada 24 horas</div>
-                                        </div>
-                                    </div>
-                                    <div className="text-right">
-                                        <div className="text-xs font-bold text-emerald-700">€{(showFrequencyModal.keywordIds.length * PRICING.keyword_check_standard * 30).toFixed(2)}/mes</div>
-                                        <div className="text-xs text-emerald-600">~30 updates</div>
-                                    </div>
-                                </div>
-                            </button>
-
-                            {/* Every 2 days */}
-                            <button
-                                onClick={() => changeFrequency(showFrequencyModal.keywordIds, 'every_2_days')}
-                                className="w-full px-4 py-3 rounded-lg text-left transition-all border bg-blue-50 border-blue-200 hover:bg-blue-100"
-                            >
-                                <div className="flex items-center justify-between">
-                                    <div className="flex items-center gap-3">
-                                        <span className="text-2xl">📆</span>
-                                        <div>
-                                            <div className="font-semibold text-blue-900">Cada 2 días</div>
-                                            <div className="text-xs text-blue-700">Actualiza cada 48 horas</div>
-                                        </div>
-                                    </div>
-                                    <div className="text-right">
-                                        <div className="text-xs font-bold text-blue-700">€{(showFrequencyModal.keywordIds.length * PRICING.keyword_check_standard * 15).toFixed(2)}/mes</div>
-                                        <div className="text-xs text-blue-600">~15 updates</div>
-                                    </div>
-                                </div>
-                            </button>
-
-                            {/* Weekly */}
-                            <button
-                                onClick={() => changeFrequency(showFrequencyModal.keywordIds, 'weekly')}
-                                className="w-full px-4 py-3 rounded-lg text-left transition-all border bg-purple-50 border-purple-200 hover:bg-purple-100"
-                            >
-                                <div className="flex items-center justify-between">
-                                    <div className="flex items-center gap-3">
-                                        <span className="text-2xl">📊</span>
-                                        <div>
-                                            <div className="font-semibold text-purple-900">Semanal</div>
-                                            <div className="text-xs text-purple-700">Actualiza cada 7 días</div>
-                                        </div>
-                                    </div>
-                                    <div className="text-right">
-                                        <div className="text-xs font-bold text-purple-700">€{(showFrequencyModal.keywordIds.length * PRICING.keyword_check_standard * 4).toFixed(2)}/mes</div>
-                                        <div className="text-xs text-purple-600">~4 updates</div>
-                                    </div>
-                                </div>
-                            </button>
-                        </div>
-
-                        <div className="text-xs text-gray-500 mb-4 text-center">
-                            Coste por actualización: €{PRICING.keyword_check_standard.toFixed(2)} × {showFrequencyModal.keywordIds.length} keyword(s) = €{(showFrequencyModal.keywordIds.length * PRICING.keyword_check_standard).toFixed(2)}
-                        </div>
-
-                        <button
-                            onClick={() => setShowFrequencyModal(null)}
-                            className="w-full px-4 py-2 text-gray-600 hover:text-gray-900 text-sm font-medium border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors"
-                        >
-                            Cancelar
-                        </button>
                     </div>
-                </div>
-            )}
+                )
+            }
 
             {/* Related Keywords Modal */}
-            {relatedModalKeyword && projectId && (
-                <RelatedKeywordsModal
-                    isOpen={!!relatedModalKeyword}
-                    onClose={() => setRelatedModalKeyword(null)}
-                    seedKeyword={relatedModalKeyword}
-                    projectId={projectId}
-                    onAddKeywords={async (keywordTerms) => {
-                        // Add keywords to project
-                        try {
-                            for (const term of keywordTerms) {
-                                await fetch('/api/keywords', {
-                                    method: 'POST',
-                                    headers: { 'Content-Type': 'application/json' },
-                                    body: JSON.stringify({
-                                        projectId,
-                                        term,
-                                        country: 'es',
-                                        device: 'desktop'
-                                    })
-                                });
+            {
+                relatedModalKeyword && projectId && (
+                    <RelatedKeywordsModal
+                        isOpen={!!relatedModalKeyword}
+                        onClose={() => setRelatedModalKeyword(null)}
+                        seedKeyword={relatedModalKeyword}
+                        projectId={projectId}
+                        onAddKeywords={async (keywordTerms) => {
+                            // Add keywords to project
+                            try {
+                                for (const term of keywordTerms) {
+                                    await fetch('/api/keywords', {
+                                        method: 'POST',
+                                        headers: { 'Content-Type': 'application/json' },
+                                        body: JSON.stringify({
+                                            projectId,
+                                            term,
+                                            country: 'es',
+                                            device: 'desktop'
+                                        })
+                                    });
+                                }
+                                fetchProjectData();
+                            } catch (err) {
+                                console.error('Error adding keywords:', err);
                             }
-                            fetchProjectData();
-                        } catch (err) {
-                            console.error('Error adding keywords:', err);
-                        }
-                    }}
-                />
-            )}
-        </div>
+                        }}
+                    />
+                )
+            }
+        </div >
     );
 }
 
