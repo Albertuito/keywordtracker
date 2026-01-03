@@ -137,23 +137,33 @@ function ProjectContent() {
 
             const data = await res.json();
             if (data.success) {
-                const count = data.mode === 'live' ? data.count : (data.enqueued || 0);
+                // Force refresh data after live update
                 await fetchProjectData();
-                if (count > 0) {
-                    if (updateMode === 'live') {
-                        showToast(`${count} keywords actualizadas al instante.`, 'success');
+
+                if (updateMode === 'live') {
+                    const count = data.count || 0;
+                    const failed = data.failed || 0;
+                    if (count > 0) {
+                        if (failed > 0) {
+                            showToast(`${count} keywords actualizadas al instante. ${failed} fallaron (sin saldo o error).`, 'success');
+                        } else {
+                            showToast(`${count} keywords actualizadas al instante.`, 'success');
+                        }
                     } else {
-                        showToast(`Actualización en cola para ${count} keywords. Revisa en ~2 mins.`, 'success');
+                        showToast(`No se pudieron actualizar keywords. Revisa tu saldo.`, 'error');
                     }
                 } else {
-                    const debug = data.debug;
-                    let reason = 'Razón desconocida';
-                    if (debug) {
-                        reason = `Encontradas: ${debug.found}, Pagables: ${debug.payable}, Sin Saldo: ${debug.skippedBalance}`;
+                    const count = data.enqueued || 0;
+                    if (count > 0) {
+                        showToast(`Actualización en cola para ${count} keywords. Revisa en ~2 mins.`, 'success');
+                    } else {
+                        const debug = data.debug;
+                        let reason = 'Razón desconocida';
+                        if (debug) {
+                            reason = `Encontradas: ${debug.found}, Pagables: ${debug.payable}, Sin Saldo: ${debug.skippedBalance}`;
+                        }
+                        showToast(`Se han procesado 0 keywords. (${reason})`, 'error');
                     }
-                    if (data.mode === 'live' && data.count === 0) reason = 'Posible falta de saldo o error API';
-
-                    showToast(`Se han procesado 0 keywords. (${reason})`, 'error');
                 }
             } else {
                 showToast('Error: ' + (data.error || 'Desconocido'), 'error');

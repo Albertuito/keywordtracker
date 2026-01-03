@@ -25,28 +25,28 @@ function normalizeDomain(url: string): string {
 
 /**
  * MANUAL CHECK (LIVE) - Cost: $0.0155
- * Throttled to once per 24h per keyword to save costs.
+ * Throttled to once per 24h per keyword to save costs (unless force=true).
+ * Returns { success: boolean, position: number } for caller to track results.
  */
-export async function processKeywordCheck(keywordId: string, force = false) {
-    logWorker(`Legacy/Live Check for: ${keywordId}`);
+export async function processKeywordCheck(keywordId: string, force = false): Promise<{ success: boolean; position: number; skipped?: boolean }> {
+    logWorker(`Legacy/Live Check for: ${keywordId} (force=${force})`);
 
     const keyword = await prisma.keyword.findUnique({
         where: { id: keywordId },
         include: { project: true }
     });
 
-    if (!keyword || !keyword.project) return;
+    if (!keyword || !keyword.project) {
+        return { success: false, position: 0 };
+    }
 
-    // Rate Limit Check (24h)
-    if (keyword.lastLiveCheck) {
+    // Rate Limit Check (24h) - Skip if force=true
+    if (!force && keyword.lastLiveCheck) {
         const diff = new Date().getTime() - new Date(keyword.lastLiveCheck).getTime();
         const hours = diff / (1000 * 60 * 60);
         if (hours < 24) {
             logWorker(`🚦 Rate Limit: Keyword ${keyword.term} updated ${hours.toFixed(1)}h ago. Skip Live check.`);
-            // Opcional: Podríamos lanzar error para que el UI lo sepa, pero por ahora solo log y return.
-            // Para la demo, quizás el usuario quiera forzarlo.
-            // Si queremos ser estrictos: return;
-            // Si el usuario insiste, podríamos permitirlo. Asumamos que el botón UI fuerza.
+            return { success: false, position: 0, skipped: true };
         }
     }
 
@@ -74,7 +74,7 @@ export async function processKeywordCheck(keywordId: string, force = false) {
 
         if (!balanceResult.success) {
             logWorker(`❌ Insufficient balance for Live Check: ${term} (User: ${keyword.project.userId})`);
-            return; // Stop execution
+            return { success: false, position: 0 }; // Stop execution
         }
 
         logWorker(`💰 Balance deducted for Live Check: ${term}`);
@@ -115,9 +115,11 @@ export async function processKeywordCheck(keywordId: string, force = false) {
         }
 
         logWorker(`✅ Live Check Found: ${position} (ID: ${saved.id})`);
+        return { success: true, position };
 
     } catch (error) {
         logWorker(`❌ Error Live Check: ${error}`);
+        return { success: false, position: 0 };
     }
 }
 

@@ -55,12 +55,17 @@ export async function POST(req: Request) {
             }
 
             let processed = 0;
+            let failed = 0;
             for (const id of keywordIds) {
                 // processKeywordCheck handles balance deduction and API call
-                await processKeywordCheck(id, true); // Force check
-                processed++;
+                const checkResult = await processKeywordCheck(id, true); // Force check
+                if (checkResult.success) {
+                    processed++;
+                } else {
+                    failed++;
+                }
             }
-            result = { success: true, count: processed, mode: 'live' };
+            result = { success: true, count: processed, failed, mode: 'live' };
         } else {
             return NextResponse.json({ success: false, error: 'Invalid action for POST' }, { status: 400 });
         }
