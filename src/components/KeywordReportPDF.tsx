@@ -331,6 +331,28 @@ export const KeywordReportPDF = ({ seedKeyword, keywords, analysis, date, countr
                                     <Text style={styles.codeText}>{analysis.optimized_recommendations.meta_description || 'N/A'}</Text>
                                 </View>
                             </View>
+
+                            {analysis.optimized_recommendations.h2_structure && analysis.optimized_recommendations.h2_structure.length > 0 && (
+                                <View style={{ marginBottom: 10 }}>
+                                    <Text style={styles.subTitle}>Estructura H2</Text>
+                                    <View style={styles.codeBox}>
+                                        {analysis.optimized_recommendations.h2_structure.map((h2: string, i: number) => (
+                                            <Text key={i} style={{ ...styles.codeText, marginBottom: 2 }}>• {h2}</Text>
+                                        ))}
+                                    </View>
+                                </View>
+                            )}
+
+                            {analysis.optimized_recommendations.faq_strategy && analysis.optimized_recommendations.faq_strategy.length > 0 && (
+                                <View style={{ marginBottom: 10 }}>
+                                    <Text style={styles.subTitle}>Preguntas FAQ</Text>
+                                    <View style={styles.codeBox}>
+                                        {analysis.optimized_recommendations.faq_strategy.map((q: string, i: number) => (
+                                            <Text key={i} style={{ ...styles.codeText, marginBottom: 2 }}>? {q}</Text>
+                                        ))}
+                                    </View>
+                                </View>
+                            )}
                         </>
                     )}
                 </View>
