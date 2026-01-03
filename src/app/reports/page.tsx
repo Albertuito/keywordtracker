@@ -3,7 +3,7 @@
 import { useSession } from 'next-auth/react';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import Header from '@/components/Header';
+
 import { FileText, Calendar, Globe, ChevronRight, Trash2, Loader2, Search, Download, Sparkles } from 'lucide-react';
 import RelatedKeywordsModal from '@/components/RelatedKeywordsModal';
 
@@ -107,7 +107,7 @@ export default function ReportsPage() {
 
     return (
         <div className="min-h-screen bg-gray-50">
-            <Header />
+
 
             <main className="max-w-6xl mx-auto px-4 py-8">
                 <div className="mb-8">
