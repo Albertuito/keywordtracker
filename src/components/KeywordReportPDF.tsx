@@ -416,55 +416,7 @@ export const KeywordReportPDF = ({ seedKeyword, keywords, analysis, date, countr
                 </View>
             </Page>
 
-            {/* PAGE 4: DATA APPENDIX */}
-            <Page size="A4" style={styles.page}>
-                <View style={styles.header}>
-                    <Text style={styles.headerLogo}>{seedKeyword}</Text>
-                    <Text style={styles.headerDate}>Datos</Text>
-                </View>
 
-                <View style={styles.section}>
-                    <Text style={styles.sectionTitle}>Top 20 Keywords</Text>
-
-                    <View style={styles.table}>
-                        <View style={{ ...styles.tableRow, ...styles.tableHeader }}>
-                            <View style={{ width: '40%' }}><Text style={{ ...styles.tableCell, ...styles.tableHeaderCell, paddingLeft: 10 }}>Keyword</Text></View>
-                            <View style={{ width: '20%' }}><Text style={{ ...styles.tableCell, ...styles.tableHeaderCell, textAlign: 'right' }}>Volumen</Text></View>
-                            <View style={{ width: '20%' }}><Text style={{ ...styles.tableCell, ...styles.tableHeaderCell, textAlign: 'center' }}>KD %</Text></View>
-                            <View style={{ width: '20%' }}><Text style={{ ...styles.tableCell, ...styles.tableHeaderCell, textAlign: 'right', paddingRight: 10 }}>CPC</Text></View>
-                        </View>
-
-                        {topKeywords.map((kw, i) => (
-                            <View key={i} style={{ ...styles.tableRow, backgroundColor: i % 2 === 0 ? '#FFFFFF' : '#F9FAFB' }}>
-                                <View style={{ width: '40%' }}>
-                                    <Text style={{ ...styles.tableCell, paddingLeft: 10, color: colors.secondary, textTransform: 'capitalize' }}>{kw.keyword}</Text>
-                                </View>
-                                <View style={{ width: '20%' }}>
-                                    <Text style={{ ...styles.tableCell, textAlign: 'right' }}>{formatCompactNumber(kw.volume || 0)}</Text>
-                                </View>
-                                <View style={{ width: '20%' }}>
-                                    <View style={{
-                                        backgroundColor: kw.difficulty < 30 ? '#D1FAE5' : kw.difficulty < 60 ? '#FEF3C7' : '#FEE2E2',
-                                        paddingHorizontal: 6, paddingVertical: 2, borderRadius: 4, alignSelf: 'center'
-                                    }}>
-                                        <Text style={{
-                                            fontSize: 8, fontWeight: 'bold',
-                                            color: kw.difficulty < 30 ? '#065F46' : kw.difficulty < 60 ? '#92400E' : '#991B1B'
-                                        }}>{kw.difficulty}</Text>
-                                    </View>
-                                </View>
-                                <View style={{ width: '20%' }}>
-                                    <Text style={{ ...styles.tableCell, textAlign: 'right', paddingRight: 10 }}>{kw.cpc ? `€${kw.cpc.toFixed(2)}` : '-'}</Text>
-                                </View>
-                            </View>
-                        ))}
-                    </View>
-                </View>
-
-                <View style={styles.footer}>
-                    <Text style={styles.pageNumber}>Page 4</Text>
-                </View>
-            </Page>
         </Document>
     );
 };
