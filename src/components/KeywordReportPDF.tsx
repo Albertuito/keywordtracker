@@ -61,21 +61,24 @@ const styles = StyleSheet.create({
     },
     metricCard: {
         flex: 1,
-        padding: 20,
+        padding: 12,
         backgroundColor: colors.primaryLight,
         borderRadius: 8,
         alignItems: 'center',
+        justifyContent: 'center',
     },
     metricValue: {
-        fontSize: 24,
+        fontSize: 20,
         fontWeight: 'bold',
         color: colors.primary,
+        textAlign: 'center',
     },
     metricLabel: {
-        fontSize: 10,
+        fontSize: 8,
         color: colors.textLight,
         textTransform: 'uppercase',
         marginTop: 5,
+        textAlign: 'center',
     },
     // Sections
     section: {
@@ -202,8 +205,18 @@ interface KeywordReportPDFProps {
 export const KeywordReportPDF = ({ seedKeyword, keywords, analysis, date, country }: KeywordReportPDFProps) => {
     // Metrics
     const totalVolume = keywords.reduce((sum, k) => sum + (k.volume || 0), 0);
-    const avgDifficulty = Math.round(keywords.reduce((sum, k) => sum + (k.difficulty || 0), 0) / (keywords.length || 1));
-    const transactionalCount = keywords.filter(k => k.intent?.toLowerCase().includes('transactional')).length;
+
+    // Filter valid difficulty (> 0) for average to avoid skewing with unknowns
+    const validDifficultyKeywords = keywords.filter(k => (k.difficulty || 0) > 0);
+    const avgDifficulty = validDifficultyKeywords.length > 0
+        ? Math.round(validDifficultyKeywords.reduce((sum, k) => sum + k.difficulty, 0) / validDifficultyKeywords.length)
+        : 0;
+
+    // Count Commercial + Transactional as "Transactional" intent group
+    const transactionalCount = keywords.filter(k => {
+        const intent = (k.intent || '').toLowerCase();
+        return intent.includes('transactional') || intent.includes('commercial');
+    }).length;
 
     // Sort top keywords
     const topKeywords = [...keywords].sort((a, b) => b.volume - a.volume).slice(0, 20);

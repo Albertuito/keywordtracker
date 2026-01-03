@@ -73,14 +73,14 @@ export async function POST(req: Request) {
 
                 if (volumes) {
                     const aiKeywordObjects = newAiTerms.map(term => {
-                        const vol = volumes[term] || 0;
+                        const metrics = volumes[term] || { volume: 0, cpc: 0, competition: 0, competition_index: 0 };
                         return {
                             keyword: term,
-                            volume: vol,
-                            difficulty: 0, // Unknown without full analysis, assume low/medium or fetch if critical
-                            intent: 'commercial', // AI usually targets commercial/transactional
-                            cpc: 0,
-                            competition: 0
+                            volume: metrics.volume,
+                            difficulty: metrics.competition_index, // Proxy: Ads Competition Index (0-100) ~ Difficulty
+                            intent: 'commercial', // Default for AI ideas
+                            cpc: metrics.cpc,
+                            competition: metrics.competition
                         };
                     }).filter(k => k.volume > 0); // FILTER OUT ZERO VOLUME
 

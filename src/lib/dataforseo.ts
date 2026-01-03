@@ -208,9 +208,14 @@ export class DataForSEO {
             const data = await res.json();
 
             if (data.status_code === 20000 && data.tasks?.[0]?.result) {
-                const volumes: Record<string, number> = {};
+                const volumes: Record<string, { volume: number, cpc: number, competition: number, competition_index: number }> = {};
                 for (const item of data.tasks[0].result) {
-                    volumes[item.keyword] = item.search_volume || 0;
+                    volumes[item.keyword] = {
+                        volume: item.search_volume || 0,
+                        cpc: item.cpc || 0,
+                        competition: item.competition || 0,
+                        competition_index: item.competition_index || 0
+                    };
                 }
                 return volumes;
             }
