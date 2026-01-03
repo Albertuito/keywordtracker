@@ -80,9 +80,16 @@ export async function processKeywordCheck(keywordId: string, force = false): Pro
         logWorker(`💰 Balance deducted for Live Check: ${term}`);
         logWorker(`📡 LIVE Check DataForSEO: "${term}"`);
         const items = await DataForSEO.getRankings(term, country, device);
+        const serpFeaturesFound: string[] = [];
 
         if (items) {
             for (const item of items) {
+                // Capture Features
+                if (item.type === 'featured_snippet') serpFeaturesFound.push('featured_snippet');
+                if (item.type === 'paid') serpFeaturesFound.push('ad_top');
+                if (item.type === 'video') serpFeaturesFound.push('video');
+                if (item.type === 'people_also_ask') serpFeaturesFound.push('people_also_ask');
+
                 if (item.type === 'organic') {
                     const itemDomain = item.domain || '';
                     if (itemDomain.toLowerCase().includes(cleanDomain) || (item.url && item.url.includes(cleanDomain))) {
@@ -99,6 +106,7 @@ export async function processKeywordCheck(keywordId: string, force = false): Pro
                 keywordId: keyword.id,
                 position,
                 url: foundUrl || null,
+                serpFeatures: serpFeaturesFound.length > 0 ? JSON.stringify([...new Set(serpFeaturesFound)]) : null,
                 date: new Date()
             }
         });
@@ -325,6 +333,7 @@ export async function syncPendingChecks() {
             // Look for our domain in result items
             // check result.result[0].items
             let topDomains: string[] = [];
+            let serpFeaturesFound: string[] = [];
 
             // Look for our domain in result items
             // check result.result[0].items
@@ -335,9 +344,16 @@ export async function syncPendingChecks() {
                 logWorker(`Searching for domain "${cleanDomain}" in ${items.length} items...`);
 
 
-                // 1. Capture Top 5 Competitors
+                // 1. Capture Top 5 Competitors & Snippets
                 const seen = new Set<string>();
+
                 for (const item of items) {
+                    // Capture Features
+                    if (item.type === 'featured_snippet') serpFeaturesFound.push('featured_snippet');
+                    if (item.type === 'paid') serpFeaturesFound.push('ad_top'); // Or checking rank_group for top ads
+                    if (item.type === 'video') serpFeaturesFound.push('video');
+                    if (item.type === 'people_also_ask') serpFeaturesFound.push('people_also_ask');
+
                     if (item.type === 'organic' && item.domain) {
                         const d = normalizeDomain(item.domain);
                         if (d && d !== cleanDomain && !seen.has(d)) {
@@ -345,7 +361,7 @@ export async function syncPendingChecks() {
                             topDomains.push(d);
                         }
                     }
-                    if (topDomains.length >= 5) break;
+                    if (topDomains.length >= 50) { /* Limit handled later */ }
                 }
 
                 // 2. Find OUR Ranking
@@ -380,6 +396,7 @@ export async function syncPendingChecks() {
                 // Prepare data
                 const positionData = {
                     topDomains: topDomains?.length > 0 ? JSON.stringify(topDomains.slice(0, 5)) : null, // Limit to 5 just in case
+                    serpFeatures: serpFeaturesFound?.length > 0 ? JSON.stringify([...new Set(serpFeaturesFound)]) : null,
                     keywordId: kw.id,
                     position: position || 0,
                     url: foundUrl || null,

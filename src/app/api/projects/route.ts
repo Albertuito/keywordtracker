@@ -11,16 +11,41 @@ export async function GET(req: Request) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    const { searchParams } = new URL(req.url);
+    const projectId = searchParams.get('id');
+
+    const where: any = {
+        user: {
+            email: session.user.email
+        }
+    };
+
+    if (projectId) {
+        where.id = projectId;
+    }
+
     const projects = await prisma.project.findMany({
-        where: {
-            user: {
-                email: session.user.email
-            }
-        },
+        where,
         include: {
-            keywords: true
+            keywords: {
+                include: {
+                    positions: {
+                        orderBy: { date: 'desc' },
+                        take: 5 // Get last 5 checks for history/cannibalization
+                    }
+                }
+            }
         }
     });
+
+    if (projectId && projects.length === 0) {
+        return NextResponse.json({ error: 'Project not found' }, { status: 404 });
+    }
+
+    // If querying single project, return object? Frontend expects array or object?
+    // Looking at previous code, it returned array.
+    // However, page.tsx does `const [project, setProject] ...`
+    // Let's keep returning array to avoid breaking list view, but if ID is present, frontend likely takes [0].
 
     return NextResponse.json(projects);
 }

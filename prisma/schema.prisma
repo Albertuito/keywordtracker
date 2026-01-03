@@ -146,6 +146,7 @@ model KeywordPosition {
   topDomains String?  // JSON array of top 5 competitor domains
   date       DateTime @default(now())
   keywordId  String
+  serpFeatures String?  // Stores JSON array of features e.g. ["featured_snippet", "video"] or simply comma separated
   keyword    Keyword  @relation(fields: [keywordId], references: [id], onDelete: Cascade)
 
   @@index([keywordId, date])

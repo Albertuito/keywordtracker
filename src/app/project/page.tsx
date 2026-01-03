@@ -597,15 +597,39 @@ function ProjectContent() {
                                                         </td>
                                                         <td className="py-5 px-6 text-center align-middle">
                                                             {isQueued ? (
-                                                                <div className="flex items-center gap-2">
-                                                                    <RankBadge rank={currentPos} hasData={hasPositionData} />
-                                                                    <div className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-md text-xs font-medium ${isLongWait ? 'bg-amber-500/10 text-amber-600 border border-amber-500/20' : 'bg-blue-500/10 text-blue-500 border border-blue-500/20'}`}>
-                                                                        <span className="w-3 h-3 border-2 border-current border-t-transparent rounded-full animate-spin"></span>
-                                                                        {isLongWait ? <span>{diffMins}m</span> : null}
+                                                                <div className="flex items-center justify-center gap-2">
+                                                                    <span className="w-2 h-2 bg-amber-400 rounded-full animate-pulse"></span>
+                                                                    <span className="text-xs text-amber-600 font-medium">Cola</span>
+                                                                </div>
+                                                            ) : currentPos && currentPos > 0 ? (
+                                                                <div className="flex flex-col items-center gap-2">
+                                                                    <div className="flex items-center gap-1">
+                                                                        <RankBadge rank={currentPos} hasData={hasPositionData} />
+                                                                        {(() => {
+                                                                            try {
+                                                                                const feats = kw.positions?.[0]?.serpFeatures ? JSON.parse(kw.positions[0].serpFeatures) : [];
+                                                                                if (feats.includes('featured_snippet') && currentPos > 1) {
+                                                                                    return (
+                                                                                        <span title="Oportunidad de Fragmento Destacado (Posición 0)" className="text-amber-500 cursor-help animate-pulse text-lg">
+                                                                                            ⚡
+                                                                                        </span>
+                                                                                    );
+                                                                                }
+                                                                            } catch (e) { }
+                                                                            return null;
+                                                                        })()}
                                                                     </div>
+
+                                                                    {/* Update Spinner logic */}
+                                                                    {isLongWait && (
+                                                                        <div className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-medium bg-amber-50 text-amber-600 border border-amber-200">
+                                                                            <span className="w-2 h-2 border-2 border-current border-t-transparent rounded-full animate-spin"></span>
+                                                                            <span>{diffMins}m</span>
+                                                                        </div>
+                                                                    )}
                                                                 </div>
                                                             ) : (
-                                                                <RankBadge rank={currentPos} hasData={hasPositionData} />
+                                                                <span className="text-gray-400 text-lg">-</span>
                                                             )}
                                                         </td>
                                                         <td className="py-5 px-6 text-center align-middle">
@@ -622,15 +646,28 @@ function ProjectContent() {
                                                         </td>
                                                         <td className="py-5 px-6 text-xs text-gray-700 max-w-[250px] align-middle">
                                                             {url ? (
-                                                                <a
-                                                                    href={url}
-                                                                    target="_blank"
-                                                                    rel="noopener noreferrer"
-                                                                    className="text-blue-600 hover:text-blue-800 hover:underline truncate block"
-                                                                    title={url}
-                                                                >
-                                                                    {url.replace(/https?:\/\/(www\.)?/, '')}
-                                                                </a>
+                                                                <div className="flex items-center gap-2">
+                                                                    <a
+                                                                        href={url}
+                                                                        target="_blank"
+                                                                        rel="noopener noreferrer"
+                                                                        className="text-blue-600 hover:text-blue-800 hover:underline truncate block max-w-[200px]"
+                                                                        title={url}
+                                                                    >
+                                                                        {url.replace(/https?:\/\/(www\.)?/, '')}
+                                                                    </a>
+                                                                    {(() => {
+                                                                        const prevUrl = kw.positions?.[1]?.url;
+                                                                        if (url && prevUrl && url !== prevUrl) {
+                                                                            return (
+                                                                                <span title={`Alerta de Canibalización: La URL ha cambiado reciente (Antes: ${prevUrl})`} className="text-red-500 cursor-help text-lg">
+                                                                                    ⚠️
+                                                                                </span>
+                                                                            );
+                                                                        }
+                                                                        return null;
+                                                                    })()}
+                                                                </div>
                                                             ) : <span className="text-gray-400">-</span>}
                                                         </td>
                                                         <td className="py-5 px-6 text-right text-xs text-gray-600">
@@ -663,349 +700,360 @@ function ProjectContent() {
                             </table>
                         </div>
                     </div>
-                )}
+                )
+                }
 
                 {/* Auto-Tracking Tab Content */}
-                {activeTab === 'autotracking' && (
-                    <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
-                        <div className="p-6 border-b border-gray-200">
-                            <h3 className="text-lg font-semibold text-gray-900">Resumen de Auto-Tracking</h3>
-                            <p className="text-sm text-gray-600 mt-1">Keywords con actualización automática programada</p>
-                        </div>
+                {
+                    activeTab === 'autotracking' && (
+                        <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+                            <div className="p-6 border-b border-gray-200">
+                                <h3 className="text-lg font-semibold text-gray-900">Resumen de Auto-Tracking</h3>
+                                <p className="text-sm text-gray-600 mt-1">Keywords con actualización automática programada</p>
+                            </div>
 
-                        {(() => {
-                            const dailyKws = keywords.filter(k => k.trackingFrequency === 'daily');
-                            const every2DaysKws = keywords.filter(k => k.trackingFrequency === 'every_2_days');
-                            const weeklyKws = keywords.filter(k => k.trackingFrequency === 'weekly');
+                            {(() => {
+                                const dailyKws = keywords.filter(k => k.trackingFrequency === 'daily');
+                                const every2DaysKws = keywords.filter(k => k.trackingFrequency === 'every_2_days');
+                                const weeklyKws = keywords.filter(k => k.trackingFrequency === 'weekly');
 
-                            const dailyCost = dailyKws.length * PRICING.keyword_check_standard * 30;
-                            const every2DaysCost = every2DaysKws.length * PRICING.keyword_check_standard * 15;
-                            const weeklyCost = weeklyKws.length * PRICING.keyword_check_standard * 4;
-                            const totalMonthlyCost = dailyCost + every2DaysCost + weeklyCost;
+                                const dailyCost = dailyKws.length * PRICING.keyword_check_standard * 30;
+                                const every2DaysCost = every2DaysKws.length * PRICING.keyword_check_standard * 15;
+                                const weeklyCost = weeklyKws.length * PRICING.keyword_check_standard * 4;
+                                const totalMonthlyCost = dailyCost + every2DaysCost + weeklyCost;
 
-                            const hasAnyAutoTracking = dailyKws.length > 0 || every2DaysKws.length > 0 || weeklyKws.length > 0;
+                                const hasAnyAutoTracking = dailyKws.length > 0 || every2DaysKws.length > 0 || weeklyKws.length > 0;
 
-                            if (!hasAnyAutoTracking) {
+                                if (!hasAnyAutoTracking) {
+                                    return (
+                                        <div className="p-12 text-center">
+                                            <div className="w-16 h-16 mx-auto bg-gray-100 rounded-full flex items-center justify-center mb-4">
+                                                <svg className="w-8 h-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                </svg>
+                                            </div>
+                                            <h4 className="text-gray-900 font-medium mb-2">Sin auto-tracking activo</h4>
+                                            <p className="text-gray-500 text-sm mb-4">
+                                                Activa el tracking automático en tus keywords para que se actualicen solas.
+                                            </p>
+                                            <button
+                                                onClick={() => setActiveTab('rankings')}
+                                                className="text-blue-600 hover:text-blue-700 text-sm font-medium"
+                                            >
+                                                Ir a Rankings →
+                                            </button>
+                                        </div>
+                                    );
+                                }
+
                                 return (
-                                    <div className="p-12 text-center">
-                                        <div className="w-16 h-16 mx-auto bg-gray-100 rounded-full flex items-center justify-center mb-4">
-                                            <svg className="w-8 h-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                            </svg>
+                                    <>
+                                        {/* Cost Summary Cards */}
+                                        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 p-6 bg-gray-50 border-b border-gray-200">
+                                            <div className="bg-white rounded-lg p-4 border border-gray-200">
+                                                <div className="text-xs text-gray-600 uppercase tracking-wide mb-1">Diarias</div>
+                                                <div className="text-2xl font-bold text-emerald-600">{dailyKws.length}</div>
+                                                <div className="text-xs text-gray-600 mt-1">€{dailyCost.toFixed(2)}/mes</div>
+                                            </div>
+                                            <div className="bg-white rounded-lg p-4 border border-gray-200">
+                                                <div className="text-xs text-gray-600 uppercase tracking-wide mb-1">Cada 2 días</div>
+                                                <div className="text-2xl font-bold text-blue-600">{every2DaysKws.length}</div>
+                                                <div className="text-xs text-gray-600 mt-1">€{every2DaysCost.toFixed(2)}/mes</div>
+                                            </div>
+                                            <div className="bg-white rounded-lg p-4 border border-gray-200">
+                                                <div className="text-xs text-gray-600 uppercase tracking-wide mb-1">Semanales</div>
+                                                <div className="text-2xl font-bold text-purple-600">{weeklyKws.length}</div>
+                                                <div className="text-xs text-gray-600 mt-1">€{weeklyCost.toFixed(2)}/mes</div>
+                                            </div>
+                                            <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg p-4 text-white">
+                                                <div className="text-xs uppercase tracking-wide opacity-80 mb-1">Coste Total Mensual</div>
+                                                <div className="text-3xl font-bold">€{totalMonthlyCost.toFixed(2)}</div>
+                                                <div className="text-xs opacity-70 mt-1">~{(dailyKws.length * 30 + every2DaysKws.length * 15 + weeklyKws.length * 4)} updates</div>
+                                            </div>
                                         </div>
-                                        <h4 className="text-gray-900 font-medium mb-2">Sin auto-tracking activo</h4>
-                                        <p className="text-gray-500 text-sm mb-4">
-                                            Activa el tracking automático en tus keywords para que se actualicen solas.
-                                        </p>
-                                        <button
-                                            onClick={() => setActiveTab('rankings')}
-                                            className="text-blue-600 hover:text-blue-700 text-sm font-medium"
-                                        >
-                                            Ir a Rankings →
-                                        </button>
-                                    </div>
-                                );
-                            }
 
-                            return (
-                                <>
-                                    {/* Cost Summary Cards */}
-                                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 p-6 bg-gray-50 border-b border-gray-200">
-                                        <div className="bg-white rounded-lg p-4 border border-gray-200">
-                                            <div className="text-xs text-gray-600 uppercase tracking-wide mb-1">Diarias</div>
-                                            <div className="text-2xl font-bold text-emerald-600">{dailyKws.length}</div>
-                                            <div className="text-xs text-gray-600 mt-1">€{dailyCost.toFixed(2)}/mes</div>
-                                        </div>
-                                        <div className="bg-white rounded-lg p-4 border border-gray-200">
-                                            <div className="text-xs text-gray-600 uppercase tracking-wide mb-1">Cada 2 días</div>
-                                            <div className="text-2xl font-bold text-blue-600">{every2DaysKws.length}</div>
-                                            <div className="text-xs text-gray-600 mt-1">€{every2DaysCost.toFixed(2)}/mes</div>
-                                        </div>
-                                        <div className="bg-white rounded-lg p-4 border border-gray-200">
-                                            <div className="text-xs text-gray-600 uppercase tracking-wide mb-1">Semanales</div>
-                                            <div className="text-2xl font-bold text-purple-600">{weeklyKws.length}</div>
-                                            <div className="text-xs text-gray-600 mt-1">€{weeklyCost.toFixed(2)}/mes</div>
-                                        </div>
-                                        <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg p-4 text-white">
-                                            <div className="text-xs uppercase tracking-wide opacity-80 mb-1">Coste Total Mensual</div>
-                                            <div className="text-3xl font-bold">€{totalMonthlyCost.toFixed(2)}</div>
-                                            <div className="text-xs opacity-70 mt-1">~{(dailyKws.length * 30 + every2DaysKws.length * 15 + weeklyKws.length * 4)} updates</div>
-                                        </div>
-                                    </div>
+                                        {/* Keywords Table */}
+                                        <div className="overflow-x-auto">
+                                            <table className="w-full">
+                                                <thead>
+                                                    <tr className="border-b border-gray-200 bg-gray-50">
+                                                        <th className="py-3 px-6 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Keyword</th>
+                                                        <th className="py-3 px-6 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">Frecuencia</th>
+                                                        <th className="py-3 px-6 text-right text-xs font-semibold text-gray-700 uppercase tracking-wider">Coste/Mes</th>
+                                                        <th className="py-3 px-6 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">Acción</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody className="divide-y divide-gray-100">
+                                                    {[...dailyKws, ...every2DaysKws, ...weeklyKws].map(kw => {
+                                                        const freq = kw.trackingFrequency;
+                                                        const updates = freq === 'daily' ? 30 : freq === 'every_2_days' ? 15 : 4;
+                                                        const cost = updates * PRICING.keyword_check_standard;
+                                                        const freqLabel = freq === 'daily' ? 'Diaria' : freq === 'every_2_days' ? 'Cada 2 días' : 'Semanal';
+                                                        const freqColor = freq === 'daily' ? 'bg-emerald-100 text-emerald-700' :
+                                                            freq === 'every_2_days' ? 'bg-blue-100 text-blue-700' : 'bg-purple-100 text-purple-700';
 
-                                    {/* Keywords Table */}
-                                    <div className="overflow-x-auto">
-                                        <table className="w-full">
-                                            <thead>
-                                                <tr className="border-b border-gray-200 bg-gray-50">
-                                                    <th className="py-3 px-6 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Keyword</th>
-                                                    <th className="py-3 px-6 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">Frecuencia</th>
-                                                    <th className="py-3 px-6 text-right text-xs font-semibold text-gray-700 uppercase tracking-wider">Coste/Mes</th>
-                                                    <th className="py-3 px-6 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">Acción</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody className="divide-y divide-gray-100">
-                                                {[...dailyKws, ...every2DaysKws, ...weeklyKws].map(kw => {
-                                                    const freq = kw.trackingFrequency;
-                                                    const updates = freq === 'daily' ? 30 : freq === 'every_2_days' ? 15 : 4;
-                                                    const cost = updates * PRICING.keyword_check_standard;
-                                                    const freqLabel = freq === 'daily' ? 'Diaria' : freq === 'every_2_days' ? 'Cada 2 días' : 'Semanal';
-                                                    const freqColor = freq === 'daily' ? 'bg-emerald-100 text-emerald-700' :
-                                                        freq === 'every_2_days' ? 'bg-blue-100 text-blue-700' : 'bg-purple-100 text-purple-700';
+                                                        // Calculate time remaining until next update
+                                                        const intervalMs = freq === 'daily' ? 24 * 60 * 60 * 1000 :
+                                                            freq === 'every_2_days' ? 48 * 60 * 60 * 1000 :
+                                                                7 * 24 * 60 * 60 * 1000;
+                                                        const lastCheck = kw.lastAutoCheck ? new Date(kw.lastAutoCheck).getTime() : 0;
+                                                        const nextCheck = lastCheck + intervalMs;
+                                                        const now = Date.now();
+                                                        const remainingMs = Math.max(0, nextCheck - now);
 
-                                                    // Calculate time remaining until next update
-                                                    const intervalMs = freq === 'daily' ? 24 * 60 * 60 * 1000 :
-                                                        freq === 'every_2_days' ? 48 * 60 * 60 * 1000 :
-                                                            7 * 24 * 60 * 60 * 1000;
-                                                    const lastCheck = kw.lastAutoCheck ? new Date(kw.lastAutoCheck).getTime() : 0;
-                                                    const nextCheck = lastCheck + intervalMs;
-                                                    const now = Date.now();
-                                                    const remainingMs = Math.max(0, nextCheck - now);
-
-                                                    let timeRemaining = '';
-                                                    if (remainingMs <= 0 || !kw.lastAutoCheck) {
-                                                        timeRemaining = 'Pendiente';
-                                                    } else {
-                                                        const hours = Math.floor(remainingMs / (60 * 60 * 1000));
-                                                        const mins = Math.floor((remainingMs % (60 * 60 * 1000)) / (60 * 1000));
-                                                        if (hours >= 24) {
-                                                            const days = Math.floor(hours / 24);
-                                                            timeRemaining = `${days}d ${hours % 24}h`;
-                                                        } else if (hours > 0) {
-                                                            timeRemaining = `${hours}h ${mins}m`;
+                                                        let timeRemaining = '';
+                                                        if (remainingMs <= 0 || !kw.lastAutoCheck) {
+                                                            timeRemaining = 'Pendiente';
                                                         } else {
-                                                            timeRemaining = `${mins}m`;
+                                                            const hours = Math.floor(remainingMs / (60 * 60 * 1000));
+                                                            const mins = Math.floor((remainingMs % (60 * 60 * 1000)) / (60 * 1000));
+                                                            if (hours >= 24) {
+                                                                const days = Math.floor(hours / 24);
+                                                                timeRemaining = `${days}d ${hours % 24}h`;
+                                                            } else if (hours > 0) {
+                                                                timeRemaining = `${hours}h ${mins}m`;
+                                                            } else {
+                                                                timeRemaining = `${mins}m`;
+                                                            }
                                                         }
-                                                    }
 
-                                                    return (
-                                                        <tr key={kw.id} className="hover:bg-gray-50">
-                                                            <td className="py-4 px-6">
-                                                                <span className="font-medium text-gray-900">{kw.term}</span>
-                                                            </td>
-                                                            <td className="py-4 px-6 text-center">
-                                                                <div className="flex flex-col items-center gap-1">
-                                                                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${freqColor}`}>{freqLabel}</span>
-                                                                    <span className={`text-xs ${remainingMs <= 0 ? 'text-amber-600 font-medium' : 'text-gray-500'}`}>
-                                                                        {remainingMs <= 0 ? '⏳ ' : '⏱️ '}{timeRemaining}
-                                                                    </span>
-                                                                </div>
-                                                            </td>
-                                                            <td className="py-4 px-6 text-right">
-                                                                <span className="font-mono text-gray-700">€{cost.toFixed(2)}</span>
-                                                            </td>
-                                                            <td className="py-4 px-6 text-center">
-                                                                <button
-                                                                    onClick={() => changeFrequency([kw.id], 'manual')}
-                                                                    className="text-xs text-red-600 hover:text-red-700 hover:underline"
-                                                                >
-                                                                    Desactivar
-                                                                </button>
-                                                            </td>
-                                                        </tr>
-                                                    );
-                                                })}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </>
-                            );
-                        })()}
-                    </div>
-                )}
-            </div>
+                                                        return (
+                                                            <tr key={kw.id} className="hover:bg-gray-50">
+                                                                <td className="py-4 px-6">
+                                                                    <span className="font-medium text-gray-900">{kw.term}</span>
+                                                                </td>
+                                                                <td className="py-4 px-6 text-center">
+                                                                    <div className="flex flex-col items-center gap-1">
+                                                                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${freqColor}`}>{freqLabel}</span>
+                                                                        <span className={`text-xs ${remainingMs <= 0 ? 'text-amber-600 font-medium' : 'text-gray-500'}`}>
+                                                                            {remainingMs <= 0 ? '⏳ ' : '⏱️ '}{timeRemaining}
+                                                                        </span>
+                                                                    </div>
+                                                                </td>
+                                                                <td className="py-4 px-6 text-right">
+                                                                    <span className="font-mono text-gray-700">€{cost.toFixed(2)}</span>
+                                                                </td>
+                                                                <td className="py-4 px-6 text-center">
+                                                                    <button
+                                                                        onClick={() => changeFrequency([kw.id], 'manual')}
+                                                                        className="text-xs text-red-600 hover:text-red-700 hover:underline"
+                                                                    >
+                                                                        Desactivar
+                                                                    </button>
+                                                                </td>
+                                                            </tr>
+                                                        );
+                                                    })}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </>
+                                );
+                            })()}
+                        </div>
+                    )
+                }
+            </div >
 
             {/* Modal */}
-            {showAddModal && (
-                <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-                    <div className="bg-white border border-gray-300 w-full max-w-lg rounded-xl shadow-2xl p-6 relative animate-in zoom-in-95 duration-200">
-                        <button onClick={() => setShowAddModal(false)} className="absolute top-4 right-4 text-gray-500 hover:text-gray-900">✕</button>
-                        <h3 className="text-xl font-bold text-gray-900 mb-2">Añadir Keywords</h3>
-                        <p className="text-gray-600 text-sm mb-6">Introduce una keyword por línea.</p>
+            {
+                showAddModal && (
+                    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+                        <div className="bg-white border border-gray-300 w-full max-w-lg rounded-xl shadow-2xl p-6 relative animate-in zoom-in-95 duration-200">
+                            <button onClick={() => setShowAddModal(false)} className="absolute top-4 right-4 text-gray-500 hover:text-gray-900">✕</button>
+                            <h3 className="text-xl font-bold text-gray-900 mb-2">Añadir Keywords</h3>
+                            <p className="text-gray-600 text-sm mb-6">Introduce una keyword por línea.</p>
 
-                        <textarea
-                            className="w-full h-40 bg-gray-50 border border-gray-300 rounded-lg p-3 text-gray-900 text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none resize-none font-mono placeholder-gray-400"
-                            placeholder="keyword 1&#10;keyword 2&#10;keyword 3"
-                            value={newKeyword.term}
-                            onChange={e => setNewKeyword({ ...newKeyword, term: e.target.value })}
-                        ></textarea>
+                            <textarea
+                                className="w-full h-40 bg-gray-50 border border-gray-300 rounded-lg p-3 text-gray-900 text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none resize-none font-mono placeholder-gray-400"
+                                placeholder="keyword 1&#10;keyword 2&#10;keyword 3"
+                                value={newKeyword.term}
+                                onChange={e => setNewKeyword({ ...newKeyword, term: e.target.value })}
+                            ></textarea>
 
-                        <div className="flex justify-end gap-3 mt-6">
-                            <button onClick={() => setShowAddModal(false)} className="px-4 py-2 text-gray-600 hover:text-gray-900 text-sm font-medium">Cancelar</button>
-                            <button onClick={addKeyword} disabled={loading} className="px-6 py-2 bg-blue-500 hover:bg-blue-600 text-gray-900 rounded-lg text-sm font-medium transition-colors shadow-lg shadow-blue-500/20 disabled:opacity-50">
-                                {loading ? 'Añadiendo...' : 'Añadir Keywords'}
-                            </button>
+                            <div className="flex justify-end gap-3 mt-6">
+                                <button onClick={() => setShowAddModal(false)} className="px-4 py-2 text-gray-600 hover:text-gray-900 text-sm font-medium">Cancelar</button>
+                                <button onClick={addKeyword} disabled={loading} className="px-6 py-2 bg-blue-500 hover:bg-blue-600 text-gray-900 rounded-lg text-sm font-medium transition-colors shadow-lg shadow-blue-500/20 disabled:opacity-50">
+                                    {loading ? 'Añadiendo...' : 'Añadir Keywords'}
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            )}
+                )
+            }
 
             {/* Comparison Modal */}
-            {showCompareModal && compareKeywords.length === 2 && (
-                <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-                    <div className="bg-white border border-gray-300 w-full max-w-5xl rounded-xl shadow-2xl p-6 relative animate-in zoom-in-95 duration-200">
-                        <button onClick={() => setShowCompareModal(false)} className="absolute top-4 right-4 text-gray-500 hover:text-gray-900 text-2xl">✕</button>
-                        <h3 className="text-xl font-bold text-gray-900 mb-2">Comparación de Keywords</h3>
-                        <p className="text-gray-600 text-sm mb-6">
-                            Comparando: {keywords.filter(k => compareKeywords.includes(k.id)).map(k => k.term).join(' vs ')}
-                        </p>
+            {
+                showCompareModal && compareKeywords.length === 2 && (
+                    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+                        <div className="bg-white border border-gray-300 w-full max-w-5xl rounded-xl shadow-2xl p-6 relative animate-in zoom-in-95 duration-200">
+                            <button onClick={() => setShowCompareModal(false)} className="absolute top-4 right-4 text-gray-500 hover:text-gray-900 text-2xl">✕</button>
+                            <h3 className="text-xl font-bold text-gray-900 mb-2">Comparación de Keywords</h3>
+                            <p className="text-gray-600 text-sm mb-6">
+                                Comparando: {keywords.filter(k => compareKeywords.includes(k.id)).map(k => k.term).join(' vs ')}
+                            </p>
 
-                        <RankingChart
-                            keywords={keywords.filter(k => compareKeywords.includes(k.id))}
-                            selectedKeywordIds={compareKeywords}
-                            height={400}
-                            compact={false}
-                            showStats={true}
-                        />
+                            <RankingChart
+                                keywords={keywords.filter(k => compareKeywords.includes(k.id))}
+                                selectedKeywordIds={compareKeywords}
+                                height={400}
+                                compact={false}
+                                showStats={true}
+                            />
 
-                        <div className="flex justify-end gap-3 mt-6">
-                            <button
-                                onClick={() => {
-                                    setShowCompareModal(false);
-                                    setCompareKeywords([]);
-                                }}
-                                className="px-4 py-2 text-gray-600 hover:text-gray-900 text-sm font-medium"
-                            >
-                                Cerrar
-                            </button>
+                            <div className="flex justify-end gap-3 mt-6">
+                                <button
+                                    onClick={() => {
+                                        setShowCompareModal(false);
+                                        setCompareKeywords([]);
+                                    }}
+                                    className="px-4 py-2 text-gray-600 hover:text-gray-900 text-sm font-medium"
+                                >
+                                    Cerrar
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            )}
+                )
+            }
 
             {/* Volume Confirmation Modal */}
-            {showVolumeConfirm && (
-                <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-                    <div className="bg-white border border-gray-300 w-full max-w-md rounded-xl shadow-2xl p-6 relative animate-in zoom-in-95 duration-200">
-                        <div className="flex items-start gap-4 mb-6">
-                            <div className="flex-shrink-0 w-12 h-12 rounded-full bg-indigo-600/20 flex items-center justify-center">
-                                <svg className="w-6 h-6 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
+            {
+                showVolumeConfirm && (
+                    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+                        <div className="bg-white border border-gray-300 w-full max-w-md rounded-xl shadow-2xl p-6 relative animate-in zoom-in-95 duration-200">
+                            <div className="flex items-start gap-4 mb-6">
+                                <div className="flex-shrink-0 w-12 h-12 rounded-full bg-indigo-600/20 flex items-center justify-center">
+                                    <svg className="w-6 h-6 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </div>
+                                <div className="flex-1">
+                                    <h3 className="text-xl font-bold text-gray-900 mb-2">Obtener Volumen de Búsqueda</h3>
+                                    <p className="text-gray-600 text-sm leading-relaxed">
+                                        ¿Deseas obtener el volumen de búsqueda para <span className="text-gray-900 font-semibold">{showVolumeConfirm.count} keyword{showVolumeConfirm.count > 1 ? 's' : ''}</span>?
+                                    </p>
+                                </div>
                             </div>
-                            <div className="flex-1">
-                                <h3 className="text-xl font-bold text-gray-900 mb-2">Obtener Volumen de Búsqueda</h3>
-                                <p className="text-gray-600 text-sm leading-relaxed">
-                                    ¿Deseas obtener el volumen de búsqueda para <span className="text-gray-900 font-semibold">{showVolumeConfirm.count} keyword{showVolumeConfirm.count > 1 ? 's' : ''}</span>?
+
+                            <div className="bg-gray-50/50 border border-gray-200 rounded-lg p-4 mb-6">
+                                <div className="flex justify-between items-center mb-2">
+                                    <span className="text-gray-600 text-sm">Coste por keyword:</span>
+                                    <span className="text-gray-900 font-mono">€0.03</span>
+                                </div>
+                                <div className="flex justify-between items-center pt-2 border-t border-gray-200">
+                                    <span className="text-gray-900 font-semibold">Total:</span>
+                                    <span className="text-blue-600 font-bold text-lg">€{showVolumeConfirm.cost.toFixed(2)}</span>
+                                </div>
+                            </div>
+
+                            <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-3 mb-6">
+                                <p className="text-blue-300 text-xs flex items-start gap-2">
+                                    <svg className="w-4 h-4 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    <span>El volumen se guardará permanentemente. Solo pagas una vez por keyword.</span>
                                 </p>
                             </div>
-                        </div>
 
-                        <div className="bg-gray-50/50 border border-gray-200 rounded-lg p-4 mb-6">
-                            <div className="flex justify-between items-center mb-2">
-                                <span className="text-gray-600 text-sm">Coste por keyword:</span>
-                                <span className="text-gray-900 font-mono">€0.03</span>
+                            <div className="flex gap-3">
+                                <button
+                                    onClick={() => setShowVolumeConfirm(null)}
+                                    className="flex-1 px-4 py-2.5 text-gray-600 hover:text-gray-900 text-sm font-medium border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors"
+                                >
+                                    Cancelar
+                                </button>
+                                <button
+                                    onClick={confirmVolumeRequest}
+                                    className="flex-1 px-4 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-gray-900 rounded-lg text-sm font-medium transition-colors shadow-lg shadow-indigo-900/20"
+                                >
+                                    Confirmar
+                                </button>
                             </div>
-                            <div className="flex justify-between items-center pt-2 border-t border-gray-200">
-                                <span className="text-gray-900 font-semibold">Total:</span>
-                                <span className="text-blue-600 font-bold text-lg">€{showVolumeConfirm.cost.toFixed(2)}</span>
-                            </div>
-                        </div>
-
-                        <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-3 mb-6">
-                            <p className="text-blue-300 text-xs flex items-start gap-2">
-                                <svg className="w-4 h-4 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                                <span>El volumen se guardará permanentemente. Solo pagas una vez por keyword.</span>
-                            </p>
-                        </div>
-
-                        <div className="flex gap-3">
-                            <button
-                                onClick={() => setShowVolumeConfirm(null)}
-                                className="flex-1 px-4 py-2.5 text-gray-600 hover:text-gray-900 text-sm font-medium border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors"
-                            >
-                                Cancelar
-                            </button>
-                            <button
-                                onClick={confirmVolumeRequest}
-                                className="flex-1 px-4 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-gray-900 rounded-lg text-sm font-medium transition-colors shadow-lg shadow-indigo-900/20"
-                            >
-                                Confirmar
-                            </button>
                         </div>
                     </div>
-                </div>
-            )}
+                )
+            }
 
             {/* Ranking Update Confirmation Modal */}
             {/* Ranking Update Confirmation Modal */}
-            {showRankingConfirm && (
-                <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-                    <div className="bg-white border border-gray-300 w-full max-w-md rounded-xl shadow-2xl p-6 relative animate-in zoom-in-95 duration-200">
-                        <div className="flex items-start gap-4 mb-6">
-                            <div className="flex-shrink-0 w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center">
-                                <svg className="w-6 h-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                                </svg>
-                            </div>
-                            <div className="flex-1">
-                                <h3 className="text-xl font-bold text-gray-900 mb-2">Actualizar Rankings</h3>
-                                <p className="text-gray-600 text-sm leading-relaxed">
-                                    ¿Deseas comprobar el ranking de <span className="text-gray-900 font-semibold">{showRankingConfirm.count} keyword{showRankingConfirm.count > 1 ? 's' : ''}</span>?
-                                </p>
-                            </div>
-                        </div>
-
-                        {/* Mode Selection */}
-                        <div className="flex flex-col gap-3 mb-6">
-                            <label className={`flex items-center justify-between p-3 rounded-lg border cursor-pointer transition-all ${updateMode === 'queue' ? 'bg-blue-50 border-blue-500 ring-1 ring-blue-500' : 'bg-white border-gray-200 hover:border-gray-300'}`} onClick={() => setUpdateMode('queue')}>
-                                <div className="flex items-center gap-3">
-                                    <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${updateMode === 'queue' ? 'border-blue-500 bg-blue-500' : 'border-gray-400'}`}>
-                                        {updateMode === 'queue' && <div className="w-1.5 h-1.5 bg-white rounded-full" />}
-                                    </div>
-                                    <div>
-                                        <div className="font-medium text-gray-900">Estándar (Cola)</div>
-                                        <div className="text-xs text-gray-500">Resultados en ~2-5 minutos</div>
-                                    </div>
+            {
+                showRankingConfirm && (
+                    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+                        <div className="bg-white border border-gray-300 w-full max-w-md rounded-xl shadow-2xl p-6 relative animate-in zoom-in-95 duration-200">
+                            <div className="flex items-start gap-4 mb-6">
+                                <div className="flex-shrink-0 w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center">
+                                    <svg className="w-6 h-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                                    </svg>
                                 </div>
-                                <div className="font-mono text-sm text-gray-700">€{PRICING.keyword_check_standard.toFixed(2)}/kw</div>
-                            </label>
+                                <div className="flex-1">
+                                    <h3 className="text-xl font-bold text-gray-900 mb-2">Actualizar Rankings</h3>
+                                    <p className="text-gray-600 text-sm leading-relaxed">
+                                        ¿Deseas comprobar el ranking de <span className="text-gray-900 font-semibold">{showRankingConfirm.count} keyword{showRankingConfirm.count > 1 ? 's' : ''}</span>?
+                                    </p>
+                                </div>
+                            </div>
 
-                            <label className={`flex items-center justify-between p-3 rounded-lg border cursor-pointer transition-all ${updateMode === 'live' ? 'bg-indigo-50 border-indigo-500 ring-1 ring-indigo-500' : 'bg-white border-gray-200 hover:border-gray-300'}`} onClick={() => setUpdateMode('live')}>
-                                <div className="flex items-center gap-3">
-                                    <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${updateMode === 'live' ? 'border-indigo-500 bg-indigo-500' : 'border-gray-400'}`}>
-                                        {updateMode === 'live' && <div className="w-1.5 h-1.5 bg-white rounded-full" />}
-                                    </div>
-                                    <div>
-                                        <div className="font-medium text-indigo-900 flex items-center gap-2">
-                                            Modo Rápido (Live)
-                                            <span className="px-1.5 py-0.5 bg-indigo-100 text-indigo-700 text-[10px] rounded-full uppercase tracking-wider font-bold">⚡ Rápido</span>
+                            {/* Mode Selection */}
+                            <div className="flex flex-col gap-3 mb-6">
+                                <label className={`flex items-center justify-between p-3 rounded-lg border cursor-pointer transition-all ${updateMode === 'queue' ? 'bg-blue-50 border-blue-500 ring-1 ring-blue-500' : 'bg-white border-gray-200 hover:border-gray-300'}`} onClick={() => setUpdateMode('queue')}>
+                                    <div className="flex items-center gap-3">
+                                        <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${updateMode === 'queue' ? 'border-blue-500 bg-blue-500' : 'border-gray-400'}`}>
+                                            {updateMode === 'queue' && <div className="w-1.5 h-1.5 bg-white rounded-full" />}
                                         </div>
-                                        <div className="text-xs text-indigo-600">Actualización en tiempo real</div>
+                                        <div>
+                                            <div className="font-medium text-gray-900">Estándar (Cola)</div>
+                                            <div className="text-xs text-gray-500">Resultados en ~2-5 minutos</div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="font-mono text-sm text-indigo-700 font-bold">€{PRICING.keyword_check_live.toFixed(2)}/kw</div>
-                            </label>
-                        </div>
+                                    <div className="font-mono text-sm text-gray-700">€{PRICING.keyword_check_standard.toFixed(2)}/kw</div>
+                                </label>
 
-                        <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-6">
-                            <div className="flex justify-between items-center pt-1">
-                                <span className="text-gray-900 font-semibold">Total a descontar:</span>
-                                <span className="text-blue-600 font-bold text-lg">
-                                    €{((showRankingConfirm.count * (updateMode === 'queue' ? PRICING.keyword_check_standard : PRICING.keyword_check_live))).toFixed(2)}
-                                </span>
+                                <label className={`flex items-center justify-between p-3 rounded-lg border cursor-pointer transition-all ${updateMode === 'live' ? 'bg-indigo-50 border-indigo-500 ring-1 ring-indigo-500' : 'bg-white border-gray-200 hover:border-gray-300'}`} onClick={() => setUpdateMode('live')}>
+                                    <div className="flex items-center gap-3">
+                                        <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${updateMode === 'live' ? 'border-indigo-500 bg-indigo-500' : 'border-gray-400'}`}>
+                                            {updateMode === 'live' && <div className="w-1.5 h-1.5 bg-white rounded-full" />}
+                                        </div>
+                                        <div>
+                                            <div className="font-medium text-indigo-900 flex items-center gap-2">
+                                                Modo Rápido (Live)
+                                                <span className="px-1.5 py-0.5 bg-indigo-100 text-indigo-700 text-[10px] rounded-full uppercase tracking-wider font-bold">⚡ Rápido</span>
+                                            </div>
+                                            <div className="text-xs text-indigo-600">Actualización en tiempo real</div>
+                                        </div>
+                                    </div>
+                                    <div className="font-mono text-sm text-indigo-700 font-bold">€{PRICING.keyword_check_live.toFixed(2)}/kw</div>
+                                </label>
+                            </div>
+
+                            <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-6">
+                                <div className="flex justify-between items-center pt-1">
+                                    <span className="text-gray-900 font-semibold">Total a descontar:</span>
+                                    <span className="text-blue-600 font-bold text-lg">
+                                        €{((showRankingConfirm.count * (updateMode === 'queue' ? PRICING.keyword_check_standard : PRICING.keyword_check_live))).toFixed(2)}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div className="flex gap-3">
+                                <button
+                                    onClick={() => setShowRankingConfirm(null)}
+                                    className="flex-1 px-4 py-2.5 text-gray-600 hover:text-gray-900 text-sm font-medium border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors"
+                                >
+                                    Cancelar
+                                </button>
+                                <button
+                                    onClick={runChecks}
+                                    className="flex-1 px-4 py-2.5 bg-blue-500 hover:bg-blue-600 text-white rounded-lg text-sm font-medium transition-colors shadow-lg shadow-blue-500/20"
+                                >
+                                    Confirmar y Actualizar
+                                </button>
                             </div>
                         </div>
-
-                        <div className="flex gap-3">
-                            <button
-                                onClick={() => setShowRankingConfirm(null)}
-                                className="flex-1 px-4 py-2.5 text-gray-600 hover:text-gray-900 text-sm font-medium border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors"
-                            >
-                                Cancelar
-                            </button>
-                            <button
-                                onClick={runChecks}
-                                className="flex-1 px-4 py-2.5 bg-blue-500 hover:bg-blue-600 text-white rounded-lg text-sm font-medium transition-colors shadow-lg shadow-blue-500/20"
-                            >
-                                Confirmar y Actualizar
-                            </button>
-                        </div>
                     </div>
-                </div>
-            )}
+                )
+            }
 
 
             {/* Frequency Change Modal */}
