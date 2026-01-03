@@ -379,7 +379,7 @@ PASO 1 – Filtrado Estricto & Diagnóstico:
 - DETECTA y DESCARTA keywords que sean:
   1. Tráfico "Broad" demasiado genérico (ej: si el foco es "hipoteca fija", "hipoteca" es demasiado genérico).
   2. Servicios/Productos diferentes (ej: si es "hipoteca", "préstamo coche" o "jubilación" son TÓXICAS).
-  3. Marcas de Competidores / Navigational (ej: "oscaro", "amazon", "recambios pepe"). Si es una marca de otra empresa, ES TÓXICA.
+  3. Marcas de Competidores / Navigational (ej: "idealista", "booking", "amazon", "bmw"). Aplica la lógica al sector de la keyword.
   4. Intenciones mixtas incompatibles.
 - Identifica el "Page Type" ideal para "${seedKeyword}".
 
@@ -430,7 +430,7 @@ GENERA UN JSON CON ESTA ESTRUCTURA EXACTA:
 
 REGLAS DE ORO:
 - **VOLUMEN ES REY:** Solo recomienda keywords con volumen > 0 (idealmente > 10). Si tiene 0 búsquedas, ignórala salvo que sea una oportunidad emergente crítica.
-- **CERO MARCAS:** Si la keyword incluye una marca competidora (ej: "Oscaro", "Norauto"), MÁNDALA A keywords_to_exclude.
+- **CERO MARCAS (Universal):** Identifica las marcas líderes DEL SECTOR de la keyword semilla (ya sea Inmobiliaria, Coches, Seguros, etc.). Si la keyword es una marca de otra empresa, MÁNDALA A keywords_to_exclude.
 - **NO INVENTES:** Selecciona SOLO de la lista "KEYWORDS DISPONIBLES". No te inventes keywords que no estén ahí con datos reales.
 - Si la keyword lista tiene basura (ej: "jubilación"), MÁNDALA A keywords_to_exclude.
 - NO sugieras "comparador genérico" si la seed es un producto específico.
