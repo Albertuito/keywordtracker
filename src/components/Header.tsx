@@ -30,37 +30,48 @@ export default function Header() {
                     </Link>
 
                     {/* Navigation */}
-                    {session && (
-                        <nav className="hidden md:flex gap-1">
-                            <Link
-                                href="/"
-                                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${isActive('/')
-                                    ? 'bg-blue-50 text-blue-600'
-                                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
-                                    }`}
-                            >
-                                Dashboard
-                            </Link>
-                            <Link
-                                href="/reports"
-                                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${isActive('/reports')
-                                    ? 'bg-blue-50 text-blue-600'
-                                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
-                                    }`}
-                            >
-                                Reportes
-                            </Link>
-                            <Link
-                                href="/pricing"
-                                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${isActive('/pricing')
-                                    ? 'bg-blue-50 text-blue-600'
-                                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
-                                    }`}
-                            >
-                                Planes
-                            </Link>
-                        </nav>
-                    )}
+                    <nav className="hidden md:flex gap-1">
+                        <Link
+                            href="/"
+                            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${isActive('/')
+                                ? 'bg-blue-50 text-blue-600'
+                                : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                                }`}
+                        >
+                            Inicio
+                        </Link>
+                        {session && (
+                            <>
+                                <Link
+                                    href="/dashboard"
+                                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${isActive('/dashboard')
+                                        ? 'bg-blue-50 text-blue-600'
+                                        : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                                        }`}
+                                >
+                                    Dashboard
+                                </Link>
+                                <Link
+                                    href="/reports"
+                                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${isActive('/reports')
+                                        ? 'bg-blue-50 text-blue-600'
+                                        : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                                        }`}
+                                >
+                                    Reportes
+                                </Link>
+                            </>
+                        )}
+                        <Link
+                            href="/como-funciona"
+                            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${isActive('/como-funciona')
+                                ? 'bg-blue-50 text-blue-600'
+                                : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                                }`}
+                        >
+                            Cómo funciona
+                        </Link>
+                    </nav>
 
                     <div className="hidden sm:ml-6 sm:flex sm:items-center gap-4">
                         {status === 'loading' ? (
@@ -167,22 +178,42 @@ export default function Header() {
                             onClick={() => setMobileMenuOpen(false)}
                             className={`block px-4 py-3 text-base font-medium ${isActive('/') ? 'bg-blue-50 text-blue-600' : 'text-gray-700 hover:bg-gray-50'}`}
                         >
-                            Dashboard
+                            Inicio
                         </Link>
+                        {session && (
+                            <>
+                                <Link
+                                    href="/dashboard"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                    className={`block px-4 py-3 text-base font-medium ${isActive('/dashboard') ? 'bg-blue-50 text-blue-600' : 'text-gray-700 hover:bg-gray-50'}`}
+                                >
+                                    Dashboard
+                                </Link>
+                                <Link
+                                    href="/reports"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                    className={`block px-4 py-3 text-base font-medium ${isActive('/reports') ? 'bg-blue-50 text-blue-600' : 'text-gray-700 hover:bg-gray-50'}`}
+                                >
+                                    Reportes
+                                </Link>
+                            </>
+                        )}
                         <Link
-                            href="/pricing"
+                            href="/como-funciona"
                             onClick={() => setMobileMenuOpen(false)}
-                            className={`block px-4 py-3 text-base font-medium ${isActive('/pricing') ? 'bg-blue-50 text-blue-600' : 'text-gray-700 hover:bg-gray-50'}`}
+                            className={`block px-4 py-3 text-base font-medium ${isActive('/como-funciona') ? 'bg-blue-50 text-blue-600' : 'text-gray-700 hover:bg-gray-50'}`}
                         >
-                            Planes
+                            Cómo funciona
                         </Link>
-                        <Link
-                            href="/settings"
-                            onClick={() => setMobileMenuOpen(false)}
-                            className={`block px-4 py-3 text-base font-medium ${isActive('/settings') ? 'bg-blue-50 text-blue-600' : 'text-gray-700 hover:bg-gray-50'}`}
-                        >
-                            Configuración
-                        </Link>
+                        {session && (
+                            <Link
+                                href="/settings"
+                                onClick={() => setMobileMenuOpen(false)}
+                                className={`block px-4 py-3 text-base font-medium ${isActive('/settings') ? 'bg-blue-50 text-blue-600' : 'text-gray-700 hover:bg-gray-50'}`}
+                            >
+                                Configuración
+                            </Link>
+                        )}
                     </div>
                 </div>
             )}
