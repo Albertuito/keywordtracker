@@ -6,7 +6,7 @@ export const dynamic = 'force-dynamic';
 
 // Verify cron secret for external cron services (cron-job.org, etc.)
 function verifyCronSecret(req: Request): boolean {
-    const secret = process.env.CRON_SECRET;
+    const secret = process.env.CRON_SECRET_CRON;
 
     // If no secret is configured, allow all requests (development)
     if (!secret) {
