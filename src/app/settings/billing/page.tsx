@@ -1,13 +1,13 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { formatCurrency, formatCredits } from '@/lib/pricing';
+import { formatCurrency } from '@/lib/pricing';
 import { useBalance } from '@/hooks/useBalance';
-import { Download, TrendingUp, TrendingDown, RefreshCw } from 'lucide-react';
+import { Download, TrendingUp, TrendingDown } from 'lucide-react';
 
-export default function BillingPage() {
-    const { balance, balanceData, loading: balanceLoading, refetch } = useBalance();
+function BillingContent() {
+    const { balance, balanceData, refetch } = useBalance();
     const [transactions, setTransactions] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const searchParams = useSearchParams();
@@ -130,5 +130,17 @@ export default function BillingPage() {
                 </div>
             </div>
         </div>
+    );
+}
+
+export default function BillingPage() {
+    return (
+        <Suspense fallback={
+            <div className="flex items-center justify-center min-h-[400px]">
+                <div className="text-slate-400">Cargando facturación...</div>
+            </div>
+        }>
+            <BillingContent />
+        </Suspense>
     );
 }
