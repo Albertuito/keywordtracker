@@ -31,15 +31,17 @@ export default function Header() {
 
                     {/* Navigation */}
                     <nav className="hidden md:flex gap-1">
-                        <Link
-                            href="/"
-                            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${isActive('/')
-                                ? 'bg-blue-50 text-blue-600'
-                                : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
-                                }`}
-                        >
-                            Inicio
-                        </Link>
+                        {!session && (
+                            <Link
+                                href="/"
+                                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${isActive('/')
+                                    ? 'bg-blue-50 text-blue-600'
+                                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                                    }`}
+                            >
+                                Inicio
+                            </Link>
+                        )}
                         {session && (
                             <>
                                 <Link
@@ -173,13 +175,15 @@ export default function Header() {
             {mobileMenuOpen && (
                 <div className="sm:hidden bg-white border-t border-gray-100">
                     <div className="py-2 space-y-1">
-                        <Link
-                            href="/"
-                            onClick={() => setMobileMenuOpen(false)}
-                            className={`block px-4 py-3 text-base font-medium ${isActive('/') ? 'bg-blue-50 text-blue-600' : 'text-gray-700 hover:bg-gray-50'}`}
-                        >
-                            Inicio
-                        </Link>
+                        {!session && (
+                            <Link
+                                href="/"
+                                onClick={() => setMobileMenuOpen(false)}
+                                className={`block px-4 py-3 text-base font-medium ${isActive('/') ? 'bg-blue-50 text-blue-600' : 'text-gray-700 hover:bg-gray-50'}`}
+                            >
+                                Inicio
+                            </Link>
+                        )}
                         {session && (
                             <>
                                 <Link

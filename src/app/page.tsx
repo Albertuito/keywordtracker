@@ -3,6 +3,8 @@
 import { useSession } from "next-auth/react";
 import Link from 'next/link';
 import { LayoutDashboard } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 import Hero from '@/components/landing/Hero';
 import Logos from '@/components/landing/Logos';
@@ -13,11 +15,22 @@ import CTASection from '@/components/landing/CTASection';
 
 export default function Home() {
     const { data: session } = useSession();
+    const router = useRouter();
+
+    useEffect(() => {
+        if (session) {
+            router.push('/dashboard');
+        }
+    }, [session, router]);
+
+    // If session exists, we are redirecting, so we can return null or a loading state 
+    // to avoid flashing the landing page content briefly.
+    // However, showing the landing page briefly is also fine as a fallback.
 
     return (
         <main className="min-h-screen bg-gray-50 text-gray-900 selection:bg-blue-500/20">
 
-            {/* Session User Floating Action Button */}
+            {/* Session User Floating Action Button (Still keeping it just in case JS is slow to redirect) */}
             {session && (
                 <div className="fixed bottom-8 right-8 z-50 animate-fade-in-up">
                     <Link
