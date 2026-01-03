@@ -321,66 +321,71 @@ Responde con un array JSON de las raíces/términos clave que deben coincidir:`
     if (!this.apiKey) throw new Error("OpenAI API Key missing");
 
     const prompt = `
-Eres un consultor SEO senior especializado en optimización de URLs existentes.
+Eres un Experto SEO Técnico y Estratega de Contenidos Senior.
+Tu objetivo es analizar una lista de keywords para optimizar una URL específica enfocada en "${seedKeyword}".
 Responde SIEMPRE en español.
 
-Analiza las siguientes keywords relacionadas con "${seedKeyword}".
-Asume que el usuario YA TIENE una URL creada y quiere mejorar su rendimiento.
+CONTEXTO:
+- Keyword Semilla (Foco): "${seedKeyword}"
+- Objetivo: Encontrar keywords ALTAMENTE RELEVANTES semánticamente para enriquecer el contenido, no para canibalizarlo ni cambiar de tema.
 
-PASO 1 – Diagnóstico:
-- Analiza la intención dominante del conjunto de keywords
-- Detecta el tipo de URL más probable: blog | service | category | product | landing
-- Decide si la intención actual es correcta o está desalineada
-- Identifica las keywords de mayor volumen y menor dificultad (quick wins)
+PASO 1 – Filtrado Estricto & Diagnóstico:
+- Analiza la lista de keywords proporcionada.
+- DETECTA y DESCARTA keywords que sean:
+  1. Tráfico "Broad" demasiado genérico (ej: si el foco es "hipoteca fija", "hipoteca" es demasiado genérico).
+  2. Servicios/Productos diferentes (ej: si es "hipoteca", "préstamo coche" o "jubilación" son TÓXICAS).
+  3. Intenciones mixtas incompatibles.
+- Identifica el "Page Type" ideal para "${seedKeyword}".
 
-PASO 2 – Estrategia:
-- Adapta todas las recomendaciones al tipo de URL detectado
-- No propongas cambios estructurales innecesarios si la URL ya es coherente
-- Prioriza keywords con buen ratio volumen/dificultad
-- Si detectas desalineación, indícalo claramente
+PASO 2 – Selección de Keywords (The Semrush Approach):
+- Primary Keywords: Variaciones muy cercanas a la seed keyword (sinónimos directos, orden de palabras).
+- Supporting Keywords: Long-tails ESPECÍFICOS que añaden profundidad (ej: con "requisitos", "mejores", "simulador", "interés").
+- DEBEN SER SEMÁNTICAMENTE HIJAS de la keyword semilla. NO primas lejanas.
 
-KEYWORDS (con métricas):
-${JSON.stringify(keywords.slice(0, 30).map(k => ({
+KEYWORDS DISPONIBLES (con métricas):
+${JSON.stringify(keywords.slice(0, 40).map(k => ({
       keyword: k.keyword,
       volume: k.volume,
       difficulty: k.difficulty,
       intent: k.intent
     })), null, 2)}
 
-GENERA UN JSON CON:
+GENERA UN JSON CON ESTA ESTRUCTURA EXACTA:
 
 1. page_type_detection:
-   - detected_type: string
+   - detected_type: string (blog | service | category | tool | product)
    - confidence: number (0–1)
    - dominant_intent: string
-   - key_signal: string (keyword o patrón que lo define)
+   - key_signal: string
 
 2. alignment_check:
    - is_aligned: boolean
-   - risk_if_unchanged: string (máx 100 chars)
-   - opportunity_if_fixed: string (máx 100 chars)
+   - risk_if_unchanged: string
+   - opportunity_if_fixed: string
 
-3. quick_wins: array de 3 acciones inmediatas de bajo esfuerzo
+3. quick_wins:
+   - Array de 3 strings con acciones SEO concretas (ej: "Incluir 'mejores' en H1", "Atacar la pregunta X en FAQ").
 
 4. optimized_recommendations:
-   - title_adjustment: string (máx 60 chars)
-   - h1_adjustment: string (máx 70 chars)
-   - h2_structure: array de 4-6 subtítulos recomendados
-   - meta_description: string (máx 155 chars)
-   - faq_strategy: array de 3-5 preguntas si aplica
+   - title_adjustment: string (Title Tag optimizado, incluye seed kw, máx 60 chars)
+   - h1_adjustment: string (H1 potente y descriptivo)
+   - h2_structure: array de 4-6 H2s lógicos que cubran la intención de búsqueda.
+   - meta_description: string (Optimized CTA, máx 155 chars)
+   - faq_strategy: array de 3-5 preguntas comunes REALES de los usuarios.
 
 5. keyword_usage_strategy:
-   - primary_keywords: array de 3-5 keywords principales
-   - supporting_keywords: array de 5-10 keywords secundarias
-   - keywords_to_exclude: array con objetos { keyword, reason }
+   - primary_keywords: Array [3-5] keywords. La seed + variaciones exactas/sinónimos directos.
+   - supporting_keywords: Array [5-10] keywords. SOLO Long-tails estrictamente relacionados. NADA genérico. (Ej para "hipoteca sin vinculaciones": "hipotecas sin nomina", "hipoteca fija sin productos", "mejores hipotecas sin vinculacion").
+   - keywords_to_exclude: Array [{ keyword, reason }] de términos que aparezcan en la lista pero sean irrelevantes/tóxicos (ej: competencia directa de marca, productos distintos).
 
-6. summary: string (máx 200 chars) - Resumen ejecutivo para cliente no técnico
+6. summary: string (Resumen ejecutivo corto).
 
-REGLAS CRÍTICAS:
-- NO asumas que se crea una nueva página
-- NO fuerces intención distinta sin justificar
-- Prioriza mejoras incrementales sobre cambios radicales
-- Responde SOLO JSON válido, sin markdown ni explicaciones
+REGLAS DE ORO:
+- **VOLUMEN ES REY:** Solo recomienda keywords con volumen > 0 (idealmente > 10). Si tiene 0 búsquedas, ignórala salvo que sea una oportunidad emergente crítica.
+- **NO INVENTES:** Selecciona SOLO de la lista "KEYWORDS DISPONIBLES". No te inventes keywords que no estén ahí con datos reales.
+- Si la keyword lista tiene basura (ej: "jubilación"), MÁNDALA A keywords_to_exclude.
+- NO sugieras "comparador genérico" si la seed es un producto específico.
+- Mantén el foco en la intención de "${seedKeyword}".
 `;
 
     try {
