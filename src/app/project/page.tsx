@@ -464,7 +464,7 @@ function ProjectContent() {
                             <table className="w-full text-left border-collapse text-sm">
                                 <thead>
                                     <tr className="border-b border-gray-200 text-xs uppercase font-medium text-gray-600 tracking-wider bg-gray-50">
-                                        <th className="py-3 px-2 w-16 text-center border-r border-gray-100">
+                                        <th className="py-3 px-3 w-14 text-center border-r border-gray-100">
                                             <input
                                                 type="checkbox"
                                                 className="rounded bg-gray-100 border-gray-300 text-blue-500 focus:ring-blue-500/20 focus:ring-offset-0 cursor-pointer"
@@ -472,13 +472,13 @@ function ProjectContent() {
                                                 onChange={handleSelectAll}
                                             />
                                         </th>
-                                        <th className="py-3 px-3 font-semibold border-r border-gray-100">Keyword</th>
-                                        <th className="py-3 px-2 w-20 text-center font-semibold border-r border-gray-100">Vol.</th>
-                                        <th className="py-3 px-2 w-24 text-center font-semibold border-r border-gray-100">Freq.</th>
-                                        <th className="py-3 px-2 w-16 text-center font-semibold text-blue-600 border-r border-gray-100">Pos.</th>
-                                        <th className="py-3 px-2 w-16 text-center font-semibold border-r border-gray-100">Δ</th>
-                                        <th className="py-3 px-2 font-semibold border-r border-gray-100 max-w-[120px]">URL</th>
-                                        <th className="py-3 px-2 w-20 text-center font-semibold">Fecha</th>
+                                        <th className="py-3 px-4 font-semibold border-r border-gray-100">Keyword</th>
+                                        <th className="py-3 px-3 w-20 text-center font-semibold border-r border-gray-100">Vol.</th>
+                                        <th className="py-3 px-3 w-28 text-center font-semibold border-r border-gray-100">Frecuencia</th>
+                                        <th className="py-3 px-3 w-20 text-center font-semibold text-blue-600 border-r border-gray-100">Pos.</th>
+                                        <th className="py-3 px-3 w-16 text-center font-semibold border-r border-gray-100">Δ</th>
+                                        <th className="py-3 px-3 font-semibold border-r border-gray-100">URL</th>
+                                        <th className="py-3 px-3 w-24 text-center font-semibold">Fecha</th>
                                     </tr>
                                 </thead>
                                 <tbody className="text-gray-900">
@@ -518,42 +518,42 @@ function ProjectContent() {
 
                                             return (
                                                 <>
-                                                    <tr key={kw.id} className={`border-b border-gray-100 hover:bg-blue-50/50 transition-colors ${rowBg}`}>
-                                                        {/* Checkbox + Expand button merged */}
-                                                        <td className="py-2 px-2 text-center border-r border-gray-100" onClick={(e) => e.stopPropagation()}>
+                                                    <tr key={kw.id} className={`border-b border-gray-100 hover:bg-blue-50/30 transition-colors ${rowBg}`}>
+                                                        {/* Checkbox + Expand */}
+                                                        <td className="py-3 px-3 text-center border-r border-gray-100" onClick={(e) => e.stopPropagation()}>
                                                             <div className="flex items-center justify-center gap-1">
                                                                 <input
                                                                     type="checkbox"
-                                                                    className="rounded bg-gray-100 border-gray-300 text-blue-500 focus:ring-blue-500/20 focus:ring-offset-0 cursor-pointer w-3.5 h-3.5"
+                                                                    className="rounded bg-gray-100 border-gray-300 text-blue-500 focus:ring-blue-500/20 focus:ring-offset-0 cursor-pointer"
                                                                     checked={selectedKeywords.has(kw.id)}
                                                                     onChange={() => handleSelectOne(kw.id)}
                                                                 />
                                                                 <button
                                                                     onClick={() => hasHistory && setExpandedKeywordId(isExpanded ? null : kw.id)}
                                                                     className={`w-5 h-5 flex items-center justify-center rounded transition-colors ${hasHistory ? 'text-gray-500 hover:text-blue-600 hover:bg-gray-100 cursor-pointer' : 'text-gray-300 cursor-default'}`}
-                                                                    title={hasHistory ? (isExpanded ? 'Ocultar' : 'Historial') : 'Sin datos'}
+                                                                    title={hasHistory ? (isExpanded ? 'Ocultar' : 'Ver historial') : 'Sin datos'}
                                                                 >
-                                                                    <svg className={`w-3.5 h-3.5 transition-transform ${isExpanded ? 'rotate-90' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                    <svg className={`w-4 h-4 transition-transform ${isExpanded ? 'rotate-90' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                                                                     </svg>
                                                                 </button>
                                                             </div>
                                                         </td>
                                                         {/* Keyword + buttons */}
-                                                        <td className="py-2 px-3 border-r border-gray-100">
+                                                        <td className="py-3 px-4 border-r border-gray-100">
                                                             <div className="flex items-center gap-2">
                                                                 <span className={`font-medium text-gray-900 ${isAutoTracked ? 'border-l-2 border-green-400 pl-2' : ''}`}>{kw.term}</span>
                                                                 <button
                                                                     onClick={() => { isInCompare ? setCompareKeywords(prev => prev.filter(id => id !== kw.id)) : compareKeywords.length < 2 && setCompareKeywords(prev => [...prev, kw.id]); }}
                                                                     disabled={!isInCompare && compareKeywords.length >= 2}
-                                                                    className={`px-1.5 py-0.5 rounded text-[10px] font-medium ${isInCompare ? 'bg-purple-100 text-purple-600' : 'bg-gray-100 text-gray-500 hover:bg-purple-50'}`}
+                                                                    className={`px-2 py-0.5 rounded text-xs font-medium ${isInCompare ? 'bg-purple-100 text-purple-600' : 'bg-gray-100 text-gray-500 hover:bg-purple-50'}`}
                                                                     title={isInCompare ? 'Quitar' : 'Comparar'}
                                                                 >
                                                                     {isInCompare ? '✓' : '⊕'}
                                                                 </button>
                                                                 <button
                                                                     onClick={(e) => { e.stopPropagation(); setRelatedModalKeyword(kw.term); }}
-                                                                    className="px-1.5 py-0.5 rounded text-[10px] font-medium bg-emerald-50 text-emerald-600 hover:bg-emerald-100"
+                                                                    className="px-2 py-0.5 rounded text-xs font-medium bg-emerald-50 text-emerald-600 hover:bg-emerald-100"
                                                                     title="Keywords relacionadas"
                                                                 >
                                                                     🔍
@@ -561,27 +561,27 @@ function ProjectContent() {
                                                             </div>
                                                         </td>
                                                         {/* Volume */}
-                                                        <td className="py-2 px-2 text-center text-gray-700 text-xs align-middle border-r border-gray-100">
+                                                        <td className="py-3 px-3 text-center text-gray-700 text-sm align-middle border-r border-gray-100">
                                                             {kw.volume !== null && kw.volume !== undefined ? (
                                                                 <span className="text-gray-700 font-medium">{kw.volume.toLocaleString()}</span>
                                                             ) : fetchingVolume.has(kw.id) ? (
-                                                                <span className="text-blue-400 text-[10px]">...</span>
+                                                                <span className="text-blue-400 text-xs">...</span>
                                                             ) : (
                                                                 <button
                                                                     onClick={() => requestVolume([kw.id])}
-                                                                    className="text-[10px] px-1.5 py-0.5 rounded bg-indigo-100 text-indigo-600 hover:bg-indigo-200"
+                                                                    className="text-xs px-2 py-0.5 rounded bg-indigo-100 text-indigo-600 hover:bg-indigo-200"
                                                                     title="€0.03"
                                                                 >
-                                                                    +
+                                                                    Obtener
                                                                 </button>
                                                             )}
                                                         </td>
                                                         {/* Frequency */}
-                                                        <td className="py-2 px-2 text-center align-middle border-r border-gray-100">
+                                                        <td className="py-3 px-3 text-center align-middle border-r border-gray-100">
                                                             <select
                                                                 value={kw.trackingFrequency || 'manual'}
                                                                 onChange={(e) => changeFrequency([kw.id], e.target.value)}
-                                                                className="px-1 py-0.5 text-[10px] rounded bg-gray-50 border border-gray-200 text-gray-600 hover:bg-gray-100 focus:outline-none cursor-pointer"
+                                                                className="px-2 py-1 text-xs rounded bg-gray-50 border border-gray-200 text-gray-600 hover:bg-gray-100 focus:outline-none cursor-pointer"
                                                             >
                                                                 <option value="manual">Manual</option>
                                                                 <option value="daily">Diaria</option>
@@ -590,7 +590,7 @@ function ProjectContent() {
                                                             </select>
                                                         </td>
                                                         {/* Position */}
-                                                        <td className="py-2 px-2 text-center align-middle border-r border-gray-100">
+                                                        <td className="py-3 px-3 text-center align-middle border-r border-gray-100">
                                                             {isQueued ? (
                                                                 <span className="w-2 h-2 bg-amber-400 rounded-full animate-pulse inline-block"></span>
                                                             ) : currentPos && currentPos > 0 ? (
@@ -600,30 +600,30 @@ function ProjectContent() {
                                                             )}
                                                         </td>
                                                         {/* Change */}
-                                                        <td className="py-2 px-2 text-center align-middle border-r border-gray-100">
+                                                        <td className="py-3 px-3 text-center align-middle border-r border-gray-100">
                                                             {!isQueued && change !== 0 ? (
-                                                                <span className={`text-xs font-bold ${change > 0 ? 'text-green-600' : 'text-red-500'}`}>
+                                                                <span className={`text-sm font-bold ${change > 0 ? 'text-green-600' : 'text-red-500'}`}>
                                                                     {change > 0 ? '↑' : '↓'}{Math.abs(change)}
                                                                 </span>
                                                             ) : <span className="text-gray-400">-</span>}
                                                         </td>
                                                         {/* URL */}
-                                                        <td className="py-2 px-2 text-xs text-gray-600 border-r border-gray-100 max-w-[100px]">
+                                                        <td className="py-3 px-3 text-sm text-gray-600 border-r border-gray-100">
                                                             {url ? (
                                                                 <a
                                                                     href={url}
                                                                     target="_blank"
                                                                     rel="noopener noreferrer"
-                                                                    className="text-blue-600 hover:underline truncate block max-w-[100px]"
+                                                                    className="text-blue-600 hover:underline truncate block max-w-[180px]"
                                                                     title={url}
                                                                 >
-                                                                    {url.replace(/https?:\/\/(www\.)?/, '').split('/').slice(0, 2).join('/').substring(0, 25)}
+                                                                    {url.replace(/https?:\/\/(www\.)?/, '').substring(0, 30)}
                                                                 </a>
                                                             ) : <span className="text-gray-400">-</span>}
                                                         </td>
                                                         {/* Date */}
-                                                        <td className="py-2 px-2 text-center text-[10px] text-gray-500">
-                                                            {kw.positions?.[0] ? new Date(kw.positions[0].date).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit' }) : '-'}
+                                                        <td className="py-3 px-3 text-center text-xs text-gray-500">
+                                                            {kw.positions?.[0] ? new Date(kw.positions[0].date).toLocaleDateString('es-ES') : '-'}
                                                         </td>
                                                     </tr>
                                                     {isExpanded && hasHistory && (
