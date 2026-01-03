@@ -339,6 +339,63 @@ export class DataForSEO {
     }
 
     /**
+     * Get Extended SERP results for content generator (TOP 10 with rich data)
+     */
+    static async getSerpExtended(keyword: string, locationCode: number = 2724, languageCode: string = 'es') {
+        const postData = [{
+            keyword,
+            location_code: locationCode,
+            language_code: languageCode,
+            depth: 20, // Get more to ensure 10 organic
+            device: 'desktop'
+        }];
+
+        try {
+            const res = await fetch(`${this.baseUrl}/serp/google/organic/live/advanced`, {
+                method: 'POST',
+                headers: this.headers,
+                body: JSON.stringify(postData)
+            });
+            const data = await res.json();
+
+            if (data.status_code === 20000 && data.tasks?.[0]?.result?.[0]?.items) {
+                const organicItems = data.tasks[0].result[0].items
+                    .filter((i: any) => i.type === 'organic')
+                    .slice(0, 10);
+
+                // Extract rich data for each result
+                return organicItems.map((item: any, index: number) => ({
+                    position: index + 1,
+                    url: item.url,
+                    domain: item.domain,
+                    title: item.title,
+                    description: item.description,
+                    breadcrumb: item.breadcrumb,
+                    // SERP features
+                    is_featured_snippet: item.is_featured_snippet || false,
+                    is_sitelinks: !!item.links,
+                    sitelinks_count: item.links?.length || 0,
+                    // Content hints from SERP
+                    faq: item.faq?.items?.map((f: any) => f.title) || [],
+                    estimated_paid_traffic_cost: item.estimated_paid_traffic_cost || 0,
+                    rank_absolute: item.rank_absolute,
+                    // Related questions if available
+                    related_questions: data.tasks[0].result[0].items
+                        .filter((i: any) => i.type === 'people_also_ask')
+                        .flatMap((i: any) => i.items?.map((q: any) => q.title) || [])
+                        .slice(0, 5),
+                }));
+            }
+
+            console.error('DataForSEO Extended SERP Error:', data.status_message);
+            return [];
+        } catch (error) {
+            console.error('DataForSEO Extended SERP Fetch Error:', error);
+            return [];
+        }
+    }
+
+    /**
      * Get On-Page Instant Analysis
      */
     static async getOnPageInstant(url: string) {

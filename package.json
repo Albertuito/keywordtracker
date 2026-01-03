@@ -26,8 +26,10 @@
     "nodemailer": "^7.0.12",
     "react": "latest",
     "react-dom": "latest",
+    "react-markdown": "^10.1.0",
     "recharts": "^3.6.0",
     "serpapi": "^2.0.0",
+    "sonner": "^2.0.7",
     "stripe": "^14.0.0",
     "tailwind-merge": "^2.0.0"
   },

@@ -4,6 +4,7 @@ import "./globals.css";
 import AuthProvider from "./providers";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { Toaster } from 'sonner';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -29,6 +30,7 @@ export default function RootLayout({
                         <Footer />
                     </div>
                 </AuthProvider>
+                <Toaster position="top-right" richColors />
             </body>
         </html>
     );

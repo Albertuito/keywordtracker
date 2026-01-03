@@ -63,13 +63,13 @@ export default function Header() {
                                     Reportes
                                 </Link>
                                 <Link
-                                    href="/research/gap-sniper"
-                                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${isActive('/research/gap-sniper')
+                                    href="/content-generator"
+                                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${isActive('/content-generator')
                                         ? 'bg-blue-50 text-blue-600'
                                         : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
                                         }`}
                                 >
-                                    Sniper
+                                    🎯 Generador
                                 </Link>
                             </>
                         )}
@@ -210,11 +210,11 @@ export default function Header() {
                                     Reportes
                                 </Link>
                                 <Link
-                                    href="/research/gap-sniper"
+                                    href="/content-generator"
                                     onClick={() => setMobileMenuOpen(false)}
-                                    className={`block px-4 py-3 text-base font-medium ${isActive('/research/gap-sniper') ? 'bg-blue-50 text-blue-600' : 'text-gray-700 hover:bg-gray-50'}`}
+                                    className={`block px-4 py-3 text-base font-medium ${isActive('/content-generator') ? 'bg-blue-50 text-blue-600' : 'text-gray-700 hover:bg-gray-50'}`}
                                 >
-                                    Sniper
+                                    🎯 Generador
                                 </Link>
                             </>
                         )}
