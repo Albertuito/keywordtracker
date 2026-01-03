@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { X, Search, Plus, Loader2, TrendingUp, DollarSign, AlertCircle, CheckCircle, Download, Sparkles, Target, FileText, HelpCircle, Lightbulb, FileDown } from 'lucide-react';
+import { X, Search, Plus, Loader2, TrendingUp, DollarSign, AlertCircle, CheckCircle, Download, Sparkles, Target, FileText, HelpCircle, Lightbulb, FileDown, Zap, AlertTriangle } from 'lucide-react';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import { KeywordReportPDF } from './KeywordReportPDF';
 
@@ -15,13 +15,38 @@ interface KeywordIdea {
 }
 
 interface AIAnalysis {
-    url_keywords: string[];
-    title_keywords: string[];
-    h2_keywords: string[];
-    faq_questions: string[];
-    content_gaps: string[];
-    priority_ranking: Array<{ keyword: string; reason: string; priority: 'high' | 'medium' | 'low' }>;
+    page_type_detection?: {
+        detected_type: string;
+        confidence: number;
+        dominant_intent: string;
+        key_signal: string;
+    };
+    alignment_check?: {
+        is_aligned: boolean;
+        risk_if_unchanged: string;
+        opportunity_if_fixed: string;
+    };
+    quick_wins?: string[];
+    optimized_recommendations?: {
+        title_adjustment: string;
+        h1_adjustment: string;
+        h2_structure: string[];
+        meta_description: string;
+        faq_strategy: string[];
+    };
+    keyword_usage_strategy?: {
+        primary_keywords: string[];
+        supporting_keywords: string[];
+        keywords_to_exclude: Array<{ keyword: string; reason: string }>;
+    };
     summary: string;
+    // Legacy fields for backwards compatibility
+    url_keywords?: string[];
+    title_keywords?: string[];
+    h2_keywords?: string[];
+    faq_questions?: string[];
+    content_gaps?: string[];
+    priority_ranking?: Array<{ keyword: string; reason: string; priority: 'high' | 'medium' | 'low' }>;
 }
 
 interface RelatedKeywordsModalProps {
@@ -396,99 +421,185 @@ export default function RelatedKeywordsModal({
                                         <p className="text-gray-700">{analysis.summary}</p>
                                     </div>
 
+                                    {/* Page Type Detection & Alignment */}
                                     <div className="grid md:grid-cols-2 gap-4">
-                                        {/* URL Keywords */}
-                                        <div className="bg-white border border-gray-200 rounded-xl p-4">
-                                            <h4 className="font-semibold text-gray-900 flex items-center gap-2 mb-3">
-                                                <Target className="w-4 h-4 text-green-600" /> Keywords para URL
-                                            </h4>
-                                            <div className="flex flex-wrap gap-2">
-                                                {analysis.url_keywords.map((kw, i) => (
-                                                    <span key={i} className="px-2 py-1 bg-green-50 text-green-700 rounded-full text-sm font-medium">
-                                                        {kw}
-                                                    </span>
-                                                ))}
-                                            </div>
-                                        </div>
-
-                                        {/* Title Keywords */}
-                                        <div className="bg-white border border-gray-200 rounded-xl p-4">
-                                            <h4 className="font-semibold text-gray-900 flex items-center gap-2 mb-3">
-                                                <FileText className="w-4 h-4 text-blue-600" /> Keywords para Título
-                                            </h4>
-                                            <div className="flex flex-wrap gap-2">
-                                                {analysis.title_keywords.map((kw, i) => (
-                                                    <span key={i} className="px-2 py-1 bg-blue-50 text-blue-700 rounded-full text-sm font-medium">
-                                                        {kw}
-                                                    </span>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {/* H2 Keywords */}
-                                    <div className="bg-white border border-gray-200 rounded-xl p-4">
-                                        <h4 className="font-semibold text-gray-900 flex items-center gap-2 mb-3">
-                                            <FileText className="w-4 h-4 text-purple-600" /> Keywords para H2
-                                        </h4>
-                                        <div className="flex flex-wrap gap-2">
-                                            {analysis.h2_keywords.map((kw, i) => (
-                                                <span key={i} className="px-2 py-1 bg-purple-50 text-purple-700 rounded-full text-sm font-medium">
-                                                    {kw}
-                                                </span>
-                                            ))}
-                                        </div>
-                                    </div>
-
-                                    {/* Priority Ranking */}
-                                    <div className="bg-white border border-gray-200 rounded-xl p-4">
-                                        <h4 className="font-semibold text-gray-900 flex items-center gap-2 mb-3">
-                                            <Lightbulb className="w-4 h-4 text-yellow-600" /> Mejores Oportunidades
-                                        </h4>
-                                        <div className="space-y-2">
-                                            {analysis.priority_ranking.map((item, i) => (
-                                                <div key={i} className={`flex items-center justify-between p-3 rounded-lg border ${getPriorityColor(item.priority)}`}>
-                                                    <div>
-                                                        <span className="font-medium">{item.keyword}</span>
-                                                        <p className="text-xs mt-0.5 opacity-80">{item.reason}</p>
+                                        {/* Page Type */}
+                                        {analysis.page_type_detection && (
+                                            <div className="bg-white border border-gray-200 rounded-xl p-4">
+                                                <h4 className="font-semibold text-gray-900 flex items-center gap-2 mb-3">
+                                                    <Target className="w-4 h-4 text-blue-600" /> Tipo de Página Detectado
+                                                </h4>
+                                                <div className="space-y-2">
+                                                    <div className="flex items-center justify-between">
+                                                        <span className="text-gray-600">Tipo:</span>
+                                                        <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-bold uppercase">
+                                                            {analysis.page_type_detection.detected_type}
+                                                        </span>
                                                     </div>
-                                                    <span className={`px-2 py-0.5 rounded text-xs font-bold uppercase`}>
-                                                        {item.priority}
-                                                    </span>
+                                                    <div className="flex items-center justify-between">
+                                                        <span className="text-gray-600">Confianza:</span>
+                                                        <span className="font-medium">{Math.round((analysis.page_type_detection.confidence || 0) * 100)}%</span>
+                                                    </div>
+                                                    <div className="flex items-center justify-between">
+                                                        <span className="text-gray-600">Intención:</span>
+                                                        <span className="text-sm">{analysis.page_type_detection.dominant_intent}</span>
+                                                    </div>
+                                                    <p className="text-xs text-gray-500 mt-2 pt-2 border-t">
+                                                        Señal clave: {analysis.page_type_detection.key_signal}
+                                                    </p>
                                                 </div>
-                                            ))}
-                                        </div>
+                                            </div>
+                                        )}
+
+                                        {/* Alignment Check */}
+                                        {analysis.alignment_check && (
+                                            <div className={`border rounded-xl p-4 ${analysis.alignment_check.is_aligned ? 'bg-green-50 border-green-200' : 'bg-amber-50 border-amber-200'}`}>
+                                                <h4 className="font-semibold text-gray-900 flex items-center gap-2 mb-3">
+                                                    {analysis.alignment_check.is_aligned ? (
+                                                        <CheckCircle className="w-4 h-4 text-green-600" />
+                                                    ) : (
+                                                        <AlertTriangle className="w-4 h-4 text-amber-600" />
+                                                    )}
+                                                    {analysis.alignment_check.is_aligned ? 'URL Alineada' : 'Desalineación Detectada'}
+                                                </h4>
+                                                <div className="space-y-2 text-sm">
+                                                    <div>
+                                                        <span className="text-gray-600 block mb-1">Riesgo si no cambias:</span>
+                                                        <p className="text-gray-800">{analysis.alignment_check.risk_if_unchanged}</p>
+                                                    </div>
+                                                    <div>
+                                                        <span className="text-gray-600 block mb-1">Oportunidad si mejoras:</span>
+                                                        <p className="text-gray-800">{analysis.alignment_check.opportunity_if_fixed}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
 
-                                    {/* FAQ Questions */}
-                                    <div className="bg-white border border-gray-200 rounded-xl p-4">
-                                        <h4 className="font-semibold text-gray-900 flex items-center gap-2 mb-3">
-                                            <HelpCircle className="w-4 h-4 text-amber-600" /> Preguntas para FAQ
-                                        </h4>
-                                        <ul className="space-y-2">
-                                            {analysis.faq_questions.map((q, i) => (
-                                                <li key={i} className="text-gray-700 text-sm flex items-start gap-2">
-                                                    <span className="text-amber-500 font-bold">?</span>
-                                                    {q}
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </div>
-
-                                    {/* Content Gaps */}
-                                    {analysis.content_gaps.length > 0 && (
-                                        <div className="bg-white border border-gray-200 rounded-xl p-4">
-                                            <h4 className="font-semibold text-gray-900 flex items-center gap-2 mb-3">
-                                                <TrendingUp className="w-4 h-4 text-indigo-600" /> Gaps de Contenido
+                                    {/* Quick Wins */}
+                                    {analysis.quick_wins && analysis.quick_wins.length > 0 && (
+                                        <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-xl p-4">
+                                            <h4 className="font-semibold text-green-900 flex items-center gap-2 mb-3">
+                                                <Zap className="w-4 h-4" /> Quick Wins (Acciones Inmediatas)
                                             </h4>
-                                            <ul className="space-y-1">
-                                                {analysis.content_gaps.map((gap, i) => (
-                                                    <li key={i} className="text-gray-700 text-sm flex items-start gap-2">
-                                                        <span className="text-indigo-500">•</span>
-                                                        {gap}
+                                            <ul className="space-y-2">
+                                                {analysis.quick_wins.map((win: string, i: number) => (
+                                                    <li key={i} className="flex items-start gap-2 text-green-800">
+                                                        <span className="text-green-600 font-bold">✓</span>
+                                                        {win}
                                                     </li>
                                                 ))}
                                             </ul>
+                                        </div>
+                                    )}
+
+                                    {/* Optimized Recommendations */}
+                                    {analysis.optimized_recommendations && (
+                                        <div className="bg-white border border-gray-200 rounded-xl p-4">
+                                            <h4 className="font-semibold text-gray-900 flex items-center gap-2 mb-4">
+                                                <FileText className="w-4 h-4 text-purple-600" /> Recomendaciones Optimizadas
+                                            </h4>
+                                            <div className="space-y-4">
+                                                {analysis.optimized_recommendations.title_adjustment && (
+                                                    <div>
+                                                        <span className="text-xs uppercase tracking-wide text-gray-500 font-medium">Title Tag</span>
+                                                        <p className="mt-1 p-2 bg-gray-50 rounded text-gray-900 font-medium">{analysis.optimized_recommendations.title_adjustment}</p>
+                                                    </div>
+                                                )}
+                                                {analysis.optimized_recommendations.h1_adjustment && (
+                                                    <div>
+                                                        <span className="text-xs uppercase tracking-wide text-gray-500 font-medium">H1</span>
+                                                        <p className="mt-1 p-2 bg-gray-50 rounded text-gray-900 font-medium">{analysis.optimized_recommendations.h1_adjustment}</p>
+                                                    </div>
+                                                )}
+                                                {analysis.optimized_recommendations.meta_description && (
+                                                    <div>
+                                                        <span className="text-xs uppercase tracking-wide text-gray-500 font-medium">Meta Description</span>
+                                                        <p className="mt-1 p-2 bg-gray-50 rounded text-gray-700 text-sm">{analysis.optimized_recommendations.meta_description}</p>
+                                                    </div>
+                                                )}
+                                                {analysis.optimized_recommendations.h2_structure && analysis.optimized_recommendations.h2_structure.length > 0 && (
+                                                    <div>
+                                                        <span className="text-xs uppercase tracking-wide text-gray-500 font-medium">Estructura H2</span>
+                                                        <ul className="mt-2 space-y-1">
+                                                            {analysis.optimized_recommendations.h2_structure.map((h2: string, i: number) => (
+                                                                <li key={i} className="text-sm text-gray-700 flex items-center gap-2">
+                                                                    <span className="text-purple-500 font-bold">→</span> {h2}
+                                                                </li>
+                                                            ))}
+                                                        </ul>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* FAQ Strategy */}
+                                    {analysis.optimized_recommendations?.faq_strategy && analysis.optimized_recommendations.faq_strategy.length > 0 && (
+                                        <div className="bg-white border border-gray-200 rounded-xl p-4">
+                                            <h4 className="font-semibold text-gray-900 flex items-center gap-2 mb-3">
+                                                <HelpCircle className="w-4 h-4 text-amber-600" /> Preguntas para FAQ
+                                            </h4>
+                                            <ul className="space-y-2">
+                                                {analysis.optimized_recommendations.faq_strategy.map((q: string, i: number) => (
+                                                    <li key={i} className="text-gray-700 text-sm flex items-start gap-2">
+                                                        <span className="text-amber-500 font-bold">?</span>
+                                                        {q}
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    )}
+
+                                    {/* Keyword Strategy */}
+                                    {analysis.keyword_usage_strategy && (
+                                        <div className="grid md:grid-cols-2 gap-4">
+                                            {/* Primary Keywords */}
+                                            <div className="bg-white border border-gray-200 rounded-xl p-4">
+                                                <h4 className="font-semibold text-gray-900 flex items-center gap-2 mb-3">
+                                                    <Target className="w-4 h-4 text-green-600" /> Keywords Principales
+                                                </h4>
+                                                <div className="flex flex-wrap gap-2">
+                                                    {(analysis.keyword_usage_strategy.primary_keywords || []).map((kw: string, i: number) => (
+                                                        <span key={i} className="px-2 py-1 bg-green-50 text-green-700 rounded-full text-sm font-medium">
+                                                            {kw}
+                                                        </span>
+                                                    ))}
+                                                </div>
+                                            </div>
+
+                                            {/* Supporting Keywords */}
+                                            <div className="bg-white border border-gray-200 rounded-xl p-4">
+                                                <h4 className="font-semibold text-gray-900 flex items-center gap-2 mb-3">
+                                                    <TrendingUp className="w-4 h-4 text-blue-600" /> Keywords Secundarias
+                                                </h4>
+                                                <div className="flex flex-wrap gap-2">
+                                                    {(analysis.keyword_usage_strategy.supporting_keywords || []).map((kw: string, i: number) => (
+                                                        <span key={i} className="px-2 py-1 bg-blue-50 text-blue-700 rounded-full text-sm font-medium">
+                                                            {kw}
+                                                        </span>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* Keywords to Exclude */}
+                                    {analysis.keyword_usage_strategy?.keywords_to_exclude && analysis.keyword_usage_strategy.keywords_to_exclude.length > 0 && (
+                                        <div className="bg-red-50 border border-red-200 rounded-xl p-4">
+                                            <h4 className="font-semibold text-red-900 flex items-center gap-2 mb-3">
+                                                <AlertTriangle className="w-4 h-4" /> Keywords a Evitar
+                                            </h4>
+                                            <div className="space-y-2">
+                                                {analysis.keyword_usage_strategy.keywords_to_exclude.map((item: any, i: number) => (
+                                                    <div key={i} className="flex items-center justify-between text-sm">
+                                                        <span className="font-medium text-red-800">{typeof item === 'string' ? item : item.keyword}</span>
+                                                        {typeof item !== 'string' && item.reason && (
+                                                            <span className="text-red-600 text-xs">{item.reason}</span>
+                                                        )}
+                                                    </div>
+                                                ))}
+                                            </div>
                                         </div>
                                     )}
                                 </div>

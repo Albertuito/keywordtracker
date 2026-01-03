@@ -280,7 +280,7 @@ Responde con un array JSON de las raíces/términos clave que deben coincidir:`
   }
 
   /**
-   * Analyze keyword ideas and provide actionable SEO recommendations
+   * Analyze keyword ideas and provide actionable SEO recommendations for existing URLs
    */
   static async analyzeKeywordIdeas(
     seedKeyword: string,
@@ -292,84 +292,95 @@ Responde con un array JSON de las raíces/términos clave que deben coincidir:`
       cpc: number;
     }>
   ): Promise<{
-    url_keywords: string[];
-    title_keywords: string[];
-    h2_keywords: string[];
-    faq_questions: string[];
-    content_gaps: string[];
-    priority_ranking: Array<{ keyword: string; reason: string; priority: 'high' | 'medium' | 'low' }>;
+    page_type_detection: {
+      detected_type: string;
+      confidence: number;
+      dominant_intent: string;
+      key_signal: string;
+    };
+    alignment_check: {
+      is_aligned: boolean;
+      risk_if_unchanged: string;
+      opportunity_if_fixed: string;
+    };
+    quick_wins: string[];
+    optimized_recommendations: {
+      title_adjustment: string;
+      h1_adjustment: string;
+      h2_structure: string[];
+      meta_description: string;
+      faq_strategy: string[];
+    };
+    keyword_usage_strategy: {
+      primary_keywords: string[];
+      supporting_keywords: string[];
+      keywords_to_exclude: Array<{ keyword: string; reason: string }>;
+    };
     summary: string;
   }> {
     if (!this.apiKey) throw new Error("OpenAI API Key missing");
 
     const prompt = `
-Eres un consultor SEO senior con enfoque en negocio y conversión.
-Tu trabajo NO es listar keywords, sino decidir estratégicamente cuáles usar y por qué.
+Eres un consultor SEO senior especializado en optimización de URLs existentes.
+Responde SIEMPRE en español.
 
 Analiza las siguientes keywords relacionadas con "${seedKeyword}".
-Cada keyword incluye datos cuantitativos, pero debes usar tu criterio profesional para:
-- Identificar su intención REAL (aunque difiera del campo intent)
-- Evaluar su valor SEO y de negocio
-- Priorizar oportunidades accionables
+Asume que el usuario YA TIENE una URL creada y quiere mejorar su rendimiento.
 
-KEYWORDS:
-${JSON.stringify(keywords.slice(0, 30), null, 2)}
+PASO 1 – Diagnóstico:
+- Analiza la intención dominante del conjunto de keywords
+- Detecta el tipo de URL más probable: blog | service | category | product | landing
+- Decide si la intención actual es correcta o está desalineada
+- Identifica las keywords de mayor volumen y menor dificultad (quick wins)
 
-CRITERIOS DE DECISIÓN (OBLIGATORIOS):
-- Prioriza keywords con intención comercial o transaccional REAL
-- Valora alto volumen + dificultad razonable, pero acepta excepciones si el valor de negocio es alto
-- Usa las informacionales solo si apoyan conversión, autoridad o FAQs
-- Evita keywords ambiguas, irrelevantes o sin potencial de conversión
-- No fuerces resultados si los datos no lo justifican
+PASO 2 – Estrategia:
+- Adapta todas las recomendaciones al tipo de URL detectado
+- No propongas cambios estructurales innecesarios si la URL ya es coherente
+- Prioriza keywords con buen ratio volumen/dificultad
+- Si detectas desalineación, indícalo claramente
 
-REGLAS DE CALIDAD:
-- No repitas la misma keyword en diferentes secciones
-- No inventes keywords ni preguntas
-- Si no hay suficientes oportunidades de calidad, reduce el número de resultados
-- Justifica implícitamente cada selección (sin explicaciones externas)
+KEYWORDS (con métricas):
+${JSON.stringify(keywords.slice(0, 30).map(k => ({
+      keyword: k.keyword,
+      volume: k.volume,
+      difficulty: k.difficulty,
+      intent: k.intent
+    })), null, 2)}
 
-GENERA UN ÚNICO JSON CON:
+GENERA UN JSON CON:
 
-1. url_keywords:
-   - 2-3 keywords principales ideales para el slug
-   - Deben representar el core del negocio y la intención principal
+1. page_type_detection:
+   - detected_type: string
+   - confidence: number (0–1)
+   - dominant_intent: string
+   - key_signal: string (keyword o patrón que lo define)
 
-2. title_keywords:
-   - 2-3 keywords óptimas para Title Tag / H1
-   - Orientadas a captar tráfico con intención de compra o contratación
+2. alignment_check:
+   - is_aligned: boolean
+   - risk_if_unchanged: string (máx 100 chars)
+   - opportunity_if_fixed: string (máx 100 chars)
 
-3. h2_keywords:
-   - 5-7 keywords secundarias y variaciones semánticas
-   - Útiles para estructurar el contenido y ampliar cobertura SEO
+3. quick_wins: array de 3 acciones inmediatas de bajo esfuerzo
 
-4. faq_questions:
-   - 5-8 preguntas basadas en dudas reales del usuario
-   - Derivadas de keywords informacionales relevantes
-   - Enfocadas a reducir fricción y objeciones de conversión
+4. optimized_recommendations:
+   - title_adjustment: string (máx 60 chars)
+   - h1_adjustment: string (máx 70 chars)
+   - h2_structure: array de 4-6 subtítulos recomendados
+   - meta_description: string (máx 155 chars)
+   - faq_strategy: array de 3-5 preguntas si aplica
 
-5. content_gaps:
-   - 3-5 oportunidades de contenido NO cubiertas directamente por keywords principales
-   - Enfocadas a autoridad, confianza o captación de tráfico cualificado
-   - Indica implícitamente su valor estratégico
+5. keyword_usage_strategy:
+   - primary_keywords: array de 3-5 keywords principales
+   - supporting_keywords: array de 5-10 keywords secundarias
+   - keywords_to_exclude: array con objetos { keyword, reason }
 
-6. priority_ranking:
-   - Las 5 mejores oportunidades SEO ordenadas por prioridad real
-   - Para cada una incluye:
-     - keyword
-     - intent_detected (informational / commercial / transactional)
-     - volume
-     - difficulty
-     - reason (por qué merece ser priorizada desde un punto de vista SEO y de negocio)
-     - priority (high / medium / low)
+6. summary: string (máx 200 chars) - Resumen ejecutivo para cliente no técnico
 
-7. summary:
-   - Resumen ejecutivo de la estrategia recomendada
-   - Enfocado a impacto de negocio, no a métricas
-   - Máximo 3 frases, tono consultivo
-
-FORMATO:
-- Responde SOLO con JSON válido
-- No incluyas explicaciones, introducciones ni texto adicional
+REGLAS CRÍTICAS:
+- NO asumas que se crea una nueva página
+- NO fuerces intención distinta sin justificar
+- Prioriza mejoras incrementales sobre cambios radicales
+- Responde SOLO JSON válido, sin markdown ni explicaciones
 `;
 
     try {
@@ -392,12 +403,30 @@ FORMATO:
       console.error('OpenAI Keyword Analysis Error:', error.response?.data || error.message);
       // Return default structure on error
       return {
-        url_keywords: [],
-        title_keywords: [],
-        h2_keywords: [],
-        faq_questions: [],
-        content_gaps: [],
-        priority_ranking: [],
+        page_type_detection: {
+          detected_type: 'unknown',
+          confidence: 0,
+          dominant_intent: 'unknown',
+          key_signal: ''
+        },
+        alignment_check: {
+          is_aligned: true,
+          risk_if_unchanged: 'No se pudo analizar',
+          opportunity_if_fixed: 'No disponible'
+        },
+        quick_wins: [],
+        optimized_recommendations: {
+          title_adjustment: '',
+          h1_adjustment: '',
+          h2_structure: [],
+          meta_description: '',
+          faq_strategy: []
+        },
+        keyword_usage_strategy: {
+          primary_keywords: [],
+          supporting_keywords: [],
+          keywords_to_exclude: []
+        },
         summary: "No se pudo generar el análisis IA."
       };
     }
