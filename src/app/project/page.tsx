@@ -536,7 +536,7 @@ function ProjectContent() {
                                                             />
                                                         </td>
                                                         <td className="py-5 px-6">
-                                                            <div className="flex items-center gap-3">
+                                                            <div className="flex items-center gap-3 whitespace-nowrap">
                                                                 <button
                                                                     onClick={() => hasHistory && setExpandedKeywordId(isExpanded ? null : kw.id)}
                                                                     className={`flex-shrink-0 w-6 h-6 flex items-center justify-center rounded transition-colors ${hasHistory ? 'text-gray-600 hover:text-blue-600 hover:bg-gray-100 cursor-pointer' : 'text-gray-400 cursor-default'}`}
@@ -573,7 +573,7 @@ function ProjectContent() {
                                                                 </button>
                                                             </div>
                                                         </td>
-                                                        <td className="py-5 px-6 text-center text-gray-700 text-xs">
+                                                        <td className="py-5 px-6 text-center text-gray-700 text-xs align-middle">
                                                             {kw.volume !== null && kw.volume !== undefined ? (
                                                                 <span className="text-gray-700">{kw.volume.toLocaleString()}</span>
                                                             ) : fetchingVolume.has(kw.id) ? (
@@ -588,7 +588,7 @@ function ProjectContent() {
                                                                 </button>
                                                             )}
                                                         </td>
-                                                        <td className="py-5 px-6 text-center">
+                                                        <td className="py-5 px-6 text-center align-middle">
                                                             <select
                                                                 value={kw.trackingFrequency || 'manual'}
                                                                 onChange={(e) => changeFrequency([kw.id], e.target.value)}
@@ -600,7 +600,7 @@ function ProjectContent() {
                                                                 <option value="weekly">📊 Semanal</option>
                                                             </select>
                                                         </td>
-                                                        <td className="py-5 px-6 text-center flex justify-center">
+                                                        <td className="py-5 px-6 text-center align-middle">
                                                             {isQueued ? (
                                                                 <div className="flex items-center gap-2">
                                                                     <RankBadge rank={currentPos} hasData={hasPositionData} />
@@ -613,7 +613,7 @@ function ProjectContent() {
                                                                 <RankBadge rank={currentPos} hasData={hasPositionData} />
                                                             )}
                                                         </td>
-                                                        <td className="py-5 px-6 text-center">
+                                                        <td className="py-5 px-6 text-center align-middle">
                                                             {!isQueued && change !== 0 ? (
                                                                 <div className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-bold ${change > 0 ? 'bg-emerald-500/10 text-blue-600' : 'bg-rose-500/10 text-rose-400'}`}>
                                                                     {change > 0 ? (
@@ -625,8 +625,18 @@ function ProjectContent() {
                                                                 </div>
                                                             ) : <span className="text-gray-600">-</span>}
                                                         </td>
-                                                        <td className="py-5 px-6 text-xs text-gray-700 max-w-[200px] truncate" title={url || 'Sin URL'}>
-                                                            {url ? url.replace(/https?:\/\/(www\.)?/, '') : <span className="text-gray-400">-</span>}
+                                                        <td className="py-5 px-6 text-xs text-gray-700 max-w-[250px] align-middle">
+                                                            {url ? (
+                                                                <a
+                                                                    href={url}
+                                                                    target="_blank"
+                                                                    rel="noopener noreferrer"
+                                                                    className="text-blue-600 hover:text-blue-800 hover:underline truncate block"
+                                                                    title={url}
+                                                                >
+                                                                    {url.replace(/https?:\/\/(www\.)?/, '')}
+                                                                </a>
+                                                            ) : <span className="text-gray-400">-</span>}
                                                         </td>
                                                         <td className="py-5 px-6 text-right text-xs text-gray-600">
                                                             <div className="flex items-center justify-end gap-2">
