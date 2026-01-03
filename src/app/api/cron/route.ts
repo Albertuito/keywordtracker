@@ -4,10 +4,44 @@ import prisma from '@/lib/prisma';
 
 export const dynamic = 'force-dynamic';
 
+// Verify cron secret for external cron services (cron-job.org, etc.)
+function verifyCronSecret(req: Request): boolean {
+    const secret = process.env.CRON_SECRET;
+
+    // If no secret is configured, allow all requests (development)
+    if (!secret) {
+        console.warn('CRON_SECRET not configured - cron endpoint is unprotected');
+        return true;
+    }
+
+    // Check Authorization header
+    const authHeader = req.headers.get('authorization');
+    if (authHeader === `Bearer ${secret}`) {
+        return true;
+    }
+
+    // Check query parameter (for services that don't support headers)
+    const url = new URL(req.url);
+    const querySecret = url.searchParams.get('secret');
+    if (querySecret === secret) {
+        return true;
+    }
+
+    return false;
+}
+
 export async function GET(req: Request) {
+    // Verify cron secret
+    if (!verifyCronSecret(req)) {
+        return NextResponse.json(
+            { success: false, error: 'Unauthorized' },
+            { status: 401 }
+        );
+    }
+
     try {
         const { searchParams } = new URL(req.url);
-        const action = searchParams.get('action'); // 'queue' or 'sync'
+        const action = searchParams.get('action'); // 'queue', 'sync', 'auto-tracking'
         const projectId = searchParams.get('projectId') || undefined;
 
         let result;
@@ -36,11 +70,20 @@ export async function GET(req: Request) {
 
         return NextResponse.json({ success: true, ...result });
     } catch (error) {
+        console.error('Cron error:', error);
         return NextResponse.json({ success: false, error: String(error) }, { status: 500 });
     }
 }
 
 export async function POST(req: Request) {
+    // Verify cron secret
+    if (!verifyCronSecret(req)) {
+        return NextResponse.json(
+            { success: false, error: 'Unauthorized' },
+            { status: 401 }
+        );
+    }
+
     try {
         const body = await req.json();
         const { action, projectId, keywordIds } = body;
@@ -73,6 +116,7 @@ export async function POST(req: Request) {
         return NextResponse.json({ success: true, ...result });
 
     } catch (error) {
+        console.error('Cron POST error:', error);
         return NextResponse.json({ success: false, error: String(error) }, { status: 500 });
     }
 }
