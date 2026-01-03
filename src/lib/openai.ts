@@ -280,6 +280,51 @@ Responde con un array JSON de las raíces/términos clave que deben coincidir:`
   }
 
   /**
+   * Generates highly specific long-tail keywords based on a seed keyword.
+   * Focuses on transactional and informational intent variations.
+   */
+  static async generateLongTails(keyword: string): Promise<string[]> {
+    if (!this.apiKey) return [];
+
+    try {
+      const response = await axios.post(this.baseUrl, {
+        model: "gpt-4o",
+        messages: [
+          {
+            role: "system",
+            content: "Eres un Especialista en Keyword Research. Tu tarea es encontrar 'Hidden Gems': keywords long-tail muy específicas que los usuarios reales buscan."
+          },
+          {
+            role: "user",
+            content: `Genera 20 variaciones long-tail SEMÁNTICAS y NATURALES para: "${keyword}".
+            
+            REGLAS:
+            1. Deben ser frases que alguien escribiría en Google (Intent Driven).
+            2. Usa modificadores como: "mejores", "barato", "opiniones", "online", "guía", "requisitos", "comparativa".
+            3. NO te inventes servicios. Si es "hipoteca", no pongas "seguros".
+            4. Variaciones de preguntas: "cómo...", "cuánto cuesta...".
+            
+            Responde SOLO con un JSON array de strings: ["kw1", "kw2"]`
+          }
+        ],
+        response_format: { type: "json_object" }
+      }, {
+        headers: {
+          'Authorization': `Bearer ${this.apiKey}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      const result = JSON.parse(response.data.choices[0].message.content);
+      const keywords = result.keywords || result.variations || result.long_tails || [];
+      return Array.isArray(keywords) ? keywords : [];
+    } catch (error: any) {
+      console.error('OpenAI LongTail Gen Error:', error);
+      return [];
+    }
+  }
+
+  /**
    * Analyze keyword ideas and provide actionable SEO recommendations for existing URLs
    */
   static async analyzeKeywordIdeas(

@@ -47,13 +47,54 @@ export async function POST(req: Request) {
 
         console.log('[Related Keywords API] Balance deducted. Fetching keywords...');
 
-        // Fetch keyword ideas from DataForSEO Labs (better quality)
-        const keywords = await DataForSEO.getKeywordIdeas(keyword, country, limit);
+        // Hybrid Discovery: Run DataForSEO and AI Generation in Parallel
+        console.log('[Related Keywords API] Running Hybrid Discovery (DataForSEO + AI)...');
 
-        console.log('[Related Keywords API] DataForSEO response:', keywords ? `${keywords.length} keywords` : 'null');
+        const [dfsKeywords, aiSuggestions] = await Promise.all([
+            DataForSEO.getKeywordIdeas(keyword, country, limit),
+            OpenAIService.generateLongTails(keyword)
+        ]);
 
-        if (!keywords || keywords.length === 0) {
-            console.log('[Related Keywords API] No keywords found from DataForSEO');
+        console.log(`[Related Keywords API] DataForSEO found: ${dfsKeywords?.length || 0} | AI suggested: ${aiSuggestions.length}`);
+
+        // 2. Validate AI Suggestions Volume
+        let combinedKeywords = dfsKeywords || [];
+
+        if (aiSuggestions.length > 0) {
+            // Filter out suggestions that are already in DataForSEO results
+            const existingTerms = new Set(combinedKeywords.map(k => k.keyword.toLowerCase()));
+            const newAiTerms = aiSuggestions.filter(term => !existingTerms.has(term.toLowerCase()));
+
+            if (newAiTerms.length > 0) {
+                console.log(`[Related Keywords API] Validating volume for ${newAiTerms.length} AI terms...`);
+
+                // Get volumes for new terms
+                const volumes = await DataForSEO.getVolumes(newAiTerms, country);
+
+                if (volumes) {
+                    const aiKeywordObjects = newAiTerms.map(term => {
+                        const vol = volumes[term] || 0;
+                        return {
+                            keyword: term,
+                            volume: vol,
+                            difficulty: 0, // Unknown without full analysis, assume low/medium or fetch if critical
+                            intent: 'commercial', // AI usually targets commercial/transactional
+                            cpc: 0,
+                            competition: 0
+                        };
+                    }).filter(k => k.volume > 0); // FILTER OUT ZERO VOLUME
+
+                    console.log(`[Related Keywords API] efficient AI terms found (Vol > 0): ${aiKeywordObjects.length}`);
+
+                    // Merge lists (AI terms first to prioritize them in analysis?)
+                    // Actually, let's append them. Analysis will pick the best.
+                    combinedKeywords = [...combinedKeywords, ...aiKeywordObjects];
+                }
+            }
+        }
+
+        if (combinedKeywords.length === 0) {
+            console.log('[Related Keywords API] No keywords found from DataForSEO or AI');
             return NextResponse.json({
                 error: 'No se encontraron keywords relacionadas. Intenta con otra keyword.',
                 keyword,
@@ -61,10 +102,12 @@ export async function POST(req: Request) {
             }, { status: 404 });
         }
 
+        console.log(`[Related Keywords API] Total unique keywords for analysis: ${combinedKeywords.length}`);
+
         console.log('[Related Keywords API] Running GPT analysis...');
 
         // Analyze keywords with GPT for actionable recommendations
-        const analysis = await OpenAIService.analyzeKeywordIdeas(keyword, keywords);
+        const analysis = await OpenAIService.analyzeKeywordIdeas(keyword, combinedKeywords);
 
         console.log('[Related Keywords API] Analysis complete. Saving report...');
 
@@ -74,7 +117,7 @@ export async function POST(req: Request) {
                 userId: session.user.id,
                 projectId: projectId || null,
                 seedKeyword: keyword,
-                keywords: keywords as any,
+                keywords: combinedKeywords as any, // Verify type compatibility or cast
                 analysis: analysis as any,
                 country
             }
@@ -86,9 +129,9 @@ export async function POST(req: Request) {
             success: true,
             reportId: report.id,
             keyword,
-            keywords,
+            keywords: combinedKeywords,
             analysis,
-            count: keywords.length,
+            count: combinedKeywords.length,
             cost,
             newBalance: deductResult.newBalance
         });

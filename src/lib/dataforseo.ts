@@ -174,10 +174,28 @@ export class DataForSEO {
     /**
      * Fetch Search Volume (Live)
      */
-    static async getVolumes(keywords: string[]) {
+    static async getVolumes(keywords: string[], country: string = 'es') {
+        const countryConfig: Record<string, { location_code: number, language_code: string }> = {
+            'ES': { location_code: 2724, language_code: 'es' },
+            'MX': { location_code: 2484, language_code: 'es' },
+            'AR': { location_code: 2032, language_code: 'es' },
+            'CO': { location_code: 2170, language_code: 'es' },
+            'CL': { location_code: 2152, language_code: 'es' },
+            'PE': { location_code: 2604, language_code: 'es' },
+            'US': { location_code: 2840, language_code: 'en' },
+            'GB': { location_code: 2826, language_code: 'en' },
+            'FR': { location_code: 2250, language_code: 'fr' },
+            'DE': { location_code: 2276, language_code: 'de' },
+            'IT': { location_code: 2380, language_code: 'it' },
+            'PT': { location_code: 2620, language_code: 'pt' },
+            'BR': { location_code: 2076, language_code: 'pt' },
+        };
+
+        const config = countryConfig[country.toUpperCase()] || countryConfig['ES'];
+
         const postData = [{
-            location_code: 2724,
-            language_code: "es",
+            location_code: config.location_code,
+            language_code: config.language_code,
             keywords: keywords
         }];
 
