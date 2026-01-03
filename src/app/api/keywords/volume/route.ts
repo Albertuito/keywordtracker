@@ -86,7 +86,8 @@ export async function POST(request: Request) {
             if (volumes) {
                 // Save to cache and update keywords
                 for (const term of termsToFetch) {
-                    const vol = volumes[term] || 0;
+                    const metric = volumes[term];
+                    const vol = metric ? metric.volume : 0;
 
                     // Save to cache
                     await prisma.cachedVolume.upsert({
