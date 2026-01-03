@@ -303,28 +303,73 @@ Responde con un array JSON de las raíces/términos clave que deben coincidir:`
     if (!this.apiKey) throw new Error("OpenAI API Key missing");
 
     const prompt = `
-Eres un experto SEO. Analiza estas keywords relacionadas con "${seedKeyword}" y proporciona recomendaciones accionables.
+Eres un consultor SEO senior con enfoque en negocio y conversión.
+Tu trabajo NO es listar keywords, sino decidir estratégicamente cuáles usar y por qué.
 
-KEYWORDS (con volumen, dificultad 0-100, e intención):
+Analiza las siguientes keywords relacionadas con "${seedKeyword}".
+Cada keyword incluye datos cuantitativos, pero debes usar tu criterio profesional para:
+- Identificar su intención REAL (aunque difiera del campo intent)
+- Evaluar su valor SEO y de negocio
+- Priorizar oportunidades accionables
+
+KEYWORDS:
 ${JSON.stringify(keywords.slice(0, 30), null, 2)}
 
-Genera un JSON con:
-1. url_keywords: 2-3 keywords cortas para incluir en la URL/slug
-2. title_keywords: 2-3 keywords para el título principal (H1/Title tag)
-3. h2_keywords: 5-7 keywords para usar como subtítulos H2
-4. faq_questions: 5-8 preguntas para una sección FAQ (formato "¿Cómo...?", "¿Qué es...?")
-5. content_gaps: 3-5 temas o ángulos de contenido que deberías cubrir
-6. priority_ranking: Las 5 mejores oportunidades ordenadas, con:
-   - keyword: la keyword
-   - reason: Por qué es buena oportunidad (ej: "Alto volumen (2400/mes), dificultad baja (25)")
-   - priority: "high", "medium" o "low"
-7. summary: Resumen ejecutivo de 2-3 oraciones con la estrategia recomendada
+CRITERIOS DE DECISIÓN (OBLIGATORIOS):
+- Prioriza keywords con intención comercial o transaccional REAL
+- Valora alto volumen + dificultad razonable, pero acepta excepciones si el valor de negocio es alto
+- Usa las informacionales solo si apoyan conversión, autoridad o FAQs
+- Evita keywords ambiguas, irrelevantes o sin potencial de conversión
+- No fuerces resultados si los datos no lo justifican
 
-REGLAS:
-- Prioriza keywords con ALTO volumen y BAJA dificultad (< 40)
-- Incluye keywords transaccionales y comerciales primero
-- Las FAQ deben basarse en keywords informacionales
-- Responde SOLO JSON válido, sin explicaciones
+REGLAS DE CALIDAD:
+- No repitas la misma keyword en diferentes secciones
+- No inventes keywords ni preguntas
+- Si no hay suficientes oportunidades de calidad, reduce el número de resultados
+- Justifica implícitamente cada selección (sin explicaciones externas)
+
+GENERA UN ÚNICO JSON CON:
+
+1. url_keywords:
+   - 2-3 keywords principales ideales para el slug
+   - Deben representar el core del negocio y la intención principal
+
+2. title_keywords:
+   - 2-3 keywords óptimas para Title Tag / H1
+   - Orientadas a captar tráfico con intención de compra o contratación
+
+3. h2_keywords:
+   - 5-7 keywords secundarias y variaciones semánticas
+   - Útiles para estructurar el contenido y ampliar cobertura SEO
+
+4. faq_questions:
+   - 5-8 preguntas basadas en dudas reales del usuario
+   - Derivadas de keywords informacionales relevantes
+   - Enfocadas a reducir fricción y objeciones de conversión
+
+5. content_gaps:
+   - 3-5 oportunidades de contenido NO cubiertas directamente por keywords principales
+   - Enfocadas a autoridad, confianza o captación de tráfico cualificado
+   - Indica implícitamente su valor estratégico
+
+6. priority_ranking:
+   - Las 5 mejores oportunidades SEO ordenadas por prioridad real
+   - Para cada una incluye:
+     - keyword
+     - intent_detected (informational / commercial / transactional)
+     - volume
+     - difficulty
+     - reason (por qué merece ser priorizada desde un punto de vista SEO y de negocio)
+     - priority (high / medium / low)
+
+7. summary:
+   - Resumen ejecutivo de la estrategia recomendada
+   - Enfocado a impacto de negocio, no a métricas
+   - Máximo 3 frases, tono consultivo
+
+FORMATO:
+- Responde SOLO con JSON válido
+- No incluyas explicaciones, introducciones ni texto adicional
 `;
 
     try {
