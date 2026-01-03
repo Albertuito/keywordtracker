@@ -109,6 +109,23 @@ export async function POST(req: Request) {
         // Analyze keywords with GPT for actionable recommendations
         const analysis = await OpenAIService.analyzeKeywordIdeas(keyword, combinedKeywords);
 
+        // Filter out keywords that AI flagged as irrelevant/toxic
+        const excludeList = analysis.keyword_usage_strategy?.keywords_to_exclude;
+        let finalKeywords = combinedKeywords;
+
+        if (excludeList && Array.isArray(excludeList) && excludeList.length > 0) {
+            const forbiddenSet = new Set(excludeList.map((item: any) =>
+                (typeof item === 'string' ? item : item.keyword).toLowerCase().trim()
+            ));
+
+            console.log(`[Related Keywords API] filtering ${forbiddenSet.size} toxic/generic keywords...`);
+
+            finalKeywords = combinedKeywords.filter(k =>
+                !forbiddenSet.has(k.keyword.toLowerCase().trim())
+            );
+            console.log(`[Related Keywords API] Filtered: ${combinedKeywords.length} -> ${finalKeywords.length}`);
+        }
+
         console.log('[Related Keywords API] Analysis complete. Saving report...');
 
         // Save report to database
@@ -117,7 +134,7 @@ export async function POST(req: Request) {
                 userId: session.user.id,
                 projectId: projectId || null,
                 seedKeyword: keyword,
-                keywords: combinedKeywords as any, // Verify type compatibility or cast
+                keywords: finalKeywords as any,
                 analysis: analysis as any,
                 country
             }
@@ -129,9 +146,9 @@ export async function POST(req: Request) {
             success: true,
             reportId: report.id,
             keyword,
-            keywords: combinedKeywords,
+            keywords: finalKeywords,
             analysis,
-            count: combinedKeywords.length,
+            count: finalKeywords.length,
             cost,
             newBalance: deductResult.newBalance
         });
