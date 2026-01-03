@@ -2,17 +2,20 @@ import Link from 'next/link';
 
 export default function CTASection() {
     return (
-        <section className="py-20 bg-blue-500">
+        <section className="py-20 bg-gradient-to-r from-blue-600 to-indigo-700">
             <div className="container mx-auto px-4 text-center">
                 <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
                     ¿Listo para dominar los rankings?
                 </h2>
-                <p className="text-lg text-blue-100 mb-8 max-w-xl mx-auto">
+                <p className="text-lg text-blue-100 mb-4 max-w-xl mx-auto">
                     Empieza gratis hoy. Sin tarjeta de crédito. Sin compromisos.
+                </p>
+                <p className="text-xl font-semibold text-white mb-8">
+                    🎁 <span className="underline decoration-green-400 decoration-2">1€ de saldo gratis</span> al registrarte
                 </p>
                 <Link
                     href="/register"
-                    className="inline-flex items-center gap-2 px-8 py-4 bg-white hover:bg-gray-50 text-blue-600 rounded-lg font-semibold text-lg transition-all shadow-lg"
+                    className="inline-flex items-center gap-2 px-8 py-4 bg-white hover:bg-gray-50 text-blue-600 rounded-lg font-bold text-lg transition-all shadow-lg hover:shadow-xl"
                 >
                     Crear cuenta gratis
                     <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

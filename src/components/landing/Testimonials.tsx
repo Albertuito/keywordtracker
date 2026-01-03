@@ -2,21 +2,24 @@ export default function Testimonials() {
     const testimonials = [
         {
             name: "Carlos M.",
-            role: "Agencia SEO",
-            content: "Por fin un tracker que no cuesta una fortuna y da datos reales. Exactamente lo que necesitaba.",
-            avatar: "C"
+            role: "Webmaster",
+            content: "Por fin un tracker que no cuesta una fortuna y da datos reales de Google. Puedo monitorizar todos mis sitios sin arruinarme.",
+            avatar: "C",
+            color: "bg-blue-500"
         },
         {
             name: "Laura P.",
-            role: "Freelancer SEO",
-            content: "Simple, rápido y preciso. La interfaz es muy clara y fácil de usar.",
-            avatar: "L"
+            role: "Agencia SEO",
+            content: "Mis clientes están encantados con los informes. El modelo de pago por uso es perfecto para gestionar múltiples proyectos.",
+            avatar: "L",
+            color: "bg-purple-500"
         },
         {
             name: "Miguel R.",
-            role: "E-commerce",
-            content: "El modelo de pago por uso es perfecto para proyectos pequeños. Gran herramienta.",
-            avatar: "M"
+            role: "Webmaster",
+            content: "Simple, rápido y preciso. La interfaz es muy clara y el historial de evolución me ayuda a ver el progreso real.",
+            avatar: "M",
+            color: "bg-green-500"
         }
     ];
 
@@ -27,14 +30,17 @@ export default function Testimonials() {
                     <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
                         Lo que dicen nuestros usuarios
                     </h2>
+                    <p className="text-lg text-gray-600">
+                        <strong>Webmasters y agencias</strong> que ya confían en KeywordTracker
+                    </p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
                     {testimonials.map((t, i) => (
-                        <div key={i} className="bg-white rounded-xl p-6 border border-gray-200">
-                            <p className="text-gray-600 mb-6">"{t.content}"</p>
+                        <div key={i} className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+                            <p className="text-gray-700 mb-6 italic leading-relaxed">"{t.content}"</p>
                             <div className="flex items-center gap-3">
-                                <div className="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold">
+                                <div className={`w-10 h-10 rounded-full ${t.color} text-white flex items-center justify-center font-bold`}>
                                     {t.avatar}
                                 </div>
                                 <div>

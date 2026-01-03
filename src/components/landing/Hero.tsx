@@ -4,6 +4,53 @@ import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import { useState, useEffect, useRef, useMemo } from 'react';
 
+// Simple animated chart for the demo
+function DemoChart() {
+    const [mounted, setMounted] = useState(false);
+    useEffect(() => setMounted(true), []);
+
+    // Simulated 30-day ascending evolution
+    const data = [45, 42, 38, 35, 32, 28, 25, 22, 20, 18, 16, 14, 12, 11, 10, 9, 8, 7, 6, 6, 5, 5, 4, 4, 4, 3, 3, 3, 3, 3];
+    const max = 50;
+    const width = 100;
+    const height = 60;
+
+    const points = data.map((val, i) => {
+        const x = (i / (data.length - 1)) * width;
+        const y = height - ((max - val) / max) * height;
+        return `${x},${y}`;
+    }).join(' ');
+
+    return (
+        <div className="relative h-32 w-full">
+            <svg viewBox={`0 0 ${width} ${height + 10}`} className={`w-full h-full transition-opacity duration-700 ${mounted ? 'opacity-100' : 'opacity-0'}`} preserveAspectRatio="none">
+                <defs>
+                    <linearGradient id="chartGradient" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.3" />
+                        <stop offset="100%" stopColor="#3b82f6" stopOpacity="0" />
+                    </linearGradient>
+                </defs>
+                <polygon
+                    points={`0,${height} ${points} ${width},${height}`}
+                    fill="url(#chartGradient)"
+                />
+                <polyline
+                    points={points}
+                    fill="none"
+                    stroke="#3b82f6"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                />
+            </svg>
+            <div className="absolute bottom-2 left-2 text-xs text-gray-400">30 días</div>
+            <div className="absolute top-2 right-2 flex items-center gap-1 text-xs text-green-600 font-semibold">
+                <span>▲ +42 posiciones</span>
+            </div>
+        </div>
+    );
+}
+
 export default function Hero() {
     const { data: session } = useSession();
     const [mousePos, setMousePos] = useState({ x: -1000, y: -1000 });
@@ -105,12 +152,12 @@ export default function Hero() {
                     Consulta rankings cuando tú quieras, con datos 100% reales de Google.
                 </p>
 
-                {/* Price highlight */}
-                <div className="inline-flex items-center gap-3 px-6 py-3 rounded-xl bg-blue-50 border border-blue-100 mb-10">
-                    <span className="text-4xl font-bold text-blue-600">€0.02</span>
+                {/* Price highlight - GRADIENT BACKGROUND */}
+                <div className="inline-flex items-center gap-4 px-8 py-4 rounded-2xl bg-gradient-to-r from-blue-500 to-indigo-600 shadow-xl shadow-blue-500/30 mb-10">
+                    <span className="text-5xl font-extrabold text-white">€0.03</span>
                     <div className="text-left">
-                        <div className="text-sm font-medium text-gray-900">por keyword</div>
-                        <div className="text-xs text-gray-500">Sin mínimos ni máximos</div>
+                        <div className="text-lg font-bold text-white">por keyword</div>
+                        <div className="text-sm text-blue-100">Sin mínimos ni máximos</div>
                     </div>
                 </div>
 
@@ -166,7 +213,7 @@ export default function Hero() {
                     </div>
                 </div>
 
-                {/* Dashboard Preview */}
+                {/* Dashboard Preview with REAL CHART */}
                 <div className="relative mx-auto max-w-5xl rounded-xl border border-gray-200 bg-white shadow-2xl overflow-hidden">
                     <div className="bg-gray-100 px-4 py-3 border-b border-gray-200 flex items-center gap-2">
                         <div className="flex gap-1.5">
@@ -195,8 +242,9 @@ export default function Hero() {
                                 <div className="text-2xl font-bold text-blue-500">€4.94</div>
                             </div>
                         </div>
-                        <div className="bg-white rounded-lg border border-gray-200 h-32 flex items-center justify-center text-gray-400 text-sm">
-                            Gráfico de evolución de rankings
+                        <div className="bg-white rounded-lg border border-gray-200 p-4">
+                            <div className="text-sm font-medium text-gray-700 mb-2">Evolución de Rankings</div>
+                            <DemoChart />
                         </div>
                     </div>
                 </div>
