@@ -159,7 +159,7 @@ export default async function UserDetailPage({ params }: { params: { userId: str
                                                                     kw.trackingFrequency === 'weekly' ? 'bg-purple-100 text-purple-700' :
                                                                         'bg-gray-100 text-gray-600'
                                                                 }`}>
-                                                                {kw.trackingFrequency}
+                                                                {kw.trackingFrequency || 'manual'}
                                                             </span>
                                                         </td>
                                                         <td className="px-4 py-2 text-gray-500">
@@ -170,8 +170,8 @@ export default async function UserDetailPage({ params }: { params: { userId: str
                                                         </td>
                                                         <td className="px-4 py-2 text-right font-mono text-xs text-gray-400">
                                                             {kw.dataforseoTaskId || '-'}
-                                                            {kw.lastUpdateError && (
-                                                                <span className="block text-red-500 text-[10px] mt-0.5" title={kw.lastUpdateError}>
+                                                            {(kw as any).lastUpdateError && (
+                                                                <span className="block text-red-500 text-[10px] mt-0.5" title={(kw as any).lastUpdateError}>
                                                                     Error
                                                                 </span>
                                                             )}
