@@ -431,6 +431,8 @@ GENERA UN JSON CON ESTA ESTRUCTURA EXACTA:
 REGLAS DE ORO:
 - **VOLUMEN ES REY:** Solo recomienda keywords con volumen > 0 (idealmente > 10). Si tiene 0 búsquedas, ignórala salvo que sea una oportunidad emergente crítica.
 - **CERO MARCAS (Universal):** Identifica las marcas líderes DEL SECTOR de la keyword semilla (ya sea Inmobiliaria, Coches, Seguros, etc.). Si la keyword es una marca de otra empresa, MÁNDALA A keywords_to_exclude.
+- **TEMA EXACTO:** Si seed es "préstamo coche" (dinero), keywords como "chivatos", "mantenimiento" o "piezas" (mecánica) son BASURA -> keywords_to_exclude.
+- **CONSISTENCIA TOTAL:** Si en Quick Wins recomiendas "incluir 'barato'", TU H1 DEBE decir "barato". No seas hipócrita.
 - **NO INVENTES:** Selecciona SOLO de la lista "KEYWORDS DISPONIBLES". No te inventes keywords que no estén ahí con datos reales.
 - Si la keyword lista tiene basura (ej: "jubilación"), MÁNDALA A keywords_to_exclude.
 - NO sugieras "comparador genérico" si la seed es un producto específico.

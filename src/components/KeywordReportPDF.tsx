@@ -266,25 +266,35 @@ export const KeywordReportPDF = ({ seedKeyword, keywords, analysis, date, countr
                         </View>
                     </View>
 
-                    {/* Difficulty Distribution Chart (Simulated) */}
-                    <View style={{ marginTop: 40 }}>
-                        <Text style={{ ...styles.subTitle, marginBottom: 15 }}>Distribución de Dificultad</Text>
-                        <View style={{ flexDirection: 'row', height: 10, borderRadius: 5, overflow: 'hidden' }}>
-                            <View style={{ flex: keywords.filter(k => k.difficulty < 30).length, backgroundColor: '#10B981' }} />
-                            <View style={{ flex: keywords.filter(k => k.difficulty >= 30 && k.difficulty < 60).length, backgroundColor: '#F59E0B' }} />
-                            <View style={{ flex: keywords.filter(k => k.difficulty >= 60).length, backgroundColor: '#EF4444' }} />
+                    {/* Executive Summary Mover to Page 1 Bottom */}
+                    {analysis?.summary && (
+                        <View style={{ marginTop: 20, padding: 15, backgroundColor: '#F3F4F6', borderRadius: 6, borderLeftWidth: 4, borderLeftColor: colors.primary }}>
+                            <Text style={{ fontSize: 11, fontWeight: 'bold', color: colors.primary, marginBottom: 5 }}>Resumen Ejecutivo</Text>
+                            <Text style={styles.paragraph}>{analysis.summary}</Text>
                         </View>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 5 }}>
-                            <Text style={{ fontSize: 8, color: '#10B981' }}>Fácil ({Math.round(keywords.filter(k => k.difficulty < 30).length / keywords.length * 100)}%)</Text>
-                            <Text style={{ fontSize: 8, color: '#F59E0B' }}>Media</Text>
-                            <Text style={{ fontSize: 8, color: '#EF4444' }}>Difícil</Text>
+                    )}
+
+                    {analysis?.page_type_detection && (
+                        <View style={{ flexDirection: 'row', gap: 10, marginTop: 15 }}>
+                            <View style={{ flex: 1, padding: 8, borderWidth: 1, borderColor: colors.border, borderRadius: 4 }}>
+                                <Text style={{ fontSize: 9, color: colors.textLight }}>Tipo de Página</Text>
+                                <Text style={{ fontSize: 12, fontWeight: 'bold', color: colors.secondary }}>
+                                    {analysis.page_type_detection.detected_type || 'N/A'}
+                                </Text>
+                            </View>
+                            <View style={{ flex: 1, padding: 8, borderWidth: 1, borderColor: colors.border, borderRadius: 4 }}>
+                                <Text style={{ fontSize: 9, color: colors.textLight }}>Intención Dominante</Text>
+                                <Text style={{ fontSize: 12, fontWeight: 'bold', color: colors.secondary }}>
+                                    {analysis.page_type_detection.dominant_intent || 'N/A'}
+                                </Text>
+                            </View>
                         </View>
-                    </View>
+                    )}
                 </View>
 
                 <View style={styles.footer}>
                     <Text style={styles.pageNumber}>Page 1</Text>
-                    <Text style={styles.pageNumber}>Generado con AI Keyword Intelligence</Text>
+                    <Text style={styles.pageNumber}>Generado en Keywordtracker.es</Text>
                 </View>
             </Page>
 
@@ -296,32 +306,7 @@ export const KeywordReportPDF = ({ seedKeyword, keywords, analysis, date, countr
                 </View>
 
                 <View style={styles.section}>
-                    <Text style={styles.sectionTitle}>Diagnóstico & Estrategia</Text>
-
-                    {analysis?.summary && (
-                        <View style={styles.highlightBox}>
-                            <Text style={{ fontSize: 11, fontWeight: 'bold', color: colors.primary, marginBottom: 5 }}>Resumen Ejecutivo</Text>
-                            <Text style={styles.paragraph}>{analysis.summary}</Text>
-                        </View>
-                    )}
-
-                    {analysis?.page_type_detection && (
-                        <View style={{ flexDirection: 'row', gap: 10, marginBottom: 15 }}>
-                            <View style={{ flex: 1, padding: 8, borderWidth: 1, borderColor: colors.border, borderRadius: 4 }}>
-                                <Text style={{ fontSize: 9, color: colors.textLight }}>Tipo de Página</Text>
-                                <Text style={{ fontSize: 12, fontWeight: 'bold', color: colors.secondary }}>
-                                    {analysis.page_type_detection.detected_type || 'N/A'}
-                                </Text>
-                            </View>
-                            <View style={{ flex: 1, padding: 10, borderWidth: 1, borderColor: colors.border, borderRadius: 4 }}>
-                                <Text style={{ fontSize: 9, color: colors.textLight }}>Intención Dominante</Text>
-                                <Text style={{ fontSize: 12, fontWeight: 'bold', color: colors.secondary }}>
-                                    {analysis.page_type_detection.dominant_intent || 'N/A'}
-                                </Text>
-                            </View>
-                        </View>
-                    )}
-
+                    {/* Strategy Content moved to Page 1, so Page 2 is pure Optimization */}
                     <Text style={styles.sectionTitle}>Optimización On-Page</Text>
 
                     {analysis?.optimized_recommendations && (
@@ -430,7 +415,7 @@ export const KeywordReportPDF = ({ seedKeyword, keywords, analysis, date, countr
                         {topKeywords.map((kw, i) => (
                             <View key={i} style={{ ...styles.tableRow, backgroundColor: i % 2 === 0 ? '#FFFFFF' : '#F9FAFB' }}>
                                 <View style={{ width: '40%' }}>
-                                    <Text style={{ ...styles.tableCell, paddingLeft: 10, color: colors.secondary }}>{kw.keyword}</Text>
+                                    <Text style={{ ...styles.tableCell, paddingLeft: 10, color: colors.secondary, textTransform: 'capitalize' }}>{kw.keyword}</Text>
                                 </View>
                                 <View style={{ width: '20%' }}>
                                     <Text style={{ ...styles.tableCell, textAlign: 'right' }}>{formatCompactNumber(kw.volume || 0)}</Text>
