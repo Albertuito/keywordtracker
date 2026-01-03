@@ -13,6 +13,13 @@ const colors = {
     warning: '#F59E0B',
 };
 
+const formatCompactNumber = (number: number) => {
+    return Intl.NumberFormat('en-US', {
+        notation: "compact",
+        maximumFractionDigits: 1
+    }).format(number);
+};
+
 const styles = StyleSheet.create({
     page: {
         fontFamily: 'Helvetica',
@@ -226,7 +233,7 @@ export const KeywordReportPDF = ({ seedKeyword, keywords, analysis, date, countr
             {/* PAGE 1: COVER */}
             <Page size="A4" style={styles.page}>
                 <View style={styles.header}>
-                    <Text style={styles.headerLogo}>RANKTRACKER</Text>
+                    <Text style={styles.headerLogo}>Keywordtracker.es</Text>
                     <Text style={styles.headerDate}>{date} • {country}</Text>
                 </View>
 
@@ -243,7 +250,7 @@ export const KeywordReportPDF = ({ seedKeyword, keywords, analysis, date, countr
                             <Text style={styles.metricLabel}>Keywords</Text>
                         </View>
                         <View style={styles.metricCard}>
-                            <Text style={styles.metricValue}>{totalVolume.toLocaleString()}</Text>
+                            <Text style={styles.metricValue}>{formatCompactNumber(totalVolume)}</Text>
                             <Text style={styles.metricLabel}>Volumen Total</Text>
                         </View>
                         <View style={styles.metricCard}>
@@ -299,8 +306,8 @@ export const KeywordReportPDF = ({ seedKeyword, keywords, analysis, date, countr
                     )}
 
                     {analysis?.page_type_detection && (
-                        <View style={{ flexDirection: 'row', gap: 10, marginBottom: 20 }}>
-                            <View style={{ flex: 1, padding: 10, borderWidth: 1, borderColor: colors.border, borderRadius: 4 }}>
+                        <View style={{ flexDirection: 'row', gap: 10, marginBottom: 15 }}>
+                            <View style={{ flex: 1, padding: 8, borderWidth: 1, borderColor: colors.border, borderRadius: 4 }}>
                                 <Text style={{ fontSize: 9, color: colors.textLight }}>Tipo de Página</Text>
                                 <Text style={{ fontSize: 12, fontWeight: 'bold', color: colors.secondary }}>
                                     {analysis.page_type_detection.detected_type || 'N/A'}
@@ -319,10 +326,10 @@ export const KeywordReportPDF = ({ seedKeyword, keywords, analysis, date, countr
 
                     {analysis?.optimized_recommendations && (
                         <>
-                            <View style={{ marginBottom: 15 }}>
+                            <View style={{ marginBottom: 10 }}>
                                 <Text style={styles.subTitle}>Title Tag Optimizado</Text>
                                 <View style={styles.codeBox}>
-                                    <Text style={styles.codeText}>{analysis.optimized_recommendations.title_adjustment || '-'}</Text>
+                                    <Text style={styles.codeText}>{analysis.optimized_recommendations.title_adjustment || 'N/A'}</Text>
                                 </View>
                             </View>
 
@@ -333,10 +340,10 @@ export const KeywordReportPDF = ({ seedKeyword, keywords, analysis, date, countr
                                 </View>
                             </View>
 
-                            <View style={{ marginBottom: 15 }}>
+                            <View style={{ marginBottom: 10 }}>
                                 <Text style={styles.subTitle}>Meta Description</Text>
                                 <View style={styles.codeBox}>
-                                    <Text style={styles.codeText}>{analysis.optimized_recommendations.meta_description || '-'}</Text>
+                                    <Text style={styles.codeText}>{analysis.optimized_recommendations.meta_description || 'N/A'}</Text>
                                 </View>
                             </View>
                         </>
@@ -426,7 +433,7 @@ export const KeywordReportPDF = ({ seedKeyword, keywords, analysis, date, countr
                                     <Text style={{ ...styles.tableCell, paddingLeft: 10, color: colors.secondary }}>{kw.keyword}</Text>
                                 </View>
                                 <View style={{ width: '20%' }}>
-                                    <Text style={{ ...styles.tableCell, textAlign: 'right' }}>{kw.volume?.toLocaleString()}</Text>
+                                    <Text style={{ ...styles.tableCell, textAlign: 'right' }}>{formatCompactNumber(kw.volume || 0)}</Text>
                                 </View>
                                 <View style={{ width: '20%' }}>
                                     <View style={{
