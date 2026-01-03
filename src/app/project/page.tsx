@@ -138,6 +138,8 @@ function ProjectContent() {
             if (data.success) {
                 // Force refresh data after live update
                 await fetchProjectData();
+                // Refresh Global Balance
+                window.dispatchEvent(new Event('balanceUpdated'));
 
                 if (updateMode === 'live') {
                     const count = data.count || 0;
@@ -240,6 +242,7 @@ function ProjectContent() {
 
             if (res.ok) {
                 await fetchProjectData();
+                window.dispatchEvent(new Event('balanceUpdated'));
                 showToast(`Volumen obtenido para ${data.charged} keyword(s). Total: €${(data.charged * 0.03).toFixed(2)}`, 'success');
             } else {
                 showToast(data.error || 'Error al obtener volumen', 'error');

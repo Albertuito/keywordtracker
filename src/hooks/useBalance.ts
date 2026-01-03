@@ -29,6 +29,14 @@ export function useBalance() {
 
     useEffect(() => {
         fetchBalance();
+
+        // Listen for global balance update events
+        const handleBalanceUpdate = () => fetchBalance();
+        window.addEventListener('balanceUpdated', handleBalanceUpdate);
+
+        return () => {
+            window.removeEventListener('balanceUpdated', handleBalanceUpdate);
+        };
     }, [fetchBalance]);
 
     return {

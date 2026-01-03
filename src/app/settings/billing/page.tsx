@@ -1,23 +1,34 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { formatCurrency, formatCredits } from '@/lib/pricing';
 import { useBalance } from '@/hooks/useBalance';
 import { Download, TrendingUp, TrendingDown, RefreshCw } from 'lucide-react';
 
 export default function BillingPage() {
-    const { balance, balanceData, loading: balanceLoading } = useBalance();
+    const { balance, balanceData, loading: balanceLoading, refetch } = useBalance();
     const [transactions, setTransactions] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
+    const searchParams = useSearchParams();
+    const router = useRouter();
 
     useEffect(() => {
+        // Handle Stripe Success Callback
+        if (searchParams.get('success') === 'true') {
+            window.dispatchEvent(new Event('balanceUpdated'));
+            refetch(); // Explicit refetch for this page stats
+            // Clean URL
+            router.replace('/settings/billing');
+        }
+
         fetch('/api/transactions?limit=20')
             .then(res => res.json())
             .then(data => {
                 setTransactions(data.transactions || []);
                 setLoading(false);
             });
-    }, []);
+    }, [searchParams, router, refetch]);
 
     return (
         <div className="space-y-8">
