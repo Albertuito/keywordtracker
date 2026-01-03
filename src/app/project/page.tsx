@@ -619,14 +619,6 @@ function ProjectContent() {
                                                                             return null;
                                                                         })()}
                                                                     </div>
-
-                                                                    {/* Update Spinner logic */}
-                                                                    {isLongWait && (
-                                                                        <div className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-medium bg-amber-50 text-amber-600 border border-amber-200">
-                                                                            <span className="w-2 h-2 border-2 border-current border-t-transparent rounded-full animate-spin"></span>
-                                                                            <span>{diffMins}m</span>
-                                                                        </div>
-                                                                    )}
                                                                 </div>
                                                             ) : (
                                                                 <span className="text-gray-400 text-lg">-</span>
