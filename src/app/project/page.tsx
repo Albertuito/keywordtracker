@@ -125,13 +125,12 @@ function ProjectContent() {
         setShowRankingConfirm(null);
         setChecking(true);
         try {
-            const res = await fetch('/api/cron', {
+            const res = await fetch('/api/keywords/check', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    projectId,
-                    action: updateMode, // 'queue' or 'live'
-                    keywordIds
+                    keywordIds,
+                    mode: updateMode // 'queue' or 'live'
                 })
             });
 
@@ -177,26 +176,19 @@ function ProjectContent() {
 
     // Auto-Sync mechanism (polite polling)
     // Checks for results every 30 seconds if page is open
+    // [MODIFIED] Now just re-fetches data, does NOT trigger cron sync
     useEffect(() => {
-        const syncResults = async () => {
+        const checkUpdates = () => {
+            // Only auto-reload if we have pending tasks
             if (keywords.some(k => k.dataforseoTaskId)) {
-                try {
-                    const res = await fetch('/api/cron?action=sync');
-                    const data = await res.json();
-                    if (data.success && data.synced > 0) {
-                        fetchProjectData();
-                        showToast(`¡Sincronizados ${data.synced} nuevos rankings!`, 'success');
-                    }
-                } catch (e) { console.error('Sync error', e); }
+                fetchProjectData();
             }
         };
 
-        const interval = setInterval(syncResults, 30000); // 30s
-        // Initial sync check on load
-        syncResults();
-
+        const interval = setInterval(checkUpdates, 30000); // 30s
         return () => clearInterval(interval);
     }, [keywords]);
+
 
     const deleteKeywords = async () => {
         if (selectedKeywords.size === 0 || !projectId) return;
