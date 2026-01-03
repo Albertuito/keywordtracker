@@ -461,10 +461,10 @@ function ProjectContent() {
                     /* Main Table Card */
                     <div className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
                         <div className="overflow-x-auto">
-                            <table className="w-full text-left border-collapse">
+                            <table className="w-full text-left border-collapse text-sm">
                                 <thead>
-                                    <tr className="border-b border-gray-200 text-xs uppercase font-medium text-gray-700 tracking-wider bg-gray-50/30">
-                                        <th className="py-5 px-6 w-12 text-center">
+                                    <tr className="border-b border-gray-200 text-xs uppercase font-medium text-gray-600 tracking-wider bg-gray-50">
+                                        <th className="py-3 px-2 w-16 text-center border-r border-gray-100">
                                             <input
                                                 type="checkbox"
                                                 className="rounded bg-gray-100 border-gray-300 text-blue-500 focus:ring-blue-500/20 focus:ring-offset-0 cursor-pointer"
@@ -472,16 +472,16 @@ function ProjectContent() {
                                                 onChange={handleSelectAll}
                                             />
                                         </th>
-                                        <th className="py-5 px-6 font-semibold">Palabra Clave</th>
-                                        <th className="py-5 px-6 w-32 text-center font-semibold">Volumen</th>
-                                        <th className="py-5 px-6 w-40 text-center font-semibold">Frecuencia</th>
-                                        <th className="py-5 px-6 w-32 text-center font-semibold text-blue-600">Posición</th>
-                                        <th className="py-5 px-6 w-32 text-center font-semibold">Cambio</th>
-                                        <th className="py-5 px-6 font-semibold">URL</th>
-                                        <th className="py-5 px-6 w-32 text-right font-semibold">Actualizado</th>
+                                        <th className="py-3 px-3 font-semibold border-r border-gray-100">Keyword</th>
+                                        <th className="py-3 px-2 w-20 text-center font-semibold border-r border-gray-100">Vol.</th>
+                                        <th className="py-3 px-2 w-24 text-center font-semibold border-r border-gray-100">Freq.</th>
+                                        <th className="py-3 px-2 w-16 text-center font-semibold text-blue-600 border-r border-gray-100">Pos.</th>
+                                        <th className="py-3 px-2 w-16 text-center font-semibold border-r border-gray-100">Δ</th>
+                                        <th className="py-3 px-2 font-semibold border-r border-gray-100 max-w-[120px]">URL</th>
+                                        <th className="py-3 px-2 w-20 text-center font-semibold">Fecha</th>
                                     </tr>
                                 </thead>
-                                <tbody className="divide-y divide-gray-200/50 text-sm text-gray-900">
+                                <tbody className="text-gray-900">
                                     {(() => {
                                         const filteredKeywords = keywords.filter(kw => {
                                             const matchesSearch = kw.term.toLowerCase().includes(searchTerm.toLowerCase());
@@ -499,176 +499,131 @@ function ProjectContent() {
                                             );
                                         }
 
-                                        return filteredKeywords.map(kw => {
+                                        return filteredKeywords.map((kw, idx) => {
                                             const hasPositionData = kw.positions && kw.positions.length > 0;
                                             const currentPos = kw.positions?.[0]?.position ?? null;
                                             const prevPos = kw.positions?.[1]?.position ?? null;
                                             const change = prevPos !== null && prevPos > 0 && currentPos !== null && currentPos > 0 ? prevPos - currentPos : 0;
                                             const url = kw.positions?.[0]?.url || '';
                                             const isQueued = !!kw.dataforseoTaskId;
-                                            const waitStart = kw.lastLiveCheck ? new Date(kw.lastLiveCheck) : new Date();
-                                            const diffMins = Math.floor((new Date().getTime() - waitStart.getTime()) / 60000);
-                                            const isLongWait = diffMins >= 4;
                                             const isExpanded = expandedKeywordId === kw.id;
                                             const isInCompare = compareKeywords.includes(kw.id);
                                             const hasHistory = kw.positions && kw.positions.length >= 1;
-
                                             const isAutoTracked = kw.trackingFrequency && kw.trackingFrequency !== 'manual';
-                                            const rowBg = selectedKeywords.has(kw.id) ? 'bg-emerald-500/5' :
-                                                isInCompare ? 'bg-purple-500/5' :
-                                                    isAutoTracked ? 'bg-white/50 hover:bg-gray-100/40 border-l-2 border-l-emerald-500/30' :
-                                                        'group hover:bg-gray-100/30';
+
+                                            // Alternating row colors
+                                            const rowBg = selectedKeywords.has(kw.id) ? 'bg-blue-50' :
+                                                isInCompare ? 'bg-purple-50' :
+                                                    idx % 2 === 0 ? 'bg-white' : 'bg-gray-50/50';
 
                                             return (
                                                 <>
-                                                    <tr key={kw.id} className={`transition-colors border-l-2 border-l-transparent ${rowBg}`}>
-                                                        <td className="py-5 px-6 text-center" onClick={(e) => e.stopPropagation()}>
-                                                            <input
-                                                                type="checkbox"
-                                                                className="rounded bg-gray-100 border-gray-300 text-blue-500 focus:ring-blue-500/20 focus:ring-offset-0 cursor-pointer"
-                                                                checked={selectedKeywords.has(kw.id)}
-                                                                onChange={() => handleSelectOne(kw.id)}
-                                                            />
-                                                        </td>
-                                                        <td className="py-5 px-6">
-                                                            <div className="flex items-center gap-3 whitespace-nowrap">
+                                                    <tr key={kw.id} className={`border-b border-gray-100 hover:bg-blue-50/50 transition-colors ${rowBg}`}>
+                                                        {/* Checkbox + Expand button merged */}
+                                                        <td className="py-2 px-2 text-center border-r border-gray-100" onClick={(e) => e.stopPropagation()}>
+                                                            <div className="flex items-center justify-center gap-1">
+                                                                <input
+                                                                    type="checkbox"
+                                                                    className="rounded bg-gray-100 border-gray-300 text-blue-500 focus:ring-blue-500/20 focus:ring-offset-0 cursor-pointer w-3.5 h-3.5"
+                                                                    checked={selectedKeywords.has(kw.id)}
+                                                                    onChange={() => handleSelectOne(kw.id)}
+                                                                />
                                                                 <button
                                                                     onClick={() => hasHistory && setExpandedKeywordId(isExpanded ? null : kw.id)}
-                                                                    className={`flex-shrink-0 w-6 h-6 flex items-center justify-center rounded transition-colors ${hasHistory ? 'text-gray-600 hover:text-blue-600 hover:bg-gray-100 cursor-pointer' : 'text-gray-400 cursor-default'}`}
-                                                                    title={hasHistory ? (isExpanded ? 'Ocultar historial' : 'Ver historial') : 'Sin historial aún'}
+                                                                    className={`w-5 h-5 flex items-center justify-center rounded transition-colors ${hasHistory ? 'text-gray-500 hover:text-blue-600 hover:bg-gray-100 cursor-pointer' : 'text-gray-300 cursor-default'}`}
+                                                                    title={hasHistory ? (isExpanded ? 'Ocultar' : 'Historial') : 'Sin datos'}
                                                                 >
-                                                                    <svg className={`w-4 h-4 transition-transform ${isExpanded ? 'rotate-90' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                    <svg className={`w-3.5 h-3.5 transition-transform ${isExpanded ? 'rotate-90' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                                                                     </svg>
                                                                 </button>
-                                                                <span className="font-medium text-gray-900 group-hover:text-blue-600 transition-colors text-[15px]">{kw.term}</span>
+                                                            </div>
+                                                        </td>
+                                                        {/* Keyword + buttons */}
+                                                        <td className="py-2 px-3 border-r border-gray-100">
+                                                            <div className="flex items-center gap-2">
+                                                                <span className={`font-medium text-gray-900 ${isAutoTracked ? 'border-l-2 border-green-400 pl-2' : ''}`}>{kw.term}</span>
                                                                 <button
-                                                                    onClick={() => {
-                                                                        if (isInCompare) {
-                                                                            setCompareKeywords(prev => prev.filter(id => id !== kw.id));
-                                                                        } else if (compareKeywords.length < 2) {
-                                                                            setCompareKeywords(prev => [...prev, kw.id]);
-                                                                        }
-                                                                    }}
+                                                                    onClick={() => { isInCompare ? setCompareKeywords(prev => prev.filter(id => id !== kw.id)) : compareKeywords.length < 2 && setCompareKeywords(prev => [...prev, kw.id]); }}
                                                                     disabled={!isInCompare && compareKeywords.length >= 2}
-                                                                    className={`ml-2 px-2 py-0.5 rounded text-xs font-medium transition-all ${isInCompare ? 'bg-purple-500/20 text-purple-600 border border-purple-500/30' : compareKeywords.length < 2 ? 'bg-gray-100 text-gray-600 hover:bg-purple-500/10 hover:text-purple-600' : 'bg-white text-slate-700 cursor-not-allowed'}`}
-                                                                    title={isInCompare ? 'Quitar de comparación' : 'Añadir a comparación'}
+                                                                    className={`px-1.5 py-0.5 rounded text-[10px] font-medium ${isInCompare ? 'bg-purple-100 text-purple-600' : 'bg-gray-100 text-gray-500 hover:bg-purple-50'}`}
+                                                                    title={isInCompare ? 'Quitar' : 'Comparar'}
                                                                 >
-                                                                    {isInCompare ? '✓ Comparar' : 'Comparar'}
+                                                                    {isInCompare ? '✓' : '⊕'}
                                                                 </button>
                                                                 <button
-                                                                    onClick={(e) => {
-                                                                        e.stopPropagation();
-                                                                        setRelatedModalKeyword(kw.term);
-                                                                    }}
-                                                                    className="ml-1 px-2 py-0.5 rounded text-xs font-medium bg-emerald-100 text-emerald-700 hover:bg-emerald-200 border border-emerald-300/50 transition-all"
-                                                                    title="Buscar keywords relacionadas (€0.10)"
+                                                                    onClick={(e) => { e.stopPropagation(); setRelatedModalKeyword(kw.term); }}
+                                                                    className="px-1.5 py-0.5 rounded text-[10px] font-medium bg-emerald-50 text-emerald-600 hover:bg-emerald-100"
+                                                                    title="Keywords relacionadas"
                                                                 >
-                                                                    🔍 Relacionadas
+                                                                    🔍
                                                                 </button>
                                                             </div>
                                                         </td>
-                                                        <td className="py-5 px-6 text-center text-gray-700 text-xs align-middle">
+                                                        {/* Volume */}
+                                                        <td className="py-2 px-2 text-center text-gray-700 text-xs align-middle border-r border-gray-100">
                                                             {kw.volume !== null && kw.volume !== undefined ? (
-                                                                <span className="text-gray-700">{kw.volume.toLocaleString()}</span>
+                                                                <span className="text-gray-700 font-medium">{kw.volume.toLocaleString()}</span>
                                                             ) : fetchingVolume.has(kw.id) ? (
-                                                                <span className="text-blue-400 text-xs">Obteniendo...</span>
+                                                                <span className="text-blue-400 text-[10px]">...</span>
                                                             ) : (
                                                                 <button
                                                                     onClick={() => requestVolume([kw.id])}
-                                                                    className="text-xs px-2 py-1 rounded bg-indigo-600/20 text-indigo-400 hover:bg-indigo-600/30 border border-indigo-500/30 transition-colors"
-                                                                    title="Obtener volumen de búsqueda (€0.03)"
+                                                                    className="text-[10px] px-1.5 py-0.5 rounded bg-indigo-100 text-indigo-600 hover:bg-indigo-200"
+                                                                    title="€0.03"
                                                                 >
-                                                                    Obtener
+                                                                    +
                                                                 </button>
                                                             )}
                                                         </td>
-                                                        <td className="py-5 px-6 text-center align-middle">
+                                                        {/* Frequency */}
+                                                        <td className="py-2 px-2 text-center align-middle border-r border-gray-100">
                                                             <select
                                                                 value={kw.trackingFrequency || 'manual'}
                                                                 onChange={(e) => changeFrequency([kw.id], e.target.value)}
-                                                                className="px-2 py-1 text-xs rounded bg-gray-50 border border-gray-300 text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500/20 cursor-pointer"
+                                                                className="px-1 py-0.5 text-[10px] rounded bg-gray-50 border border-gray-200 text-gray-600 hover:bg-gray-100 focus:outline-none cursor-pointer"
                                                             >
-                                                                <option value="manual">⚙️ Manual</option>
-                                                                <option value="daily">📅 Diaria</option>
-                                                                <option value="every_2_days">📆 Cada 2 días</option>
-                                                                <option value="weekly">📊 Semanal</option>
+                                                                <option value="manual">Manual</option>
+                                                                <option value="daily">Diaria</option>
+                                                                <option value="every_2_days">2 días</option>
+                                                                <option value="weekly">Semanal</option>
                                                             </select>
                                                         </td>
-                                                        <td className="py-5 px-6 text-center align-middle">
+                                                        {/* Position */}
+                                                        <td className="py-2 px-2 text-center align-middle border-r border-gray-100">
                                                             {isQueued ? (
-                                                                <div className="flex items-center justify-center gap-2">
-                                                                    <span className="w-2 h-2 bg-amber-400 rounded-full animate-pulse"></span>
-                                                                    <span className="text-xs text-amber-600 font-medium">Cola</span>
-                                                                </div>
+                                                                <span className="w-2 h-2 bg-amber-400 rounded-full animate-pulse inline-block"></span>
                                                             ) : currentPos && currentPos > 0 ? (
-                                                                <div className="flex flex-col items-center gap-2">
-                                                                    <div className="flex items-center gap-1">
-                                                                        <RankBadge rank={currentPos} hasData={hasPositionData} />
-                                                                        {(() => {
-                                                                            try {
-                                                                                const feats = kw.positions?.[0]?.serpFeatures ? JSON.parse(kw.positions[0].serpFeatures) : [];
-                                                                                if (feats.includes('featured_snippet') && currentPos > 1) {
-                                                                                    return (
-                                                                                        <span title="Oportunidad de Fragmento Destacado (Posición 0)" className="text-amber-500 cursor-help animate-pulse text-lg">
-                                                                                            ⚡
-                                                                                        </span>
-                                                                                    );
-                                                                                }
-                                                                            } catch (e) { }
-                                                                            return null;
-                                                                        })()}
-                                                                    </div>
-                                                                </div>
+                                                                <RankBadge rank={currentPos} hasData={hasPositionData} />
                                                             ) : (
-                                                                <span className="text-gray-400 text-lg">-</span>
+                                                                <span className="text-gray-400">-</span>
                                                             )}
                                                         </td>
-                                                        <td className="py-5 px-6 text-center align-middle">
+                                                        {/* Change */}
+                                                        <td className="py-2 px-2 text-center align-middle border-r border-gray-100">
                                                             {!isQueued && change !== 0 ? (
-                                                                <div className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-bold ${change > 0 ? 'bg-emerald-500/10 text-blue-600' : 'bg-rose-500/10 text-rose-400'}`}>
-                                                                    {change > 0 ? (
-                                                                        <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 15l7-7 7 7" /></svg>
-                                                                    ) : (
-                                                                        <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M19 9l-7 7-7-7" /></svg>
-                                                                    )}
-                                                                    {Math.abs(change)}
-                                                                </div>
-                                                            ) : <span className="text-gray-600">-</span>}
-                                                        </td>
-                                                        <td className="py-5 px-6 text-xs text-gray-700 max-w-[250px] align-middle">
-                                                            {url ? (
-                                                                <div className="flex items-center gap-2">
-                                                                    <a
-                                                                        href={url}
-                                                                        target="_blank"
-                                                                        rel="noopener noreferrer"
-                                                                        className="text-blue-600 hover:text-blue-800 hover:underline truncate block max-w-[200px]"
-                                                                        title={url}
-                                                                    >
-                                                                        {url.replace(/https?:\/\/(www\.)?/, '')}
-                                                                    </a>
-                                                                    {(() => {
-                                                                        const prevUrl = kw.positions?.[1]?.url;
-                                                                        if (url && prevUrl && url !== prevUrl) {
-                                                                            return (
-                                                                                <span title={`Alerta de Canibalización: La URL ha cambiado reciente (Antes: ${prevUrl})`} className="text-red-500 cursor-help text-lg">
-                                                                                    ⚠️
-                                                                                </span>
-                                                                            );
-                                                                        }
-                                                                        return null;
-                                                                    })()}
-                                                                </div>
+                                                                <span className={`text-xs font-bold ${change > 0 ? 'text-green-600' : 'text-red-500'}`}>
+                                                                    {change > 0 ? '↑' : '↓'}{Math.abs(change)}
+                                                                </span>
                                                             ) : <span className="text-gray-400">-</span>}
                                                         </td>
-                                                        <td className="py-5 px-6 text-right text-xs text-gray-600">
-                                                            <div className="flex items-center justify-end gap-2">
-                                                                {kw.positions?.[0] ? new Date(kw.positions[0].date).toLocaleDateString('es-ES') : 'Nuevo'}
-                                                                {isQueued && (
-                                                                    <span className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" title="Actualizando..."></span>
-                                                                )}
-                                                            </div>
+                                                        {/* URL */}
+                                                        <td className="py-2 px-2 text-xs text-gray-600 border-r border-gray-100 max-w-[100px]">
+                                                            {url ? (
+                                                                <a
+                                                                    href={url}
+                                                                    target="_blank"
+                                                                    rel="noopener noreferrer"
+                                                                    className="text-blue-600 hover:underline truncate block max-w-[100px]"
+                                                                    title={url}
+                                                                >
+                                                                    {url.replace(/https?:\/\/(www\.)?/, '').split('/').slice(0, 2).join('/').substring(0, 25)}
+                                                                </a>
+                                                            ) : <span className="text-gray-400">-</span>}
+                                                        </td>
+                                                        {/* Date */}
+                                                        <td className="py-2 px-2 text-center text-[10px] text-gray-500">
+                                                            {kw.positions?.[0] ? new Date(kw.positions[0].date).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit' }) : '-'}
                                                         </td>
                                                     </tr>
                                                     {isExpanded && hasHistory && (
