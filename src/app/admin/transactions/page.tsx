@@ -119,13 +119,13 @@ export default function TransactionsPage() {
                             placeholder="Buscar por email..."
                             value={searchEmail}
                             onChange={(e) => setSearchEmail(e.target.value)}
-                            className="w-full pl-10 pr-4 py-2 border border-slate-500 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            className="w-full pl-10 pr-4 py-2 bg-slate-900 text-white border border-slate-500 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                         />
                     </div>
                     <select
                         value={filterAction}
                         onChange={(e) => { setFilterAction(e.target.value); setPage(1); }}
-                        className="px-4 py-2 border border-slate-500 rounded-lg focus:ring-2 focus:ring-blue-500"
+                        className="px-4 py-2 bg-slate-900 text-white border border-slate-500 rounded-lg focus:ring-2 focus:ring-blue-500"
                     >
                         <option value="">Todas las acciones</option>
                         {actions.map(action => (
@@ -136,14 +136,14 @@ export default function TransactionsPage() {
                         type="date"
                         value={dateFrom}
                         onChange={(e) => { setDateFrom(e.target.value); setPage(1); }}
-                        className="px-4 py-2 border border-slate-500 rounded-lg"
+                        className="px-4 py-2 bg-slate-900 text-white border border-slate-500 rounded-lg"
                         placeholder="Desde"
                     />
                     <input
                         type="date"
                         value={dateTo}
                         onChange={(e) => { setDateTo(e.target.value); setPage(1); }}
-                        className="px-4 py-2 border border-slate-500 rounded-lg"
+                        className="px-4 py-2 bg-slate-900 text-white border border-slate-500 rounded-lg"
                         placeholder="Hasta"
                     />
                 </div>

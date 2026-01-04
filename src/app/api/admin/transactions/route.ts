@@ -45,7 +45,14 @@ export async function GET(req: Request) {
                 where,
                 orderBy: { createdAt: 'desc' },
                 skip: (page - 1) * limit,
-                take: limit
+                take: limit,
+                include: {
+                    userBalance: {
+                        include: {
+                            user: true
+                        }
+                    }
+                }
             }),
             prisma.balanceTransaction.count({ where })
         ]);
@@ -56,8 +63,14 @@ export async function GET(req: Request) {
             _count: true
         });
 
+        // Map transactions to include user object directly
+        const mappedTransactions = transactions.map(tx => ({
+            ...tx,
+            user: tx.userBalance?.user || { email: 'Unknown', id: tx.userId }
+        }));
+
         return NextResponse.json({
-            transactions,
+            transactions: mappedTransactions,
             pagination: {
                 page,
                 limit,

@@ -234,3 +234,39 @@ model GeneratedContent {
   
   @@index([userId, createdAt])
 }
+
+// Support Ticket System
+model SupportTicket {
+  id          String    @id @default(cuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  subject     String
+  status      String    @default("OPEN") // OPEN, ANSWERED, CLOSED
+  priority    String    @default("MEDIUM") // LOW, MEDIUM, HIGH
+  
+  messages    TicketMessage[]
+  
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  
+  @@index([userId])
+  @@index([status])
+}
+
+model TicketMessage {
+  id          String        @id @default(cuid())
+  ticketId    String
+  ticket      SupportTicket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  
+  userId      String        // Sender ID (User or Admin)
+  user        User          @relation(fields: [userId], references: [id])
+  
+  message     String        @db.Text
+  isAdmin     Boolean       @default(false) // True if sent by admin
+  attachments String?       // JSON array of file URLs (optional)
+  
+  createdAt   DateTime      @default(now())
+  
+  @@index([ticketId])
+}

@@ -155,7 +155,7 @@ export default function SettingsPage() {
                             max="50"
                             value={settings.welcomeCredit}
                             onChange={(e) => setSettings({ ...settings, welcomeCredit: parseFloat(e.target.value) || 0 })}
-                            className="flex-1 px-3 py-2 border border-slate-500 rounded-lg font-mono"
+                            className="flex-1 px-3 py-2 bg-slate-900 text-white border border-slate-500 rounded-lg font-mono"
                         />
                         <button
                             onClick={() => updateSetting('welcomeCredit', settings.welcomeCredit)}
@@ -186,7 +186,7 @@ export default function SettingsPage() {
                                 min="1"
                                 value={settings.minRechargeAmount}
                                 onChange={(e) => setSettings({ ...settings, minRechargeAmount: parseInt(e.target.value) || 5 })}
-                                className="w-full px-3 py-2 border border-slate-500 rounded-lg font-mono"
+                                className="w-full px-3 py-2 bg-slate-900 text-white border border-slate-500 rounded-lg font-mono"
                             />
                         </div>
                         <div>
@@ -196,7 +196,7 @@ export default function SettingsPage() {
                                 min="10"
                                 value={settings.maxRechargeAmount}
                                 onChange={(e) => setSettings({ ...settings, maxRechargeAmount: parseInt(e.target.value) || 200 })}
-                                className="w-full px-3 py-2 border border-slate-500 rounded-lg font-mono"
+                                className="w-full px-3 py-2 bg-slate-900 text-white border border-slate-500 rounded-lg font-mono"
                             />
                         </div>
                     </div>

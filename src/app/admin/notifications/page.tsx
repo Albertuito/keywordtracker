@@ -52,8 +52,8 @@ export default function AdminNotificationsPage() {
                                 type="button"
                                 onClick={() => setForm({ ...form, targetUserId: 'ALL' })}
                                 className={`p-4 rounded-lg border flex flex-col items-center gap-2 transition-all ${form.targetUserId === 'ALL'
-                                        ? 'border-indigo-500 bg-indigo-500/20 text-indigo-400'
-                                        : 'border-slate-600 hover:border-slate-500'
+                                    ? 'border-indigo-500 bg-indigo-500/20 text-indigo-400'
+                                    : 'border-slate-600 hover:border-slate-500'
                                     }`}
                             >
                                 <Users className="w-6 h-6" />
@@ -65,8 +65,8 @@ export default function AdminNotificationsPage() {
                                     type="button"
                                     onClick={() => setForm({ ...form, targetUserId: '' })}
                                     className={`w-full h-full p-4 rounded-lg border flex flex-col items-center gap-2 transition-all ${form.targetUserId !== 'ALL'
-                                            ? 'border-indigo-500 bg-indigo-500/20 text-indigo-400'
-                                            : 'border-slate-600 hover:border-slate-500'
+                                        ? 'border-indigo-500 bg-indigo-500/20 text-indigo-400'
+                                        : 'border-slate-600 hover:border-slate-500'
                                         }`}
                                 >
                                     <User className="w-6 h-6" />
@@ -81,7 +81,7 @@ export default function AdminNotificationsPage() {
                                     placeholder="ID del Usuario"
                                     value={form.targetUserId}
                                     onChange={(e) => setForm({ ...form, targetUserId: e.target.value })}
-                                    className="w-full px-4 py-2 border rounded-lg"
+                                    className="w-full px-4 py-2 bg-slate-900 text-white border border-slate-500 rounded-lg"
                                     required
                                 />
                             </div>
@@ -98,8 +98,8 @@ export default function AdminNotificationsPage() {
                                     type="button"
                                     onClick={() => setForm({ ...form, type })}
                                     className={`px-4 py-2 rounded-lg capitalize border flex items-center gap-2 ${form.type === type
-                                            ? 'border-indigo-500 bg-indigo-500/20 text-indigo-400'
-                                            : 'border-slate-600 text-slate-300'
+                                        ? 'border-indigo-500 bg-indigo-500/20 text-indigo-400'
+                                        : 'border-slate-600 text-slate-300'
                                         }`}
                                 >
                                     {type === 'info' && <Info className="w-4 h-4" />}
@@ -118,7 +118,7 @@ export default function AdminNotificationsPage() {
                             type="text"
                             value={form.title}
                             onChange={(e) => setForm({ ...form, title: e.target.value })}
-                            className="w-full px-4 py-2 border rounded-lg"
+                            className="w-full px-4 py-2 bg-slate-900 text-white border border-slate-500 rounded-lg"
                             placeholder="Anuncio Importante"
                             required
                         />
@@ -129,7 +129,7 @@ export default function AdminNotificationsPage() {
                         <textarea
                             value={form.message}
                             onChange={(e) => setForm({ ...form, message: e.target.value })}
-                            className="w-full px-4 py-2 border rounded-lg h-32"
+                            className="w-full px-4 py-2 bg-slate-900 text-white border border-slate-500 rounded-lg h-32"
                             placeholder="Escribe tu mensaje aquí..."
                             required
                         />
