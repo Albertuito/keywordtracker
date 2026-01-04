@@ -220,3 +220,17 @@ model SystemSetting {
   value     String   // JSON string for complex values
   updatedAt DateTime @updatedAt
 }
+
+// Generated SEO Content (Ingeniería Inversa)
+model GeneratedContent {
+  id          String   @id @default(cuid())
+  userId      String
+  keyword     String
+  country     String   @default("es")
+  content     String   @db.Text // Full markdown content
+  wordCount   Int      @default(0)
+  cost        Float    @default(0.50)
+  createdAt   DateTime @default(now())
+  
+  @@index([userId, createdAt])
+}

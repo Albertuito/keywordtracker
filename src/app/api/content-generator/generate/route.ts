@@ -184,9 +184,10 @@ Responde:
 
         const balanceBefore = userBalance.balance;
         const balanceAfter = balanceBefore - COST_PER_GENERATION;
+        const wordCount = generatedContent.split(/\s+/).filter((w: string) => w.length > 0).length;
 
-        // Deduct balance and log transaction atomically
-        await prisma.$transaction([
+        // Deduct balance, log transaction, and save content atomically
+        const [, , savedContent] = await prisma.$transaction([
             prisma.userBalance.update({
                 where: { userId: session.user.id },
                 data: {
@@ -204,6 +205,16 @@ Responde:
                     balanceAfter,
                     metadata: JSON.stringify({ keyword, country })
                 }
+            }),
+            prisma.generatedContent.create({
+                data: {
+                    userId: session.user.id,
+                    keyword,
+                    country,
+                    content: generatedContent,
+                    wordCount,
+                    cost: COST_PER_GENERATION
+                }
             })
         ]);
 
@@ -211,11 +222,7 @@ Responde:
             success: true,
             keyword,
             content: generatedContent,
-            analysis: {
-                strategicSynthesis: phase1Result,
-                editorialDecision: phase2Result,
-                qualityCheck
-            },
+            contentId: savedContent.id,
             cost: COST_PER_GENERATION,
             generatedAt: new Date().toISOString()
         });
