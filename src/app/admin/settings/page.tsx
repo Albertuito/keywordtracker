@@ -102,7 +102,7 @@ export default function SettingsPage() {
                         <button
                             onClick={() => updateSetting('maintenanceMode', !settings.maintenanceMode)}
                             disabled={saving === 'maintenanceMode'}
-                            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${settings.maintenanceMode ? 'bg-red-500/200' : 'bg-gray-300'
+                            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${settings.maintenanceMode ? 'bg-red-500' : 'bg-gray-300'
                                 }`}
                         >
                             <span className={`inline-block h-4 w-4 transform rounded-full bg-slate-800 transition-transform ${settings.maintenanceMode ? 'translate-x-6' : 'translate-x-1'
@@ -126,7 +126,7 @@ export default function SettingsPage() {
                         <button
                             onClick={() => updateSetting('registrationEnabled', !settings.registrationEnabled)}
                             disabled={saving === 'registrationEnabled'}
-                            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${settings.registrationEnabled ? 'bg-green-500/200' : 'bg-gray-300'
+                            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${settings.registrationEnabled ? 'bg-green-500' : 'bg-gray-300'
                                 }`}
                         >
                             <span className={`inline-block h-4 w-4 transform rounded-full bg-slate-800 transition-transform ${settings.registrationEnabled ? 'translate-x-6' : 'translate-x-1'

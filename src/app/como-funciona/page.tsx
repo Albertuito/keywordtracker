@@ -53,7 +53,7 @@ export default function ComoFuncionaPage() {
     const features = [
         {
             title: "Pago por uso",
-            description: "Sin suscripciones. Recarga tu saldo cuando lo necesites y solo paga por las consultas que realices.",
+            description: "Sin suscripciones. Recarga tu saldo cuando lo necesites y solo paga por lo que uses.",
             icon: (
                 <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -62,7 +62,7 @@ export default function ComoFuncionaPage() {
         },
         {
             title: "Datos en tiempo real",
-            description: "Obtenemos los rankings directamente de Google para darte posiciones 100% precisas y actualizadas.",
+            description: "Rankings consultados directamente en Google. Datos 100% precisos y actualizados.",
             icon: (
                 <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
@@ -71,7 +71,7 @@ export default function ComoFuncionaPage() {
         },
         {
             title: "Histórico completo",
-            description: "Guarda todo el historial de posiciones para analizar tendencias y medir el impacto de tus acciones SEO.",
+            description: "Historial completo de posiciones para analizar tendencias y medir tu progreso SEO.",
             icon: (
                 <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -80,7 +80,7 @@ export default function ComoFuncionaPage() {
         },
         {
             title: "Análisis de competencia",
-            description: "Descubre qué URLs de tus competidores están posicionando por las mismas keywords.",
+            description: "Descubre qué URLs de la competencia posicionan por tus mismas keywords.",
             icon: (
                 <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -98,7 +98,7 @@ export default function ComoFuncionaPage() {
         },
         {
             title: "Auto-tracking programado",
-            description: "Configura actualizaciones automáticas diarias, cada 2 días o semanales para tus keywords más importantes.",
+            description: "Actualizaciones automáticas diarias, cada 2 días o semanales para tus keywords.",
             icon: (
                 <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
@@ -141,9 +141,9 @@ export default function ComoFuncionaPage() {
             )
         },
         {
-            name: "Keywords relacionadas + IA",
+            name: "Keywords relacionadas",
             price: PRICING.related_keywords,
-            description: "Análisis con inteligencia artificial",
+            description: "Análisis inteligente de keywords",
             icon: (
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
@@ -174,7 +174,7 @@ export default function ComoFuncionaPage() {
                             {session ? (
                                 <Link
                                     href="/dashboard"
-                                    className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-blue-500/200 hover:bg-blue-600 text-white font-semibold rounded-xl transition-all shadow-lg shadow-blue-500/20"
+                                    className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-xl transition-all shadow-lg shadow-blue-500/30"
                                 >
                                     Ir al Dashboard
                                     <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -185,7 +185,7 @@ export default function ComoFuncionaPage() {
                                 <>
                                     <Link
                                         href="/register"
-                                        className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-blue-500/200 hover:bg-blue-600 text-white font-semibold rounded-xl transition-all shadow-lg shadow-blue-500/20"
+                                        className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-xl transition-all shadow-lg shadow-blue-500/30"
                                     >
                                         Empezar gratis
                                         <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -194,7 +194,7 @@ export default function ComoFuncionaPage() {
                                     </Link>
                                     <Link
                                         href="/login"
-                                        className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-slate-800 hover:bg-slate-900 text-slate-200 font-semibold rounded-xl transition-all border border-slate-600"
+                                        className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-slate-700 hover:bg-slate-600 text-white font-semibold rounded-xl transition-all border border-slate-500"
                                     >
                                         Iniciar sesión
                                     </Link>
@@ -226,8 +226,8 @@ export default function ComoFuncionaPage() {
                                 {index < steps.length - 1 && (
                                     <div className="hidden lg:block absolute top-12 left-full w-full h-0.5 bg-gradient-to-r from-blue-500/30 to-transparent -translate-x-8"></div>
                                 )}
-                                <div className="bg-slate-900 rounded-2xl p-8 h-full hover:shadow-lg transition-shadow">
-                                    <div className="w-16 h-16 rounded-2xl bg-blue-500/20 text-blue-400 flex items-center justify-center mb-6">
+                                <div className="bg-slate-900 rounded-2xl p-8 h-full hover:shadow-lg transition-shadow text-center">
+                                    <div className="w-16 h-16 rounded-2xl bg-blue-500/20 text-blue-400 flex items-center justify-center mb-6 mx-auto">
                                         {step.icon}
                                     </div>
                                     <span className="text-sm font-bold text-blue-500 mb-2 block">{step.number}</span>
@@ -254,8 +254,8 @@ export default function ComoFuncionaPage() {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {features.map((feature, index) => (
-                            <div key={index} className="bg-slate-800 rounded-xl p-6 border border-slate-700 hover:shadow-lg transition-all hover:-translate-y-1">
-                                <div className="w-12 h-12 rounded-xl bg-blue-500/20 text-blue-500 flex items-center justify-center mb-4">
+                            <div key={index} className="bg-slate-800 rounded-xl p-6 border border-slate-700 hover:shadow-lg transition-all hover:-translate-y-1 text-center">
+                                <div className="w-12 h-12 rounded-xl bg-blue-500/20 text-blue-500 flex items-center justify-center mb-4 mx-auto">
                                     {feature.icon}
                                 </div>
                                 <h3 className="text-lg font-bold text-white mb-2">{feature.title}</h3>
@@ -291,7 +291,7 @@ export default function ComoFuncionaPage() {
                                 >
                                     <div className="flex items-start justify-between mb-4">
                                         <div className="flex items-center gap-3">
-                                            <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${action.highlight ? 'bg-blue-500/200 text-white' : 'bg-slate-700 text-slate-300'
+                                            <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${action.highlight ? 'bg-blue-500 text-white' : 'bg-slate-700 text-slate-300'
                                                 }`}>
                                                 {action.icon}
                                             </div>
@@ -301,7 +301,7 @@ export default function ComoFuncionaPage() {
                                             </div>
                                         </div>
                                         {action.highlight && (
-                                            <span className="px-2 py-1 bg-blue-500/200 text-white text-xs font-semibold rounded-full">
+                                            <span className="px-2 py-1 bg-blue-500 text-white text-xs font-semibold rounded-full">
                                                 Popular
                                             </span>
                                         )}
@@ -398,9 +398,9 @@ export default function ComoFuncionaPage() {
                                 </svg>
                             </summary>
                             <p className="mt-4 text-slate-300">
-                                <strong>Standard (0,02€)</strong> procesa tu consulta en cola, con un tiempo de espera de 2-5 minutos. Ideal para actualizar muchas keywords.
+                                <strong>Standard (0,05€)</strong> procesa tu consulta en cola, con un tiempo de espera de 2-5 minutos. Ideal para actualizar muchas keywords.
                                 <br /><br />
-                                <strong>Live (0,05€)</strong> te da el resultado al instante. Perfecto cuando necesitas saber la posición en ese momento.
+                                <strong>Live (0,09€)</strong> te da el resultado al instante. Perfecto cuando necesitas saber la posición en ese momento.
                             </p>
                         </details>
 
@@ -412,7 +412,7 @@ export default function ComoFuncionaPage() {
                                 </svg>
                             </summary>
                             <p className="mt-4 text-slate-300">
-                                Utilizamos DataForSEO, uno de los proveedores de datos SEO más precisos del mercado. Los rankings se consultan directamente a Google para garantizar la máxima precisión.
+                                Nuestros bots de rastreo consultan las posiciones directamente en Google en tiempo real. Esto garantiza que los datos sean 100% precisos y actualizados al momento de la consulta.
                             </p>
                         </details>
 
@@ -436,7 +436,7 @@ export default function ComoFuncionaPage() {
                                 </svg>
                             </summary>
                             <p className="mt-4 text-slate-300">
-                                Por 0,15€ obtienes keywords relacionadas con volumen de búsqueda, dificultad SEO, CPC y un análisis con inteligencia artificial (GPT-4) que te recomienda qué keywords atacar y cómo optimizar tus páginas existentes.
+                                Por 0,15€ obtienes keywords relacionadas con volumen de búsqueda, dificultad SEO, CPC y un <strong>análisis inteligente</strong> que te recomienda qué keywords atacar y cómo optimizar tus páginas existentes.
                             </p>
                         </details>
 
@@ -460,7 +460,7 @@ export default function ComoFuncionaPage() {
                                 </svg>
                             </summary>
                             <p className="mt-4 text-slate-300">
-                                Puedes configurar cada keyword para que se actualice automáticamente cada día, cada 2 días o cada semana. El coste por consulta automática es el mismo que el Standard (0,02€).
+                                Puedes configurar cada keyword para que se actualice automáticamente cada día, cada 2 días o cada semana. El coste por consulta automática es el mismo que el Standard (<strong>0,05€</strong>).
                             </p>
                         </details>
                     </div>

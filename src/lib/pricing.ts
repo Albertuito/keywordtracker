@@ -3,7 +3,7 @@
 
 export const PRICING = {
     // Keyword tracking
-    keyword_check_standard: 0.02,   // €0.02 per check (Standard Queue)
+    keyword_check_standard: 0.05,   // €0.05 per check (Standard Queue)
     keyword_check_live: 0.09,       // €0.09 per check (Live Mode - Instant)
 
     // AI features

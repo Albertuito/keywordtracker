@@ -93,7 +93,7 @@ export default function RechargeModal({ isOpen, onClose }: RechargeModalProps) {
                                 key={val}
                                 onClick={() => setAmount(val)}
                                 className={`py-2.5 px-3 rounded-lg text-sm font-semibold transition-all ${amount === val
-                                    ? 'bg-blue-500/200 text-white shadow-lg shadow-blue-500/20'
+                                    ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/20'
                                     : 'bg-slate-700 text-slate-300 hover:bg-gray-200'
                                     }`}
                             >
@@ -105,7 +105,7 @@ export default function RechargeModal({ isOpen, onClose }: RechargeModalProps) {
                     <button
                         onClick={handlePurchase}
                         disabled={loading}
-                        className="w-full bg-green-500/200 hover:bg-green-600 text-white py-4 rounded-xl font-bold text-lg shadow-lg shadow-green-500/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                        className="w-full bg-green-500 hover:bg-green-600 text-white py-4 rounded-xl font-bold text-lg shadow-lg shadow-green-500/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                     >
                         {loading ? (
                             <>

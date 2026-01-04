@@ -138,7 +138,7 @@ export default function Hero() {
 
                 {/* Badge - 1€ gratis */}
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/20 border border-green-500/30 text-green-400 text-sm font-semibold mb-8">
-                    <span className="flex h-2 w-2 rounded-full bg-green-500/200 animate-pulse"></span>
+                    <span className="flex h-2 w-2 rounded-full bg-green-500 animate-pulse"></span>
                     🎁 1€ GRATIS para nuevos usuarios
                 </div>
 
@@ -154,7 +154,7 @@ export default function Hero() {
 
                 {/* Price highlight - GRADIENT BACKGROUND */}
                 <div className="inline-flex items-center gap-4 px-8 py-4 rounded-2xl bg-gradient-to-r from-blue-500 to-indigo-600 shadow-xl shadow-blue-500/30 mb-10">
-                    <span className="text-5xl font-extrabold text-white">€0.03</span>
+                    <span className="text-5xl font-extrabold text-white">€0.05</span>
                     <div className="text-left">
                         <div className="text-lg font-bold text-white">por keyword</div>
                         <div className="text-sm text-blue-100">Sin mínimos ni máximos</div>
@@ -165,7 +165,7 @@ export default function Hero() {
                     {session ? (
                         <Link
                             href="/dashboard"
-                            className="px-8 py-4 bg-blue-500/200 hover:bg-blue-600 text-white rounded-lg font-semibold text-lg transition-all shadow-lg shadow-blue-500/25 flex items-center gap-2"
+                            className="px-8 py-4 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-semibold text-lg transition-all shadow-lg shadow-blue-500/30 flex items-center gap-2"
                         >
                             Ir al Dashboard
                             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -175,7 +175,7 @@ export default function Hero() {
                     ) : (
                         <Link
                             href="/register"
-                            className="px-8 py-4 bg-blue-500/200 hover:bg-blue-600 text-white rounded-lg font-semibold text-lg transition-all shadow-lg shadow-blue-500/25 flex items-center gap-2"
+                            className="px-8 py-4 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-semibold text-lg transition-all shadow-lg shadow-blue-500/30 flex items-center gap-2"
                         >
                             Probar Gratis con 1€
                             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -185,7 +185,7 @@ export default function Hero() {
                     )}
                     <Link
                         href="#how-it-works"
-                        className="px-8 py-4 bg-slate-800 hover:bg-slate-900 text-slate-200 rounded-lg font-semibold text-lg border border-slate-600 transition-all flex items-center gap-2"
+                        className="px-8 py-4 bg-slate-700 hover:bg-slate-600 text-white rounded-lg font-semibold text-lg border border-slate-500 transition-all flex items-center gap-2"
                     >
                         ¿Cómo funciona?
                     </Link>

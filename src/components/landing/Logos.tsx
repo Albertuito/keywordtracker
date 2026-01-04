@@ -13,8 +13,8 @@ export default function Logos() {
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
                     <div className="text-center p-6 bg-slate-800 rounded-xl border border-slate-600 shadow-sm">
-                        <div className="text-4xl font-bold text-blue-400 mb-2">~33</div>
-                        <div className="text-slate-300">Keywords a <strong>€0.03</strong> cada una</div>
+                        <div className="text-4xl font-bold text-blue-400 mb-2">~20</div>
+                        <div className="text-slate-300">Keywords a <strong>€0.05</strong> cada una</div>
                         <div className="text-sm text-slate-500 mt-1">Con tu saldo gratuito</div>
                     </div>
                     <div className="text-center p-6 bg-slate-800 rounded-xl border border-slate-600 shadow-sm">

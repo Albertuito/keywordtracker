@@ -80,14 +80,14 @@ export default function AdminFinancePage() {
                                 {/* Recharge Bar */}
                                 {day.recharge > 0 && (
                                     <div
-                                        className="w-1/2 bg-green-500/200/80 hover:bg-green-500/200/200 transition-all rounded-t-sm"
+                                        className="w-1/2 bg-green-500/80 hover:bg-green-500/200 transition-all rounded-t-sm"
                                         style={{ height: `${(day.recharge / maxVal) * 100}%` }}
                                     ></div>
                                 )}
                                 {/* Usage Bar */}
                                 {day.usage > 0 && (
                                     <div
-                                        className="w-1/2 bg-blue-500/200/80 hover:bg-blue-500/200/200 transition-all rounded-t-sm"
+                                        className="w-1/2 bg-blue-500/80 hover:bg-blue-500/200 transition-all rounded-t-sm"
                                         style={{ height: `${(day.usage / maxVal) * 100}%` }}
                                     ></div>
                                 )}
@@ -102,10 +102,10 @@ export default function AdminFinancePage() {
                 </div>
                 <div className="mt-4 flex justify-center gap-6 text-sm text-slate-400">
                     <div className="flex items-center gap-2">
-                        <span className="w-3 h-3 bg-green-500/200 rounded-sm"></span> Recargas
+                        <span className="w-3 h-3 bg-green-500 rounded-sm"></span> Recargas
                     </div>
                     <div className="flex items-center gap-2">
-                        <span className="w-3 h-3 bg-blue-500/200 rounded-sm"></span> Consumo
+                        <span className="w-3 h-3 bg-blue-500 rounded-sm"></span> Consumo
                     </div>
                 </div>
             </div>

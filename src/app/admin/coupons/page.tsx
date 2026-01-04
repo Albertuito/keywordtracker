@@ -179,7 +179,7 @@ export default function AdminCouponsPage() {
                                     <td className="px-6 py-4 text-right">
                                         <button
                                             onClick={() => handleDelete(coupon.id)}
-                                            className="text-red-400 hover:text-red-400 p-1 rounded hover:bg-red-500/200/20"
+                                            className="text-red-400 hover:text-red-400 p-1 rounded hover:bg-red-500/20"
                                         >
                                             <Trash2 className="w-4 h-4" />
                                         </button>

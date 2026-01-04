@@ -103,7 +103,7 @@ export default function Dashboard() {
                             <p className="text-sm font-medium text-slate-400">Proyectos Activos</p>
                             <p className="text-3xl font-bold text-white mt-1">{projects.length}</p>
                         </div>
-                        <div className="w-12 h-12 rounded-xl bg-blue-500/200/20 flex items-center justify-center">
+                        <div className="w-12 h-12 rounded-xl bg-blue-500/20 flex items-center justify-center">
                             <svg className="w-6 h-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                             </svg>
@@ -117,7 +117,7 @@ export default function Dashboard() {
                             <p className="text-sm font-medium text-slate-400">Keywords Monitorizadas</p>
                             <p className="text-3xl font-bold text-white mt-1">{totalKeywords}</p>
                         </div>
-                        <div className="w-12 h-12 rounded-xl bg-green-500/200/20 flex items-center justify-center">
+                        <div className="w-12 h-12 rounded-xl bg-green-500/20 flex items-center justify-center">
                             <svg className="w-6 h-6 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
                             </svg>
@@ -133,7 +133,7 @@ export default function Dashboard() {
                                 {projects.length > 0 ? new Date(projects[0].updatedAt || Date.now()).toLocaleDateString('es-ES', { day: 'numeric', month: 'short' }) : '--'}
                             </p>
                         </div>
-                        <div className="w-12 h-12 rounded-xl bg-purple-500/200/20 flex items-center justify-center">
+                        <div className="w-12 h-12 rounded-xl bg-purple-500/20 flex items-center justify-center">
                             <svg className="w-6 h-6 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
@@ -299,7 +299,7 @@ export default function Dashboard() {
                             </div>
 
                             {error && (
-                                <div className="rounded-lg bg-red-500/200/20 border border-red-500/30 p-3">
+                                <div className="rounded-lg bg-red-500/20 border border-red-500/30 p-3">
                                     <p className="text-sm text-red-400">{error}</p>
                                 </div>
                             )}

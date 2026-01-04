@@ -5,21 +5,21 @@ export default function Testimonials() {
             role: "Webmaster",
             content: "Por fin un tracker que no cuesta una fortuna y da datos reales de Google. Puedo monitorizar todos mis sitios sin arruinarme.",
             avatar: "C",
-            color: "bg-blue-500/200"
+            color: "bg-blue-500"
         },
         {
             name: "Laura P.",
             role: "Agencia SEO",
             content: "Mis clientes están encantados con los informes. El modelo de pago por uso es perfecto para gestionar múltiples proyectos.",
             avatar: "L",
-            color: "bg-purple-500/200"
+            color: "bg-purple-500"
         },
         {
             name: "Miguel R.",
             role: "Webmaster",
             content: "Simple, rápido y preciso. La interfaz es muy clara y el historial de evolución me ayuda a ver el progreso real.",
             avatar: "M",
-            color: "bg-green-500/200"
+            color: "bg-green-500"
         }
     ];
 

@@ -367,12 +367,12 @@ function CompetitorRow({
                             href={`https://${competitor.domain}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="p-2 text-slate-500 hover:text-blue-400 hover:bg-blue-500/200/20 rounded-lg transition-colors"
+                            className="p-2 text-slate-500 hover:text-blue-400 hover:bg-blue-500/20 rounded-lg transition-colors"
                         >
                             <ExternalLink className="w-4 h-4" />
                         </a>
                         <button
-                            className="p-2 text-slate-500 hover:text-red-400 hover:bg-red-500/200/20 rounded-lg transition-colors"
+                            className="p-2 text-slate-500 hover:text-red-400 hover:bg-red-500/20 rounded-lg transition-colors"
                             onClick={() => onDelete(competitor.id)}
                         >
                             <Trash2 className="w-4 h-4" />
@@ -417,7 +417,7 @@ function DetectedCompetitorRow({
             <tr className="group hover:bg-slate-900 transition-colors">
                 <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
-                        <button onClick={onToggle} className="p-2 bg-slate-700 rounded-lg group-hover:bg-blue-500/200/20 transition-colors">
+                        <button onClick={onToggle} className="p-2 bg-slate-700 rounded-lg group-hover:bg-blue-500/20 transition-colors">
                             <Globe className="w-4 h-4 text-slate-500 group-hover:text-blue-500" />
                         </button>
                         <div>
@@ -457,7 +457,7 @@ function DetectedCompetitorRow({
                 <td className="px-6 py-4 text-right">
                     <button
                         onClick={onAddToManual}
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-blue-400 hover:text-blue-400 hover:bg-blue-500/200/20 border border-blue-500/30 rounded-lg transition-colors"
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-blue-400 hover:text-blue-400 hover:bg-blue-500/20 border border-blue-500/30 rounded-lg transition-colors"
                     >
                         <Plus className="w-3.5 h-3.5" />
                         Añadir

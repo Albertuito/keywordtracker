@@ -33,7 +33,7 @@ export default function BalanceWidget() {
 
                 <button
                     onClick={() => setShowRecharge(true)}
-                    className="bg-green-500/200 hover:bg-green-600 text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors shadow-sm"
+                    className="bg-green-500 hover:bg-green-600 text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors shadow-sm"
                 >
                     Recargar
                 </button>

@@ -35,7 +35,7 @@ export default function Header() {
                             <Link
                                 href="/"
                                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${isActive('/')
-                                    ? 'bg-blue-500/200/20 text-blue-400'
+                                    ? 'bg-blue-500/20 text-blue-400'
                                     : 'text-slate-300 hover:text-white hover:bg-slate-800'
                                     }`}
                             >
@@ -47,7 +47,7 @@ export default function Header() {
                                 <Link
                                     href="/dashboard"
                                     className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${isActive('/dashboard')
-                                        ? 'bg-blue-500/200/20 text-blue-400'
+                                        ? 'bg-blue-500/20 text-blue-400'
                                         : 'text-slate-300 hover:text-white hover:bg-slate-800'
                                         }`}
                                 >
@@ -56,7 +56,7 @@ export default function Header() {
                                 <Link
                                     href="/reports"
                                     className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${isActive('/reports')
-                                        ? 'bg-blue-500/200/20 text-blue-400'
+                                        ? 'bg-blue-500/20 text-blue-400'
                                         : 'text-slate-300 hover:text-white hover:bg-slate-800'
                                         }`}
                                 >
@@ -65,7 +65,7 @@ export default function Header() {
                                 <Link
                                     href="/content-generator"
                                     className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${isActive('/content-generator')
-                                        ? 'bg-blue-500/200/20 text-blue-400'
+                                        ? 'bg-blue-500/20 text-blue-400'
                                         : 'text-slate-300 hover:text-white hover:bg-slate-800'
                                         }`}
                                 >
@@ -76,7 +76,7 @@ export default function Header() {
                         <Link
                             href="/como-funciona"
                             className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${isActive('/como-funciona')
-                                ? 'bg-blue-500/200/20 text-blue-400'
+                                ? 'bg-blue-500/20 text-blue-400'
                                 : 'text-slate-300 hover:text-white hover:bg-slate-800'
                                 }`}
                         >
@@ -151,15 +151,15 @@ export default function Header() {
                             <div className="flex items-center gap-3">
                                 <Link
                                     href="/login"
-                                    className="px-4 py-2 text-sm font-medium text-slate-300 hover:text-white transition-colors"
+                                    className="px-5 py-2.5 text-sm font-semibold text-white bg-slate-700 hover:bg-slate-600 rounded-lg transition-colors border border-slate-600"
                                 >
                                     Iniciar Sesión
                                 </Link>
                                 <Link
                                     href="/register"
-                                    className="px-4 py-2 bg-blue-500/200 hover:bg-blue-600 text-white text-sm font-medium rounded-lg transition-colors shadow-sm shadow-blue-500/20"
+                                    className="px-5 py-2.5 bg-blue-500 hover:bg-blue-600 text-white text-sm font-semibold rounded-lg transition-colors shadow-lg shadow-blue-500/30"
                                 >
-                                    Registrarse
+                                    Registrarse Gratis
                                 </Link>
                             </div>
                         )}
@@ -188,7 +188,7 @@ export default function Header() {
                             <Link
                                 href="/"
                                 onClick={() => setMobileMenuOpen(false)}
-                                className={`block px-4 py-3 text-base font-medium ${isActive('/') ? 'bg-blue-500/200/20 text-blue-400' : 'text-slate-300 hover:bg-slate-800'}`}
+                                className={`block px-4 py-3 text-base font-medium ${isActive('/') ? 'bg-blue-500/20 text-blue-400' : 'text-slate-300 hover:bg-slate-800'}`}
                             >
                                 Inicio
                             </Link>
@@ -198,21 +198,21 @@ export default function Header() {
                                 <Link
                                     href="/dashboard"
                                     onClick={() => setMobileMenuOpen(false)}
-                                    className={`block px-4 py-3 text-base font-medium ${isActive('/dashboard') ? 'bg-blue-500/200/20 text-blue-400' : 'text-slate-300 hover:bg-slate-800'}`}
+                                    className={`block px-4 py-3 text-base font-medium ${isActive('/dashboard') ? 'bg-blue-500/20 text-blue-400' : 'text-slate-300 hover:bg-slate-800'}`}
                                 >
                                     Dashboard
                                 </Link>
                                 <Link
                                     href="/reports"
                                     onClick={() => setMobileMenuOpen(false)}
-                                    className={`block px-4 py-3 text-base font-medium ${isActive('/reports') ? 'bg-blue-500/200/20 text-blue-400' : 'text-slate-300 hover:bg-slate-800'}`}
+                                    className={`block px-4 py-3 text-base font-medium ${isActive('/reports') ? 'bg-blue-500/20 text-blue-400' : 'text-slate-300 hover:bg-slate-800'}`}
                                 >
                                     Reportes
                                 </Link>
                                 <Link
                                     href="/content-generator"
                                     onClick={() => setMobileMenuOpen(false)}
-                                    className={`block px-4 py-3 text-base font-medium ${isActive('/content-generator') ? 'bg-blue-500/200/20 text-blue-400' : 'text-slate-300 hover:bg-slate-800'}`}
+                                    className={`block px-4 py-3 text-base font-medium ${isActive('/content-generator') ? 'bg-blue-500/20 text-blue-400' : 'text-slate-300 hover:bg-slate-800'}`}
                                 >
                                     🎯 Generador
                                 </Link>
@@ -221,7 +221,7 @@ export default function Header() {
                         <Link
                             href="/como-funciona"
                             onClick={() => setMobileMenuOpen(false)}
-                            className={`block px-4 py-3 text-base font-medium ${isActive('/como-funciona') ? 'bg-blue-500/200/20 text-blue-400' : 'text-slate-300 hover:bg-slate-800'}`}
+                            className={`block px-4 py-3 text-base font-medium ${isActive('/como-funciona') ? 'bg-blue-500/20 text-blue-400' : 'text-slate-300 hover:bg-slate-800'}`}
                         >
                             Cómo funciona
                         </Link>
@@ -229,7 +229,7 @@ export default function Header() {
                             <Link
                                 href="/settings"
                                 onClick={() => setMobileMenuOpen(false)}
-                                className={`block px-4 py-3 text-base font-medium ${isActive('/settings') ? 'bg-blue-500/200/20 text-blue-400' : 'text-slate-300 hover:bg-slate-800'}`}
+                                className={`block px-4 py-3 text-base font-medium ${isActive('/settings') ? 'bg-blue-500/20 text-blue-400' : 'text-slate-300 hover:bg-slate-800'}`}
                             >
                                 Configuración
                             </Link>

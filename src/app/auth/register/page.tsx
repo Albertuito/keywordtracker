@@ -88,7 +88,7 @@ export default function RegisterPage() {
 
                     <div className="space-y-6">
                         <div className="flex items-start gap-4">
-                            <div className="p-2 rounded-lg bg-indigo-500/200/10 text-indigo-400">
+                            <div className="p-2 rounded-lg bg-indigo-500/10 text-indigo-400">
                                 <CheckCircle2 className="w-5 h-5" />
                             </div>
                             <div>
@@ -97,7 +97,7 @@ export default function RegisterPage() {
                             </div>
                         </div>
                         <div className="flex items-start gap-4">
-                            <div className="p-2 rounded-lg bg-indigo-500/200/10 text-indigo-400">
+                            <div className="p-2 rounded-lg bg-indigo-500/10 text-indigo-400">
                                 <ShieldCheck className="w-5 h-5" />
                             </div>
                             <div>
@@ -138,7 +138,7 @@ export default function RegisterPage() {
                         <p className="text-zinc-400 mb-8 text-sm">Introduce tus datos para acceder al panel.</p>
 
                         {error && (
-                            <div className="mb-6 p-4 rounded-lg bg-red-500/200/10 border border-red-500/20 text-red-400 text-sm flex items-center gap-2">
+                            <div className="mb-6 p-4 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm flex items-center gap-2">
                                 <svg className="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>

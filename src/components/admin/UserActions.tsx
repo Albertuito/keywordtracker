@@ -160,7 +160,7 @@ export default function UserActions({ userId, userName, currentBalance }: Props)
                 {!showDeleteConfirm ? (
                     <button
                         onClick={() => setShowDeleteConfirm(true)}
-                        className="px-4 py-2 bg-slate-800 border border-red-300 text-red-400 rounded-lg hover:bg-red-500/200/20 flex items-center gap-2"
+                        className="px-4 py-2 bg-slate-800 border border-red-300 text-red-400 rounded-lg hover:bg-red-500/20 flex items-center gap-2"
                     >
                         <Trash2 className="w-4 h-4" />
                         Eliminar Usuario

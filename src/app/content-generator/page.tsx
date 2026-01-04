@@ -326,9 +326,9 @@ export default function ContentGeneratorPage() {
                                         }`}
                                 >
                                     <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold ${idx < analyzingIndex
-                                        ? 'bg-green-500/200 text-white'
+                                        ? 'bg-green-500 text-white'
                                         : idx === analyzingIndex
-                                            ? 'bg-blue-500/200 text-white'
+                                            ? 'bg-blue-500 text-white'
                                             : 'bg-gray-200 text-slate-400'
                                         }`}>
                                         {idx < analyzingIndex ? '✓' : idx + 1}
@@ -355,9 +355,9 @@ export default function ContentGeneratorPage() {
                         {/* Terminal Header */}
                         <div className="flex items-center justify-between mb-4 border-b border-gray-800 pb-3">
                             <div className="flex gap-2">
-                                <div className="w-3 h-3 rounded-full bg-red-500/200"></div>
+                                <div className="w-3 h-3 rounded-full bg-red-500"></div>
                                 <div className="w-3 h-3 rounded-full bg-yellow-500/200"></div>
-                                <div className="w-3 h-3 rounded-full bg-green-500/200"></div>
+                                <div className="w-3 h-3 rounded-full bg-green-500"></div>
                             </div>
                             <div className="text-slate-400 font-mono text-xs">sys_override://seo_reverse_engineering.exe</div>
                         </div>
@@ -377,8 +377,8 @@ export default function ContentGeneratorPage() {
                         </div>
 
                         {/* Decorative Background Elements */}
-                        <div className="absolute top-0 right-0 w-64 h-64 bg-green-500/200/5 rounded-full blur-3xl -z-10"></div>
-                        <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/200/5 rounded-full blur-3xl -z-10"></div>
+                        <div className="absolute top-0 right-0 w-64 h-64 bg-green-500/5 rounded-full blur-3xl -z-10"></div>
+                        <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl -z-10"></div>
                     </div>
                 )}
 

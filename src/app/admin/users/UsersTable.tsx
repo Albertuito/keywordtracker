@@ -258,14 +258,14 @@ export default function UsersTable({ users: initialUsers }: { users: UserData[] 
                                         <button
                                             onClick={() => router.push(`/admin/users/${user.id}`)}
                                             title="Ver Detalles Completos"
-                                            className="p-2 text-slate-400 hover:text-blue-400 hover:bg-blue-500/200/20 rounded-lg transition-colors"
+                                            className="p-2 text-slate-400 hover:text-blue-400 hover:bg-blue-500/20 rounded-lg transition-colors"
                                         >
                                             <FolderOpen className="w-4 h-4" />
                                         </button>
                                         <button
                                             onClick={() => openBalanceModal(user)}
                                             title="Gestionar Saldo"
-                                            className="p-2 text-green-400 hover:bg-green-500/200/20 rounded-lg transition-colors"
+                                            className="p-2 text-green-400 hover:bg-green-500/20 rounded-lg transition-colors"
                                         >
                                             <Wallet className="w-4 h-4" />
                                         </button>
@@ -279,14 +279,14 @@ export default function UsersTable({ users: initialUsers }: { users: UserData[] 
                                         <button
                                             onClick={() => openEditModal(user)}
                                             title="Editar Usuario"
-                                            className="p-2 text-blue-400 hover:bg-blue-500/200/20 rounded-lg transition-colors"
+                                            className="p-2 text-blue-400 hover:bg-blue-500/20 rounded-lg transition-colors"
                                         >
                                             <Edit className="w-4 h-4" />
                                         </button>
                                         <button
                                             onClick={() => openDeleteModal(user)}
                                             title="Eliminar Usuario"
-                                            className="p-2 text-red-400 hover:bg-red-500/200/20 rounded-lg transition-colors"
+                                            className="p-2 text-red-400 hover:bg-red-500/20 rounded-lg transition-colors"
                                         >
                                             <Trash2 className="w-4 h-4" />
                                         </button>

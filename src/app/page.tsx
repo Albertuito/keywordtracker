@@ -28,14 +28,14 @@ export default function Home() {
     // However, showing the landing page briefly is also fine as a fallback.
 
     return (
-        <main className="min-h-screen bg-slate-900 text-white selection:bg-blue-500/200/20">
+        <main className="min-h-screen bg-slate-900 text-white selection:bg-blue-500/20">
 
             {/* Session User Floating Action Button (Still keeping it just in case JS is slow to redirect) */}
             {session && (
                 <div className="fixed bottom-8 right-8 z-50 animate-fade-in-up">
                     <Link
                         href="/dashboard"
-                        className="flex items-center gap-2 px-6 py-3 bg-blue-500/200 hover:bg-blue-600 text-white font-bold rounded-full shadow-lg shadow-blue-500/20 transition-all hover:-translate-y-1"
+                        className="flex items-center gap-2 px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-full shadow-lg shadow-blue-500/20 transition-all hover:-translate-y-1"
                     >
                         <LayoutDashboard className="w-5 h-5" />
                         Ir al Dashboard

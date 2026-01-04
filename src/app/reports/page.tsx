@@ -254,7 +254,7 @@ export default function ReportsPage() {
                                                         </button>
                                                         <button
                                                             onClick={() => deleteReport(report.id)}
-                                                            className="p-1.5 text-slate-500 hover:text-red-400 hover:bg-red-500/200/20 rounded-lg transition-colors"
+                                                            className="p-1.5 text-slate-500 hover:text-red-400 hover:bg-red-500/20 rounded-lg transition-colors"
                                                         >
                                                             <Trash2 className="w-4 h-4" />
                                                         </button>
