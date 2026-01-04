@@ -377,7 +377,7 @@ export default function ReportsPage() {
                             </div>
                         </div>
                         <div className="flex-1 overflow-y-auto p-8">
-                            <div className="prose prose-lg max-w-none prose-headings:text-gray-900 prose-p:text-gray-700">
+                            <div className="prose prose-lg max-w-none prose-headings:font-bold prose-headings:text-gray-900 prose-h1:text-3xl prose-h2:text-2xl prose-p:text-gray-600 prose-a:text-blue-600 prose-strong:text-gray-900 prose-li:text-gray-600">
                                 <ReactMarkdown>
                                     {selectedContent.content}
                                 </ReactMarkdown>
@@ -385,6 +385,18 @@ export default function ReportsPage() {
                         </div>
                     </div>
                 </div>
+            )}
+
+            {/* Keyword Report Modal */}
+            {selectedReport && (
+                <RelatedKeywordsModal
+                    isOpen={true}
+                    onClose={() => setSelectedReport(null)}
+                    seedKeyword={selectedReport.seedKeyword}
+                    projectId=""
+                    onAddKeywords={() => { }}
+                    savedReport={selectedReport}
+                />
             )}
 
             {/* Keyword Loading Overlay */}
@@ -400,26 +412,3 @@ export default function ReportsPage() {
     );
 }
 
-<RelatedKeywordsModal
-    isOpen={true}
-    onClose={() => setSelectedReport(null)}
-    seedKeyword={selectedReport.seedKeyword}
-    projectId=""
-    onAddKeywords={() => { }}
-    savedReport={selectedReport}
-/>
-            )}
-
-{
-    loadingReport && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-            <div className="bg-white rounded-xl p-8 flex flex-col items-center">
-                <Loader2 className="w-8 h-8 animate-spin text-indigo-600 mb-4" />
-                <p className="text-gray-600">Cargando reporte...</p>
-            </div>
-        </div>
-    )
-}
-        </div >
-    );
-}

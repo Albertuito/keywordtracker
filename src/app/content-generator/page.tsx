@@ -269,17 +269,17 @@ export default function ContentGeneratorPage() {
                                 <div
                                     key={idx}
                                     className={`flex items-center gap-3 p-3 rounded-lg transition-all duration-300 ${idx < analyzingIndex
-                                            ? 'bg-green-50 border border-green-100'
-                                            : idx === analyzingIndex
-                                                ? 'bg-blue-50 border border-blue-200 animate-pulse'
-                                                : 'bg-gray-50 border border-gray-100 opacity-50'
+                                        ? 'bg-green-50 border border-green-100'
+                                        : idx === analyzingIndex
+                                            ? 'bg-blue-50 border border-blue-200 animate-pulse'
+                                            : 'bg-gray-50 border border-gray-100 opacity-50'
                                         }`}
                                 >
                                     <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold ${idx < analyzingIndex
-                                            ? 'bg-green-500 text-white'
-                                            : idx === analyzingIndex
-                                                ? 'bg-blue-500 text-white'
-                                                : 'bg-gray-200 text-gray-500'
+                                        ? 'bg-green-500 text-white'
+                                        : idx === analyzingIndex
+                                            ? 'bg-blue-500 text-white'
+                                            : 'bg-gray-200 text-gray-500'
                                         }`}>
                                         {idx < analyzingIndex ? '✓' : idx + 1}
                                     </div>
@@ -317,17 +317,17 @@ export default function ContentGeneratorPage() {
                                 <div
                                     key={idx}
                                     className={`flex items-center gap-3 p-4 rounded-xl transition-all duration-500 ${idx < generationPhase
-                                            ? 'bg-green-50 border border-green-100'
-                                            : idx === generationPhase
-                                                ? 'bg-blue-50 border border-blue-200'
-                                                : 'bg-gray-50 border border-gray-100 opacity-50'
+                                        ? 'bg-green-50 border border-green-100'
+                                        : idx === generationPhase
+                                            ? 'bg-blue-50 border border-blue-200'
+                                            : 'bg-gray-50 border border-gray-100 opacity-50'
                                         }`}
                                 >
                                     <div className={`w-10 h-10 rounded-full flex items-center justify-center text-lg ${idx < generationPhase
-                                            ? 'bg-green-500 text-white'
-                                            : idx === generationPhase
-                                                ? 'bg-blue-500 text-white animate-pulse'
-                                                : 'bg-gray-200'
+                                        ? 'bg-green-500 text-white'
+                                        : idx === generationPhase
+                                            ? 'bg-blue-500 text-white animate-pulse'
+                                            : 'bg-gray-200'
                                         }`}>
                                         {idx < generationPhase ? '✓' : p.icon}
                                     </div>
@@ -381,7 +381,7 @@ export default function ContentGeneratorPage() {
                                 </button>
                             </div>
                         </div>
-                        <div className="p-8 prose prose-lg max-w-none prose-headings:text-gray-900 prose-p:text-gray-700 prose-li:text-gray-700">
+                        <div className="p-8 prose prose-lg max-w-none prose-headings:font-bold prose-headings:text-gray-900 prose-h1:text-3xl prose-h2:text-2xl prose-h3:text-xl prose-p:text-gray-600 prose-a:text-blue-600 prose-strong:text-gray-900 prose-li:text-gray-600 prose-img:rounded-xl">
                             <ReactMarkdown>
                                 {generatedContent.content}
                             </ReactMarkdown>
