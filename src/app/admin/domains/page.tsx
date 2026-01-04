@@ -139,7 +139,7 @@ export default function DomainLocksPage() {
                                         <button
                                             onClick={() => handleDelete(lock.domain)}
                                             disabled={deleting === lock.domain}
-                                            className="px-3 py-1.5 bg-red-500/20 hover:bg-red-100 text-red-400 text-sm font-medium rounded-lg transition-colors disabled:opacity-50"
+                                            className="px-3 py-1.5 bg-red-500/20 hover:bg-red-500/20 text-red-400 text-sm font-medium rounded-lg transition-colors disabled:opacity-50"
                                         >
                                             {deleting === lock.domain ? 'Liberando...' : 'Liberar'}
                                         </button>

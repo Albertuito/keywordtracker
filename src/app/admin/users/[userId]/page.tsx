@@ -58,7 +58,7 @@ export default async function UserDetailPage({ params }: { params: Promise<{ use
                     <div>
                         <h1 className="text-3xl font-bold text-white flex items-center gap-3">
                             {user.name || 'Sin Nombre'}
-                            <span className={`text-sm px-2.5 py-0.5 rounded-full font-medium border ${user.role === 'ADMIN' ? 'bg-purple-500/20 text-purple-700 border-purple-200' : 'bg-slate-700 text-slate-300 border-slate-600'
+                            <span className={`text-sm px-2.5 py-0.5 rounded-full font-medium border ${user.role === 'ADMIN' ? 'bg-purple-500/20 text-purple-400 border-purple-200' : 'bg-slate-700 text-slate-300 border-slate-600'
                                 }`}>
                                 {user.role}
                             </span>
@@ -162,9 +162,9 @@ export default async function UserDetailPage({ params }: { params: Promise<{ use
                                                     <tr key={kw.id} className="hover:bg-slate-900/50">
                                                         <td className="px-4 py-2 font-medium text-white">{kw.term}</td>
                                                         <td className="px-4 py-2">
-                                                            <span className={`inline-flex px-1.5 py-0.5 rounded text-[10px] uppercase font-bold tracking-wide ${kw.trackingFrequency === 'daily' ? 'bg-green-100 text-green-400' :
-                                                                kw.trackingFrequency === 'every_2_days' ? 'bg-blue-100 text-blue-400' :
-                                                                    kw.trackingFrequency === 'weekly' ? 'bg-purple-100 text-purple-700' :
+                                                            <span className={`inline-flex px-1.5 py-0.5 rounded text-[10px] uppercase font-bold tracking-wide ${kw.trackingFrequency === 'daily' ? 'bg-green-500/20 text-green-400' :
+                                                                kw.trackingFrequency === 'every_2_days' ? 'bg-blue-500/20 text-blue-400' :
+                                                                    kw.trackingFrequency === 'weekly' ? 'bg-purple-500/20 text-purple-400' :
                                                                         'bg-slate-700 text-slate-300'
                                                                 }`}>
                                                                 {kw.trackingFrequency || 'manual'}
@@ -229,8 +229,8 @@ export default async function UserDetailPage({ params }: { params: Promise<{ use
                                             {new Date(tx.createdAt).toLocaleString()}
                                         </td>
                                         <td className="px-6 py-3">
-                                            <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${tx.type === 'recharge' ? 'bg-green-100 text-green-400' :
-                                                tx.type === 'refund' ? 'bg-amber-100 text-amber-700' :
+                                            <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${tx.type === 'recharge' ? 'bg-green-500/20 text-green-400' :
+                                                tx.type === 'refund' ? 'bg-amber-500/20 text-amber-400' :
                                                     'bg-slate-700 text-slate-200'
                                                 }`}>
                                                 {tx.type === 'recharge' && '+ '}

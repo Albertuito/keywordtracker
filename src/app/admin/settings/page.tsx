@@ -80,7 +80,7 @@ export default function SettingsPage() {
 
             {/* Message */}
             {message && (
-                <div className={`p-4 rounded-lg ${message.type === 'success' ? 'bg-green-500/20 text-green-400 border border-green-200' : 'bg-red-500/20 text-red-400 border border-red-500/30'}`}>
+                <div className={`p-4 rounded-lg ${message.type === 'success' ? 'bg-green-500/20 text-green-400 border border-green-500/30' : 'bg-red-500/20 text-red-400 border border-red-500/30'}`}>
                     {message.text}
                 </div>
             )}
@@ -91,7 +91,7 @@ export default function SettingsPage() {
                 <div className={`bg-slate-800 border rounded-xl p-6 ${settings.maintenanceMode ? 'border-red-300 bg-red-500/20' : 'border-slate-600'}`}>
                     <div className="flex items-start justify-between">
                         <div className="flex items-center gap-3">
-                            <div className={`p-2 rounded-lg ${settings.maintenanceMode ? 'bg-red-100' : 'bg-slate-700'}`}>
+                            <div className={`p-2 rounded-lg ${settings.maintenanceMode ? 'bg-red-500/20' : 'bg-slate-700'}`}>
                                 <AlertTriangle className={`w-5 h-5 ${settings.maintenanceMode ? 'text-red-400' : 'text-slate-400'}`} />
                             </div>
                             <div>

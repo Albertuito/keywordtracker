@@ -147,7 +147,7 @@ export default function PricingPage() {
 
             {/* Message */}
             {message && (
-                <div className={`p-4 rounded-lg ${message.type === 'success' ? 'bg-green-500/20 text-green-400 border border-green-200' : 'bg-red-500/20 text-red-400 border border-red-500/30'}`}>
+                <div className={`p-4 rounded-lg ${message.type === 'success' ? 'bg-green-500/20 text-green-400 border border-green-500/30' : 'bg-red-500/20 text-red-400 border border-red-500/30'}`}>
                     {message.text}
                 </div>
             )}
@@ -180,7 +180,7 @@ export default function PricingPage() {
             {/* Info Box */}
             <div className="bg-amber-500/20 border border-amber-200 rounded-lg p-4">
                 <h4 className="font-medium text-amber-800 mb-1">⚠️ Importante</h4>
-                <p className="text-sm text-amber-700">
+                <p className="text-sm text-amber-400">
                     Los cambios de precio se aplican inmediatamente a nuevas transacciones.
                     Las transacciones existentes no se ven afectadas.
                 </p>

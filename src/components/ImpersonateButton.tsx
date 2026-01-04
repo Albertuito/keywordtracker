@@ -51,7 +51,7 @@ export default function ImpersonateButton({ userId, email }: { userId: string, e
         <button
             onClick={handleImpersonate}
             disabled={isLoading}
-            className="flex items-center gap-2 px-3 py-1 bg-amber-100 text-amber-800 rounded-lg hover:bg-amber-200 transition-colors text-xs font-medium border border-amber-200"
+            className="flex items-center gap-2 px-3 py-1 bg-amber-500/20 text-amber-800 rounded-lg hover:bg-amber-200 transition-colors text-xs font-medium border border-amber-200"
             title="Iniciar sesión como este usuario"
         >
             {isLoading ? <Loader2 className="w-3 h-3 animate-spin" /> : <LogIn className="w-3 h-3" />}

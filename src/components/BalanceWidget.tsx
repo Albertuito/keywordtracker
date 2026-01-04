@@ -39,7 +39,7 @@ export default function BalanceWidget() {
                 </button>
                 <button
                     onClick={() => setShowRedeem(true)}
-                    className="bg-indigo-100 hover:bg-indigo-200 text-indigo-700 p-1.5 rounded-lg transition-colors"
+                    className="bg-indigo-500/20 hover:bg-indigo-200 text-indigo-400 p-1.5 rounded-lg transition-colors"
                     title="Canjear Cupón"
                 >
                     <Ticket className="w-5 h-5" />

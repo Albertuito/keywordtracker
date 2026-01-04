@@ -77,7 +77,7 @@ export default function FreshnessTool() {
                     {/* Header Card */}
                     <div className={`p-6 rounded-lg border-l-4 mb-8 flex items-start gap-4 ${result.is_opportunity ? 'bg-green-500/20 border-green-500' : 'bg-slate-900 border-slate-500'
                         }`}>
-                        <div className={`p-3 rounded-full ${result.is_opportunity ? 'bg-green-100 text-green-400' : 'bg-gray-200 text-slate-400'}`}>
+                        <div className={`p-3 rounded-full ${result.is_opportunity ? 'bg-green-500/20 text-green-400' : 'bg-gray-200 text-slate-400'}`}>
                             {result.is_opportunity ? <CheckCircle className="w-8 h-8" /> : <AlertTriangle className="w-8 h-8" />}
                         </div>
                         <div>
@@ -114,7 +114,7 @@ export default function FreshnessTool() {
                                 </div>
                                 <div className="min-w-[120px] flex items-center justify-end">
                                     {item.detected_year ? (
-                                        <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium ${item.is_old ? 'bg-yellow-100 text-yellow-800' : 'bg-slate-700 text-slate-300'
+                                        <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium ${item.is_old ? 'bg-yellow-500/20 text-yellow-800' : 'bg-slate-700 text-slate-300'
                                             }`}>
                                             <Calendar className="w-3.5 h-3.5" />
                                             {item.detected_year}

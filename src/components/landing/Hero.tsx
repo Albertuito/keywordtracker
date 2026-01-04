@@ -132,12 +132,12 @@ export default function Hero() {
             </div>
 
             {/* Static grid lines */}
-            <div className="absolute inset-0 bg-[linear-gradient(to_right,#e5e5e5_1px,transparent_1px),linear-gradient(to_bottom,#e5e5e5_1px,transparent_1px)] bg-[size:40px_40px]"></div>
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(71,85,105,0.3)_1px,transparent_1px),linear-gradient(to_bottom,rgba(71,85,105,0.3)_1px,transparent_1px)] bg-[size:40px_40px]"></div>
 
             <div className="container mx-auto px-4 relative z-10 text-center">
 
                 {/* Badge - 1€ gratis */}
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/20 border border-green-200 text-green-400 text-sm font-semibold mb-8">
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/20 border border-green-500/30 text-green-400 text-sm font-semibold mb-8">
                     <span className="flex h-2 w-2 rounded-full bg-green-500/200 animate-pulse"></span>
                     🎁 1€ GRATIS para nuevos usuarios
                 </div>

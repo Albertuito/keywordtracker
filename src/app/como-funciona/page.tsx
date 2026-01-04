@@ -156,10 +156,10 @@ export default function ComoFuncionaPage() {
         <div className="bg-slate-900 min-h-screen">
             {/* Hero Section */}
             <section className="relative py-20 overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-blue-50"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900"></div>
                 <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center max-w-3xl mx-auto">
-                        <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-400 mb-6">
+                        <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-500/20 text-blue-400 mb-6">
                             Sin suscripciones • Pago por uso
                         </span>
                         <h1 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
@@ -224,10 +224,10 @@ export default function ComoFuncionaPage() {
                         {steps.map((step, index) => (
                             <div key={index} className="relative">
                                 {index < steps.length - 1 && (
-                                    <div className="hidden lg:block absolute top-12 left-full w-full h-0.5 bg-gradient-to-r from-blue-200 to-transparent -translate-x-8"></div>
+                                    <div className="hidden lg:block absolute top-12 left-full w-full h-0.5 bg-gradient-to-r from-blue-500/30 to-transparent -translate-x-8"></div>
                                 )}
                                 <div className="bg-slate-900 rounded-2xl p-8 h-full hover:shadow-lg transition-shadow">
-                                    <div className="w-16 h-16 rounded-2xl bg-blue-100 text-blue-400 flex items-center justify-center mb-6">
+                                    <div className="w-16 h-16 rounded-2xl bg-blue-500/20 text-blue-400 flex items-center justify-center mb-6">
                                         {step.icon}
                                     </div>
                                     <span className="text-sm font-bold text-blue-500 mb-2 block">{step.number}</span>
@@ -285,8 +285,8 @@ export default function ComoFuncionaPage() {
                                 <div
                                     key={index}
                                     className={`rounded-2xl p-6 border-2 transition-all hover:shadow-lg ${action.highlight
-                                            ? 'border-blue-500 bg-blue-500/20/50'
-                                            : 'border-slate-600 bg-slate-800'
+                                        ? 'border-blue-500 bg-blue-500/20/50'
+                                        : 'border-slate-600 bg-slate-800'
                                         }`}
                                 >
                                     <div className="flex items-start justify-between mb-4">

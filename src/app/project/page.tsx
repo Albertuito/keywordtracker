@@ -327,7 +327,7 @@ function ProjectContent() {
                             Auto-Tracking
                             {(() => {
                                 const autoCount = keywords.filter(k => k.trackingFrequency && k.trackingFrequency !== 'manual').length;
-                                return autoCount > 0 ? <span className="ml-1.5 px-1.5 py-0.5 text-xs bg-emerald-100 text-emerald-700 rounded-full">{autoCount}</span> : null;
+                                return autoCount > 0 ? <span className="ml-1.5 px-1.5 py-0.5 text-xs bg-emerald-500/20 text-emerald-700 rounded-full">{autoCount}</span> : null;
                             })()}
                         </button>
                         <button
@@ -552,7 +552,7 @@ function ProjectContent() {
                                                             <button
                                                                 onClick={() => { isInCompare ? setCompareKeywords(prev => prev.filter(id => id !== kw.id)) : compareKeywords.length < 2 && setCompareKeywords(prev => [...prev, kw.id]); }}
                                                                 disabled={!isInCompare && compareKeywords.length >= 2}
-                                                                className={`px-2 py-0.5 rounded text-xs font-medium ${isInCompare ? 'bg-purple-100 text-purple-600' : 'bg-slate-700 text-slate-400 hover:bg-purple-500/20'}`}
+                                                                className={`px-2 py-0.5 rounded text-xs font-medium ${isInCompare ? 'bg-purple-500/20 text-purple-600' : 'bg-slate-700 text-slate-400 hover:bg-purple-500/20'}`}
                                                                 title={isInCompare ? 'Quitar' : 'Comparar'}
                                                             >
                                                                 {isInCompare ? '✓' : '⊕'}
@@ -562,7 +562,7 @@ function ProjectContent() {
                                                         <td className="py-3 px-2 text-center border-r border-slate-700">
                                                             <button
                                                                 onClick={(e) => { e.stopPropagation(); setRelatedModalKeyword(kw.term); }}
-                                                                className="px-2 py-0.5 rounded text-xs font-medium bg-emerald-50 text-emerald-600 hover:bg-emerald-100"
+                                                                className="px-2 py-0.5 rounded text-xs font-medium bg-emerald-50 text-emerald-600 hover:bg-emerald-500/20"
                                                                 title="Keywords relacionadas"
                                                             >
                                                                 🔍
@@ -577,7 +577,7 @@ function ProjectContent() {
                                                             ) : (
                                                                 <button
                                                                     onClick={() => requestVolume([kw.id])}
-                                                                    className="text-xs px-2 py-0.5 rounded bg-indigo-100 text-indigo-600 hover:bg-indigo-200"
+                                                                    className="text-xs px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-600 hover:bg-indigo-200"
                                                                     title="€0.03"
                                                                 >
                                                                     +
@@ -744,8 +744,8 @@ function ProjectContent() {
                                                         const updates = freq === 'daily' ? 30 : freq === 'every_2_days' ? 15 : 4;
                                                         const cost = updates * PRICING.keyword_check_standard;
                                                         const freqLabel = freq === 'daily' ? 'Diaria' : freq === 'every_2_days' ? 'Cada 2 días' : 'Semanal';
-                                                        const freqColor = freq === 'daily' ? 'bg-emerald-100 text-emerald-700' :
-                                                            freq === 'every_2_days' ? 'bg-blue-100 text-blue-400' : 'bg-purple-100 text-purple-700';
+                                                        const freqColor = freq === 'daily' ? 'bg-emerald-500/20 text-emerald-700' :
+                                                            freq === 'every_2_days' ? 'bg-blue-500/20 text-blue-400' : 'bg-purple-500/20 text-purple-400';
 
                                                         // Calculate time remaining until next update
                                                         const intervalMs = freq === 'daily' ? 24 * 60 * 60 * 1000 :
@@ -973,12 +973,12 @@ function ProjectContent() {
                                         <div>
                                             <div className="font-medium text-indigo-900 flex items-center gap-2">
                                                 Modo Rápido (Live)
-                                                <span className="px-1.5 py-0.5 bg-indigo-100 text-indigo-700 text-[10px] rounded-full uppercase tracking-wider font-bold">⚡ Rápido</span>
+                                                <span className="px-1.5 py-0.5 bg-indigo-500/20 text-indigo-400 text-[10px] rounded-full uppercase tracking-wider font-bold">⚡ Rápido</span>
                                             </div>
                                             <div className="text-xs text-indigo-600">Actualización en tiempo real</div>
                                         </div>
                                     </div>
-                                    <div className="font-mono text-sm text-indigo-700 font-bold">€{PRICING.keyword_check_live.toFixed(2)}/kw</div>
+                                    <div className="font-mono text-sm text-indigo-400 font-bold">€{PRICING.keyword_check_live.toFixed(2)}/kw</div>
                                 </label>
                             </div>
 
@@ -1052,7 +1052,7 @@ function ProjectContent() {
                                 {/* Daily */}
                                 <button
                                     onClick={() => changeFrequency(showFrequencyModal.keywordIds, 'daily')}
-                                    className="w-full px-4 py-3 rounded-lg text-left transition-all border bg-emerald-50 border-emerald-200 hover:bg-emerald-100"
+                                    className="w-full px-4 py-3 rounded-lg text-left transition-all border bg-emerald-50 border-emerald-200 hover:bg-emerald-500/20"
                                 >
                                     <div className="flex items-center justify-between">
                                         <div className="flex items-center gap-3">
@@ -1072,7 +1072,7 @@ function ProjectContent() {
                                 {/* Every 2 days */}
                                 <button
                                     onClick={() => changeFrequency(showFrequencyModal.keywordIds, 'every_2_days')}
-                                    className="w-full px-4 py-3 rounded-lg text-left transition-all border bg-blue-500/20 border-blue-500/30 hover:bg-blue-100"
+                                    className="w-full px-4 py-3 rounded-lg text-left transition-all border bg-blue-500/20 border-blue-500/30 hover:bg-blue-500/20"
                                 >
                                     <div className="flex items-center justify-between">
                                         <div className="flex items-center gap-3">
@@ -1092,18 +1092,18 @@ function ProjectContent() {
                                 {/* Weekly */}
                                 <button
                                     onClick={() => changeFrequency(showFrequencyModal.keywordIds, 'weekly')}
-                                    className="w-full px-4 py-3 rounded-lg text-left transition-all border bg-purple-500/20 border-purple-200 hover:bg-purple-100"
+                                    className="w-full px-4 py-3 rounded-lg text-left transition-all border bg-purple-500/20 border-purple-200 hover:bg-purple-500/20"
                                 >
                                     <div className="flex items-center justify-between">
                                         <div className="flex items-center gap-3">
                                             <span className="text-2xl">📊</span>
                                             <div>
                                                 <div className="font-semibold text-purple-900">Semanal</div>
-                                                <div className="text-xs text-purple-700">Actualiza cada 7 días</div>
+                                                <div className="text-xs text-purple-400">Actualiza cada 7 días</div>
                                             </div>
                                         </div>
                                         <div className="text-right">
-                                            <div className="text-xs font-bold text-purple-700">€{(showFrequencyModal.keywordIds.length * PRICING.keyword_check_standard * 4).toFixed(2)}/mes</div>
+                                            <div className="text-xs font-bold text-purple-400">€{(showFrequencyModal.keywordIds.length * PRICING.keyword_check_standard * 4).toFixed(2)}/mes</div>
                                             <div className="text-xs text-purple-600">~4 updates</div>
                                         </div>
                                     </div>

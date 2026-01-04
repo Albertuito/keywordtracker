@@ -248,7 +248,7 @@ export default function ReportsPage() {
                                                     <div className="flex items-center justify-center gap-2">
                                                         <button
                                                             onClick={() => viewReport(report.id)}
-                                                            className="px-3 py-1.5 bg-indigo-500/20 text-indigo-700 rounded-lg text-sm font-medium hover:bg-indigo-100 flex items-center gap-1"
+                                                            className="px-3 py-1.5 bg-indigo-500/20 text-indigo-400 rounded-lg text-sm font-medium hover:bg-indigo-500/20 flex items-center gap-1"
                                                         >
                                                             Ver <ChevronRight className="w-4 h-4" />
                                                         </button>

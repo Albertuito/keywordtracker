@@ -232,7 +232,7 @@ export default function UsersTable({ users: initialUsers }: { users: UserData[] 
                                 </td>
                                 <td className="px-6 py-4">
                                     <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${user.role === 'ADMIN'
-                                        ? 'bg-purple-500/20 text-purple-700 border border-purple-200'
+                                        ? 'bg-purple-500/20 text-purple-400 border border-purple-200'
                                         : 'bg-slate-700 text-slate-300'
                                         }`}>
                                         <Shield className="w-3 h-3" />
@@ -315,7 +315,7 @@ export default function UsersTable({ users: initialUsers }: { users: UserData[] 
 
                         {message && (
                             <div className={`mb-4 px-4 py-3 rounded-lg text-sm ${message.type === 'success'
-                                ? 'bg-green-500/20 text-green-400 border border-green-200'
+                                ? 'bg-green-500/20 text-green-400 border border-green-500/30'
                                 : 'bg-red-500/20 text-red-400 border border-red-500/30'
                                 }`}>
                                 {message.text}

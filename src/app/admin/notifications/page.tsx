@@ -52,7 +52,7 @@ export default function AdminNotificationsPage() {
                                 type="button"
                                 onClick={() => setForm({ ...form, targetUserId: 'ALL' })}
                                 className={`p-4 rounded-lg border flex flex-col items-center gap-2 transition-all ${form.targetUserId === 'ALL'
-                                        ? 'border-indigo-500 bg-indigo-500/20 text-indigo-700'
+                                        ? 'border-indigo-500 bg-indigo-500/20 text-indigo-400'
                                         : 'border-slate-600 hover:border-slate-500'
                                     }`}
                             >
@@ -65,7 +65,7 @@ export default function AdminNotificationsPage() {
                                     type="button"
                                     onClick={() => setForm({ ...form, targetUserId: '' })}
                                     className={`w-full h-full p-4 rounded-lg border flex flex-col items-center gap-2 transition-all ${form.targetUserId !== 'ALL'
-                                            ? 'border-indigo-500 bg-indigo-500/20 text-indigo-700'
+                                            ? 'border-indigo-500 bg-indigo-500/20 text-indigo-400'
                                             : 'border-slate-600 hover:border-slate-500'
                                         }`}
                                 >
@@ -98,7 +98,7 @@ export default function AdminNotificationsPage() {
                                     type="button"
                                     onClick={() => setForm({ ...form, type })}
                                     className={`px-4 py-2 rounded-lg capitalize border flex items-center gap-2 ${form.type === type
-                                            ? 'border-indigo-500 bg-indigo-500/20 text-indigo-700'
+                                            ? 'border-indigo-500 bg-indigo-500/20 text-indigo-400'
                                             : 'border-slate-600 text-slate-300'
                                         }`}
                                 >

@@ -209,7 +209,7 @@ export default function ContentGeneratorPage() {
             <div className="max-w-5xl mx-auto px-4 py-8">
                 {/* Header */}
                 <div className="text-center mb-10">
-                    <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-blue-100 text-blue-400 rounded-full text-sm font-medium mb-4">
+                    <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-blue-500/20 text-blue-400 rounded-full text-sm font-medium mb-4">
                         <span className="animate-pulse">●</span> Tecnología de ingeniería inversa SEO
                     </div>
                     <h1 className="text-4xl font-bold text-white mb-3">
@@ -305,7 +305,7 @@ export default function ContentGeneratorPage() {
                 {phase === 'analyzing' && (
                     <div className="bg-slate-800 rounded-2xl shadow-lg border border-slate-700 p-6 mb-6">
                         <div className="flex items-center gap-3 mb-5">
-                            <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                            <div className="w-10 h-10 bg-blue-500/20 rounded-full flex items-center justify-center">
                                 <span className="text-xl">🔍</span>
                             </div>
                             <div>

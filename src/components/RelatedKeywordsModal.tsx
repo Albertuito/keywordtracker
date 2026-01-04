@@ -214,8 +214,8 @@ export default function RelatedKeywordsModal({
 
     const getPriorityColor = (priority: string) => {
         switch (priority) {
-            case 'high': return 'bg-green-100 text-green-400 border-green-200';
-            case 'medium': return 'bg-amber-100 text-amber-700 border-amber-200';
+            case 'high': return 'bg-green-500/20 text-green-400 border-green-500/30';
+            case 'medium': return 'bg-amber-500/20 text-amber-400 border-amber-200';
             case 'low': return 'bg-slate-700 text-slate-200 border-slate-600';
             default: return 'bg-slate-700 text-slate-200 border-slate-600';
         }
@@ -249,7 +249,7 @@ export default function RelatedKeywordsModal({
                                     />
                                 }
                                 fileName={`reporte_seo_${seedKeyword.replace(/\s+/g, '_')}.pdf`}
-                                className="px-3 py-2 bg-red-500/20 text-red-400 hover:bg-red-100 rounded-lg text-sm font-medium flex items-center gap-2 transition-colors"
+                                className="px-3 py-2 bg-red-500/20 text-red-400 hover:bg-red-500/20 rounded-lg text-sm font-medium flex items-center gap-2 transition-colors"
                             >
                                 {({ blob, url, loading, error }) =>
                                     loading ? <span className="flex items-center gap-2"><Loader2 className="w-4 h-4 animate-spin" /> Generando PDF...</span>
@@ -432,7 +432,7 @@ export default function RelatedKeywordsModal({
                                                 <div className="space-y-2">
                                                     <div className="flex items-center justify-between">
                                                         <span className="text-slate-300">Tipo:</span>
-                                                        <span className="px-3 py-1 bg-blue-100 text-blue-400 rounded-full text-sm font-bold uppercase">
+                                                        <span className="px-3 py-1 bg-blue-500/20 text-blue-400 rounded-full text-sm font-bold uppercase">
                                                             {analysis.page_type_detection.detected_type}
                                                         </span>
                                                     </div>
@@ -453,7 +453,7 @@ export default function RelatedKeywordsModal({
 
                                         {/* Alignment Check */}
                                         {analysis.alignment_check && (
-                                            <div className={`border rounded-xl p-4 ${analysis.alignment_check.is_aligned ? 'bg-green-500/20 border-green-200' : 'bg-amber-500/20 border-amber-200'}`}>
+                                            <div className={`border rounded-xl p-4 ${analysis.alignment_check.is_aligned ? 'bg-green-500/20 border-green-500/30' : 'bg-amber-500/20 border-amber-200'}`}>
                                                 <h4 className="font-semibold text-white flex items-center gap-2 mb-3">
                                                     {analysis.alignment_check.is_aligned ? (
                                                         <CheckCircle className="w-4 h-4 text-green-400" />
@@ -478,7 +478,7 @@ export default function RelatedKeywordsModal({
 
                                     {/* Quick Wins */}
                                     {analysis.quick_wins && analysis.quick_wins.length > 0 && (
-                                        <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-xl p-4">
+                                        <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-500/30 rounded-xl p-4">
                                             <h4 className="font-semibold text-green-900 flex items-center gap-2 mb-3">
                                                 <Zap className="w-4 h-4" /> Quick Wins (Acciones Inmediatas)
                                             </h4>
@@ -583,7 +583,7 @@ export default function RelatedKeywordsModal({
                                                         return (
                                                             <div key={i} className="flex flex-col sm:flex-row sm:items-start gap-3 p-3 bg-blue-500/20/50 border border-blue-500/30 rounded-lg">
                                                                 <div className="shrink-0 pt-1">
-                                                                    <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center text-blue-400 text-xs font-bold">
+                                                                    <div className="w-6 h-6 bg-blue-500/20 rounded-full flex items-center justify-center text-blue-400 text-xs font-bold">
                                                                         {i + 1}
                                                                     </div>
                                                                 </div>

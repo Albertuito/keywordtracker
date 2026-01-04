@@ -185,7 +185,7 @@ export default function TransactionsPage() {
                                         </td>
                                         <td className="px-4 py-3 font-mono text-xs text-slate-200">{tx.action}</td>
                                         <td className="px-4 py-3 text-center">
-                                            <span className={`px-2 py-0.5 rounded text-xs font-medium ${tx.type === 'credit' ? 'bg-green-100 text-green-400' : 'bg-red-100 text-red-400'
+                                            <span className={`px-2 py-0.5 rounded text-xs font-medium ${tx.type === 'credit' ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'
                                                 }`}>
                                                 {tx.type === 'credit' ? '+' : '-'}
                                             </span>
