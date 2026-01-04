@@ -274,22 +274,22 @@ export default function ContentGeneratorPage() {
                     <div className="border-t border-slate-700 pt-6">
                         <p className="text-sm font-medium text-slate-400 mb-4 text-center">¿Qué incluye la generación?</p>
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                            <div className="text-center p-4 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl">
+                            <div className="text-center p-4 bg-gradient-to-br from-blue-500/20 to-indigo-500/20 rounded-xl border border-blue-500/30">
                                 <div className="text-2xl mb-2">🔍</div>
                                 <p className="text-sm font-semibold text-slate-100">Análisis SERP</p>
                                 <p className="text-xs text-slate-400 mt-1">TOP 10 en tiempo real</p>
                             </div>
-                            <div className="text-center p-4 bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl">
+                            <div className="text-center p-4 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-xl border border-purple-500/30">
                                 <div className="text-2xl mb-2">🎯</div>
                                 <p className="text-sm font-semibold text-slate-100">Detección de huecos</p>
                                 <p className="text-xs text-slate-400 mt-1">Lo que falta en otros</p>
                             </div>
-                            <div className="text-center p-4 bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl">
+                            <div className="text-center p-4 bg-gradient-to-br from-green-500/20 to-emerald-500/20 rounded-xl border border-green-500/30">
                                 <div className="text-2xl mb-2">✍️</div>
                                 <p className="text-sm font-semibold text-slate-100">Redacción experta</p>
                                 <p className="text-xs text-slate-400 mt-1">Contenido humano</p>
                             </div>
-                            <div className="text-center p-4 bg-gradient-to-br from-amber-50 to-orange-50 rounded-xl">
+                            <div className="text-center p-4 bg-gradient-to-br from-amber-500/20 to-orange-500/20 rounded-xl border border-amber-500/30">
                                 <div className="text-2xl mb-2">✅</div>
                                 <p className="text-sm font-semibold text-slate-100">Control de calidad</p>
                                 <p className="text-xs text-slate-400 mt-1">Verificación final</p>

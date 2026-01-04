@@ -414,8 +414,8 @@ export default function RelatedKeywordsModal({
                             {activeTab === 'analysis' && analysis && (
                                 <div className="p-6 space-y-6">
                                     {/* Summary */}
-                                    <div className="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl p-4 border border-indigo-100">
-                                        <h4 className="font-semibold text-indigo-900 flex items-center gap-2 mb-2">
+                                    <div className="bg-gradient-to-r from-slate-700 to-slate-800 rounded-xl p-4 border border-slate-600">
+                                        <h4 className="font-semibold text-indigo-400 flex items-center gap-2 mb-2">
                                             <Sparkles className="w-4 h-4" /> Resumen Estratégico
                                         </h4>
                                         <p className="text-slate-200">{analysis.summary}</p>

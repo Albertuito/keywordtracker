@@ -1,6 +1,6 @@
 export default function Logos() {
     return (
-        <section className="py-16 bg-gradient-to-b from-blue-50 to-white border-y border-blue-500/30">
+        <section className="py-16 bg-gradient-to-b from-slate-800 to-slate-900 border-y border-slate-700">
             <div className="container mx-auto px-4">
                 <div className="text-center mb-12">
                     <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
