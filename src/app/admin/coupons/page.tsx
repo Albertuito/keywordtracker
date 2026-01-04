@@ -85,17 +85,17 @@ export default function AdminCouponsPage() {
 
     return (
         <div className="space-y-8">
-            <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+            <h2 className="text-2xl font-bold text-white flex items-center gap-2">
                 <Ticket className="w-6 h-6 text-indigo-600" />
                 Gestión de Cupones
             </h2>
 
             {/* Create Form */}
-            <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                <h3 className="font-semibold mb-4 text-gray-800">Crear Nuevo Cupón</h3>
+            <div className="bg-slate-800 p-6 rounded-xl border border-slate-600 shadow-sm">
+                <h3 className="font-semibold mb-4 text-slate-100">Crear Nuevo Cupón</h3>
                 <form onSubmit={handleCreate} className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Código</label>
+                        <label className="block text-sm font-medium text-slate-200 mb-1">Código</label>
                         <input
                             type="text"
                             value={form.code}
@@ -106,7 +106,7 @@ export default function AdminCouponsPage() {
                         />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Importe (€)</label>
+                        <label className="block text-sm font-medium text-slate-200 mb-1">Importe (€)</label>
                         <input
                             type="number"
                             value={form.amount}
@@ -118,7 +118,7 @@ export default function AdminCouponsPage() {
                         />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Usos Máximos</label>
+                        <label className="block text-sm font-medium text-slate-200 mb-1">Usos Máximos</label>
                         <input
                             type="number"
                             value={form.maxUses}
@@ -139,9 +139,9 @@ export default function AdminCouponsPage() {
             </div>
 
             {/* List */}
-            <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
+            <div className="bg-slate-800 border border-slate-600 rounded-xl shadow-sm overflow-hidden">
                 <table className="w-full text-sm text-left">
-                    <thead className="bg-gray-50 text-gray-500 uppercase font-semibold">
+                    <thead className="bg-slate-900 text-slate-400 uppercase font-semibold">
                         <tr>
                             <th className="px-6 py-3">Código</th>
                             <th className="px-6 py-3">Valor</th>
@@ -150,21 +150,21 @@ export default function AdminCouponsPage() {
                             <th className="px-6 py-3 text-right">Acción</th>
                         </tr>
                     </thead>
-                    <tbody className="divide-y divide-gray-100">
+                    <tbody className="divide-y divide-slate-700">
                         {loading ? (
                             <tr><td colSpan={5} className="p-8 text-center">Cargando...</td></tr>
                         ) : coupons.length === 0 ? (
-                            <tr><td colSpan={5} className="p-8 text-center text-gray-500">No hay cupones creados.</td></tr>
+                            <tr><td colSpan={5} className="p-8 text-center text-slate-400">No hay cupones creados.</td></tr>
                         ) : (
                             coupons.map(coupon => (
-                                <tr key={coupon.id} className="hover:bg-gray-50">
-                                    <td className="px-6 py-4 font-mono font-medium text-gray-900 flex items-center gap-2">
+                                <tr key={coupon.id} className="hover:bg-slate-900">
+                                    <td className="px-6 py-4 font-mono font-medium text-white flex items-center gap-2">
                                         {coupon.code}
-                                        <button onClick={() => copyCode(coupon.code)} className="text-gray-400 hover:text-indigo-500">
+                                        <button onClick={() => copyCode(coupon.code)} className="text-slate-500 hover:text-indigo-500">
                                             <Copy className="w-3 h-3" />
                                         </button>
                                     </td>
-                                    <td className="px-6 py-4 text-green-600 font-bold">
+                                    <td className="px-6 py-4 text-green-400 font-bold">
                                         {formatCurrency(coupon.amount)}
                                     </td>
                                     <td className="px-6 py-4">
@@ -172,14 +172,14 @@ export default function AdminCouponsPage() {
                                     </td>
                                     <td className="px-6 py-4">
                                         {coupon.active && coupon.usedCount < coupon.maxUses
-                                            ? <span className="text-green-600 bg-green-50 px-2 py-1 rounded text-xs font-medium">Activo</span>
-                                            : <span className="text-red-500 bg-red-50 px-2 py-1 rounded text-xs font-medium">Agotado</span>
+                                            ? <span className="text-green-400 bg-green-500/20 px-2 py-1 rounded text-xs font-medium">Activo</span>
+                                            : <span className="text-red-500 bg-red-500/20 px-2 py-1 rounded text-xs font-medium">Agotado</span>
                                         }
                                     </td>
                                     <td className="px-6 py-4 text-right">
                                         <button
                                             onClick={() => handleDelete(coupon.id)}
-                                            className="text-red-400 hover:text-red-600 p-1 rounded hover:bg-red-50"
+                                            className="text-red-400 hover:text-red-400 p-1 rounded hover:bg-red-500/200/20"
                                         >
                                             <Trash2 className="w-4 h-4" />
                                         </button>
@@ -193,3 +193,4 @@ export default function AdminCouponsPage() {
         </div>
     );
 }
+

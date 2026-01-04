@@ -38,3 +38,4 @@ export default function FrequencyBadge({ frequency, className = '' }: FrequencyB
 }
 
 export { FREQUENCY_CONFIG };
+

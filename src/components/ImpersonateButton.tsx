@@ -59,3 +59,4 @@ export default function ImpersonateButton({ userId, email }: { userId: string, e
         </button>
     );
 }
+

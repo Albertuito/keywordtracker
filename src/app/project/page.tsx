@@ -276,11 +276,11 @@ function ProjectContent() {
         }
     };
 
-    if (status === 'loading') return <div className="flex-1 flex items-center justify-center min-h-screen bg-gray-50"><div className="w-6 h-6 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin"></div></div>;
-    if (!session || !project) return <div className="p-8 text-center text-gray-600 bg-gray-50 min-h-screen">Cargando proyecto...</div>;
+    if (status === 'loading') return <div className="flex-1 flex items-center justify-center min-h-screen bg-slate-900"><div className="w-6 h-6 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin"></div></div>;
+    if (!session || !project) return <div className="p-8 text-center text-slate-300 bg-slate-900 min-h-screen">Cargando proyecto...</div>;
 
     return (
-        <div className="min-h-screen bg-gray-50 text-gray-900 font-sans">
+        <div className="min-h-screen bg-slate-900 text-white font-sans">
             {/* Toast */}
             {toast && (
                 <div className={`fixed bottom-8 right-8 px-6 py-3 rounded-lg shadow-xl border text-sm font-medium animate-in slide-in-from-bottom-5 fade-in duration-300 z-50 ${toast.type === 'success' ? 'bg-emerald-900/90 text-emerald-100 border-emerald-500/20' : 'bg-red-900/90 text-red-100 border-red-500/20'}`}>
@@ -292,16 +292,16 @@ function ProjectContent() {
                 {/* Header */}
                 <header className="flex justify-between items-center mb-10">
                     <div className="flex flex-col gap-1">
-                        <div className="flex items-center gap-2 text-sm text-gray-500 mb-1">
-                            <button onClick={() => router.push('/')} className="hover:text-blue-600 transition-colors">Proyectos</button>
+                        <div className="flex items-center gap-2 text-sm text-slate-400 mb-1">
+                            <button onClick={() => router.push('/')} className="hover:text-blue-400 transition-colors">Proyectos</button>
                             <span>/</span>
                             <span>Detalles</span>
                         </div>
-                        <h1 className="text-3xl font-bold text-gray-900 tracking-tight">{project.name} <span className="text-blue-500 text-lg font-normal opacity-50">(v2.0)</span></h1>
-                        <p className="text-gray-500 text-sm font-mono">{project.domain}</p>
+                        <h1 className="text-3xl font-bold text-white tracking-tight">{project.name} <span className="text-blue-500 text-lg font-normal opacity-50">(v2.0)</span></h1>
+                        <p className="text-slate-400 text-sm font-mono">{project.domain}</p>
                     </div>
                     <div className="flex gap-3">
-                        <button className="px-4 py-2 bg-white border border-gray-200 rounded-lg text-sm font-medium text-gray-700 hover:text-gray-900 hover:border-gray-300 transition-all shadow-sm">
+                        <button className="px-4 py-2 bg-slate-800 border border-slate-600 rounded-lg text-sm font-medium text-slate-200 hover:text-white hover:border-slate-500 transition-all shadow-sm">
                             Exportar Reporte
                         </button>
                     </div>
@@ -313,16 +313,16 @@ function ProjectContent() {
                 {/* Tabs & Toolbar Container */}
                 <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
                     {/* Pill Tabs */}
-                    <div className="flex p-1 bg-white border border-gray-200 rounded-lg">
+                    <div className="flex p-1 bg-slate-800 border border-slate-600 rounded-lg">
                         <button
                             onClick={() => setActiveTab('rankings')}
-                            className={`px-4 py-1.5 text-sm font-medium rounded-md transition-all ${activeTab === 'rankings' ? 'bg-gray-100 text-gray-900 shadow-sm ring-1 ring-gray-200' : 'text-gray-500 hover:text-gray-700'}`}
+                            className={`px-4 py-1.5 text-sm font-medium rounded-md transition-all ${activeTab === 'rankings' ? 'bg-slate-700 text-white shadow-sm ring-1 ring-gray-200' : 'text-slate-400 hover:text-slate-200'}`}
                         >
                             Rankings
                         </button>
                         <button
                             onClick={() => setActiveTab('autotracking')}
-                            className={`px-4 py-1.5 text-sm font-medium rounded-md transition-all ${activeTab === 'autotracking' ? 'bg-gray-100 text-gray-900 shadow-sm ring-1 ring-gray-200' : 'text-gray-500 hover:text-gray-700'}`}
+                            className={`px-4 py-1.5 text-sm font-medium rounded-md transition-all ${activeTab === 'autotracking' ? 'bg-slate-700 text-white shadow-sm ring-1 ring-gray-200' : 'text-slate-400 hover:text-slate-200'}`}
                         >
                             Auto-Tracking
                             {(() => {
@@ -332,7 +332,7 @@ function ProjectContent() {
                         </button>
                         <button
                             onClick={() => setActiveTab('competitors')}
-                            className={`px-4 py-1.5 text-sm font-medium rounded-md transition-all ${activeTab === 'competitors' ? 'bg-gray-100 text-gray-900 shadow-sm ring-1 ring-gray-200' : 'text-gray-500 hover:text-gray-700'}`}
+                            className={`px-4 py-1.5 text-sm font-medium rounded-md transition-all ${activeTab === 'competitors' ? 'bg-slate-700 text-white shadow-sm ring-1 ring-gray-200' : 'text-slate-400 hover:text-slate-200'}`}
                         >
                             Competencia
                         </button>
@@ -345,7 +345,7 @@ function ProjectContent() {
                             <button
                                 onClick={prepareRankingUpdate}
                                 disabled={checking}
-                                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2 border ${checking ? 'bg-amber-500/10 border-amber-500/20 text-amber-400' : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-100'}`}
+                                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2 border ${checking ? 'bg-amber-500/200/10 border-amber-500/20 text-amber-400' : 'bg-slate-800 border-slate-500 text-slate-200 hover:bg-slate-700'}`}
                             >
                                 {checking ? <span className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin"></span> : (
                                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
@@ -354,7 +354,7 @@ function ProjectContent() {
                             </button>
                             <button
                                 onClick={() => setShowAddModal(true)}
-                                className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-gray-900 rounded-lg text-sm font-medium transition-all shadow-lg shadow-blue-500/20 flex items-center gap-2"
+                                className="px-4 py-2 bg-blue-500/200 hover:bg-blue-600 text-white rounded-lg text-sm font-medium transition-all shadow-lg shadow-blue-500/20 flex items-center gap-2"
                             >
                                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
                                 Añadir Keywords
@@ -362,7 +362,7 @@ function ProjectContent() {
                             {compareKeywords.length === 2 && (
                                 <button
                                     onClick={() => setShowCompareModal(true)}
-                                    className="px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2 border bg-purple-500/10 border-purple-500/20 text-purple-400 hover:bg-purple-500/20"
+                                    className="px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2 border bg-purple-500/200/10 border-purple-500/20 text-purple-400 hover:bg-purple-500/200/20"
                                 >
                                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
                                     Comparar (2)
@@ -378,7 +378,7 @@ function ProjectContent() {
                                 return (
                                     <button
                                         onClick={() => requestVolume(withoutVolume.map(k => k.id))}
-                                        className="px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2 border bg-indigo-500/10 border-indigo-500/20 text-indigo-400 hover:bg-indigo-500/20"
+                                        className="px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2 border bg-indigo-500/200/10 border-indigo-500/20 text-indigo-400 hover:bg-indigo-500/200/20"
                                     >
                                         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
                                         Obtener Volumen ({count})
@@ -388,7 +388,7 @@ function ProjectContent() {
                             {selectedKeywords.size > 0 && (
                                 <button
                                     onClick={() => setShowFrequencyModal({ keywordIds: Array.from(selectedKeywords) })}
-                                    className="px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2 border bg-amber-500/10 border-amber-500/20 text-amber-400 hover:bg-amber-500/20"
+                                    className="px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2 border bg-amber-500/200/10 border-amber-500/20 text-amber-400 hover:bg-amber-500/200/20"
                                 >
                                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                                     Cambiar Frecuencia ({selectedKeywords.size})
@@ -397,7 +397,7 @@ function ProjectContent() {
                             {selectedKeywords.size > 0 && (
                                 <button
                                     onClick={deleteKeywords}
-                                    className="px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2 border bg-red-500/10 border-red-500/20 text-red-400 hover:bg-red-500/20"
+                                    className="px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2 border bg-red-500/200/10 border-red-500/20 text-red-400 hover:bg-red-500/200/200/20"
                                 >
                                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
                                     Eliminar ({selectedKeywords.size})
@@ -413,13 +413,13 @@ function ProjectContent() {
                         <div className="flex flex-col sm:flex-row gap-3">
                             <div className="relative flex-1">
                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <svg className="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <svg className="h-5 w-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                                     </svg>
                                 </div>
                                 <input
                                     type="text"
-                                    className="w-full pl-10 pr-4 py-2 bg-white border border-gray-200 rounded-lg text-slate-200 text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none placeholder-slate-500"
+                                    className="w-full pl-10 pr-4 py-2 bg-slate-800 border border-slate-600 rounded-lg text-slate-200 text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none placeholder-slate-500"
                                     placeholder="Buscar keywords..."
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
@@ -427,7 +427,7 @@ function ProjectContent() {
                                 {searchTerm && (
                                     <button
                                         onClick={() => setSearchTerm('')}
-                                        className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-gray-700"
+                                        className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-200"
                                     >
                                         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -439,7 +439,7 @@ function ProjectContent() {
                             <select
                                 value={frequencyFilter}
                                 onChange={(e) => setFrequencyFilter(e.target.value)}
-                                className="bg-white border border-gray-200 rounded-lg text-gray-700 text-sm px-4 py-2 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none min-w-[180px]"
+                                className="bg-slate-800 border border-slate-600 rounded-lg text-slate-200 text-sm px-4 py-2 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none min-w-[180px]"
                             >
                                 <option value="all">Frecuencia: Todas</option>
                                 <option value="manual">⚙️ Manuales</option>
@@ -459,32 +459,32 @@ function ProjectContent() {
 
                 {activeTab === 'rankings' && (
                     /* Main Table Card */
-                    <div className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
+                    <div className="bg-slate-800 border border-slate-600 rounded-xl overflow-hidden shadow-sm">
                         <div className="overflow-x-auto">
                             <table className="w-full text-left border-collapse text-sm">
                                 <thead>
-                                    <tr className="border-b border-gray-200 text-xs uppercase font-medium text-gray-600 tracking-wider bg-gray-50">
-                                        <th className="py-3 px-2 w-8 text-center border-r border-gray-100">
+                                    <tr className="border-b border-slate-600 text-xs uppercase font-medium text-slate-300 tracking-wider bg-slate-900">
+                                        <th className="py-3 px-2 w-8 text-center border-r border-slate-700">
                                             <input
                                                 type="checkbox"
-                                                className="rounded bg-gray-100 border-gray-300 text-blue-500 focus:ring-blue-500/20 focus:ring-offset-0 cursor-pointer"
+                                                className="rounded bg-slate-700 border-slate-500 text-blue-500 focus:ring-blue-500/20 focus:ring-offset-0 cursor-pointer"
                                                 checked={keywords.length > 0 && keywords.every(k => selectedKeywords.has(k.id))}
                                                 onChange={handleSelectAll}
                                             />
                                         </th>
-                                        <th className="py-3 px-2 w-8 text-center border-r border-gray-100"></th>
-                                        <th className="py-3 px-3 font-semibold border-r border-gray-100">Keyword</th>
-                                        <th className="py-3 px-2 w-10 text-center font-semibold border-r border-gray-100" title="Comparar">⊕</th>
-                                        <th className="py-3 px-2 w-10 text-center font-semibold border-r border-gray-100" title="Relacionadas">🔍</th>
-                                        <th className="py-3 px-3 w-20 text-center font-semibold border-r border-gray-100">Vol.</th>
-                                        <th className="py-3 px-3 w-24 text-center font-semibold border-r border-gray-100">Freq.</th>
-                                        <th className="py-3 px-3 w-16 text-center font-semibold text-blue-600 border-r border-gray-100">Pos.</th>
-                                        <th className="py-3 px-2 w-12 text-center font-semibold border-r border-gray-100">Δ</th>
-                                        <th className="py-3 px-3 font-semibold border-r border-gray-100">URL</th>
+                                        <th className="py-3 px-2 w-8 text-center border-r border-slate-700"></th>
+                                        <th className="py-3 px-3 font-semibold border-r border-slate-700">Keyword</th>
+                                        <th className="py-3 px-2 w-10 text-center font-semibold border-r border-slate-700" title="Comparar">⊕</th>
+                                        <th className="py-3 px-2 w-10 text-center font-semibold border-r border-slate-700" title="Relacionadas">🔍</th>
+                                        <th className="py-3 px-3 w-20 text-center font-semibold border-r border-slate-700">Vol.</th>
+                                        <th className="py-3 px-3 w-24 text-center font-semibold border-r border-slate-700">Freq.</th>
+                                        <th className="py-3 px-3 w-16 text-center font-semibold text-blue-400 border-r border-slate-700">Pos.</th>
+                                        <th className="py-3 px-2 w-12 text-center font-semibold border-r border-slate-700">Δ</th>
+                                        <th className="py-3 px-3 font-semibold border-r border-slate-700">URL</th>
                                         <th className="py-3 px-2 w-20 text-center font-semibold">Fecha</th>
                                     </tr>
                                 </thead>
-                                <tbody className="text-gray-900">
+                                <tbody className="text-white">
                                     {(() => {
                                         const filteredKeywords = keywords.filter(kw => {
                                             const matchesSearch = kw.term.toLowerCase().includes(searchTerm.toLowerCase());
@@ -515,27 +515,27 @@ function ProjectContent() {
                                             const isAutoTracked = kw.trackingFrequency && kw.trackingFrequency !== 'manual';
 
                                             // Alternating row colors
-                                            const rowBg = selectedKeywords.has(kw.id) ? 'bg-blue-50' :
-                                                isInCompare ? 'bg-purple-50' :
-                                                    idx % 2 === 0 ? 'bg-white' : 'bg-gray-50/50';
+                                            const rowBg = selectedKeywords.has(kw.id) ? 'bg-blue-500/20' :
+                                                isInCompare ? 'bg-purple-500/20' :
+                                                    idx % 2 === 0 ? 'bg-slate-800' : 'bg-slate-900/50';
 
                                             return (
                                                 <>
-                                                    <tr key={kw.id} className={`border-b border-gray-100 hover:bg-blue-50/30 transition-colors ${rowBg}`}>
+                                                    <tr key={kw.id} className={`border-b border-slate-700 hover:bg-blue-500/200/20/30 transition-colors ${rowBg}`}>
                                                         {/* Checkbox */}
-                                                        <td className="py-3 px-2 text-center border-r border-gray-100" onClick={(e) => e.stopPropagation()}>
+                                                        <td className="py-3 px-2 text-center border-r border-slate-700" onClick={(e) => e.stopPropagation()}>
                                                             <input
                                                                 type="checkbox"
-                                                                className="rounded bg-gray-100 border-gray-300 text-blue-500 focus:ring-blue-500/20 focus:ring-offset-0 cursor-pointer"
+                                                                className="rounded bg-slate-700 border-slate-500 text-blue-500 focus:ring-blue-500/20 focus:ring-offset-0 cursor-pointer"
                                                                 checked={selectedKeywords.has(kw.id)}
                                                                 onChange={() => handleSelectOne(kw.id)}
                                                             />
                                                         </td>
                                                         {/* Expand */}
-                                                        <td className="py-3 px-2 text-center border-r border-gray-100">
+                                                        <td className="py-3 px-2 text-center border-r border-slate-700">
                                                             <button
                                                                 onClick={() => hasHistory && setExpandedKeywordId(isExpanded ? null : kw.id)}
-                                                                className={`w-5 h-5 flex items-center justify-center rounded transition-colors ${hasHistory ? 'text-gray-500 hover:text-blue-600 hover:bg-gray-100 cursor-pointer' : 'text-gray-300 cursor-default'}`}
+                                                                className={`w-5 h-5 flex items-center justify-center rounded transition-colors ${hasHistory ? 'text-slate-400 hover:text-blue-400 hover:bg-slate-700 cursor-pointer' : 'text-gray-300 cursor-default'}`}
                                                                 title={hasHistory ? (isExpanded ? 'Ocultar' : 'Ver historial') : 'Sin datos'}
                                                             >
                                                                 <svg className={`w-4 h-4 transition-transform ${isExpanded ? 'rotate-90' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -544,22 +544,22 @@ function ProjectContent() {
                                                             </button>
                                                         </td>
                                                         {/* Keyword */}
-                                                        <td className="py-3 px-3 border-r border-gray-100">
-                                                            <span className={`font-medium text-gray-900 ${isAutoTracked ? 'border-l-2 border-green-400 pl-2' : ''}`}>{kw.term}</span>
+                                                        <td className="py-3 px-3 border-r border-slate-700">
+                                                            <span className={`font-medium text-white ${isAutoTracked ? 'border-l-2 border-green-400 pl-2' : ''}`}>{kw.term}</span>
                                                         </td>
                                                         {/* Compare button */}
-                                                        <td className="py-3 px-2 text-center border-r border-gray-100">
+                                                        <td className="py-3 px-2 text-center border-r border-slate-700">
                                                             <button
                                                                 onClick={() => { isInCompare ? setCompareKeywords(prev => prev.filter(id => id !== kw.id)) : compareKeywords.length < 2 && setCompareKeywords(prev => [...prev, kw.id]); }}
                                                                 disabled={!isInCompare && compareKeywords.length >= 2}
-                                                                className={`px-2 py-0.5 rounded text-xs font-medium ${isInCompare ? 'bg-purple-100 text-purple-600' : 'bg-gray-100 text-gray-500 hover:bg-purple-50'}`}
+                                                                className={`px-2 py-0.5 rounded text-xs font-medium ${isInCompare ? 'bg-purple-100 text-purple-600' : 'bg-slate-700 text-slate-400 hover:bg-purple-500/20'}`}
                                                                 title={isInCompare ? 'Quitar' : 'Comparar'}
                                                             >
                                                                 {isInCompare ? '✓' : '⊕'}
                                                             </button>
                                                         </td>
                                                         {/* Related button */}
-                                                        <td className="py-3 px-2 text-center border-r border-gray-100">
+                                                        <td className="py-3 px-2 text-center border-r border-slate-700">
                                                             <button
                                                                 onClick={(e) => { e.stopPropagation(); setRelatedModalKeyword(kw.term); }}
                                                                 className="px-2 py-0.5 rounded text-xs font-medium bg-emerald-50 text-emerald-600 hover:bg-emerald-100"
@@ -569,9 +569,9 @@ function ProjectContent() {
                                                             </button>
                                                         </td>
                                                         {/* Volume */}
-                                                        <td className="py-3 px-3 text-center text-gray-700 text-sm align-middle border-r border-gray-100">
+                                                        <td className="py-3 px-3 text-center text-slate-200 text-sm align-middle border-r border-slate-700">
                                                             {kw.volume !== null && kw.volume !== undefined ? (
-                                                                <span className="text-gray-700 font-medium">{kw.volume.toLocaleString()}</span>
+                                                                <span className="text-slate-200 font-medium">{kw.volume.toLocaleString()}</span>
                                                             ) : fetchingVolume.has(kw.id) ? (
                                                                 <span className="text-blue-400 text-xs">...</span>
                                                             ) : (
@@ -585,11 +585,11 @@ function ProjectContent() {
                                                             )}
                                                         </td>
                                                         {/* Frequency */}
-                                                        <td className="py-3 px-2 text-center align-middle border-r border-gray-100">
+                                                        <td className="py-3 px-2 text-center align-middle border-r border-slate-700">
                                                             <select
                                                                 value={kw.trackingFrequency || 'manual'}
                                                                 onChange={(e) => changeFrequency([kw.id], e.target.value)}
-                                                                className="px-1 py-0.5 text-xs rounded bg-gray-50 border border-gray-200 text-gray-600 hover:bg-gray-100 focus:outline-none cursor-pointer"
+                                                                className="px-1 py-0.5 text-xs rounded bg-slate-900 border border-slate-600 text-slate-300 hover:bg-slate-700 focus:outline-none cursor-pointer"
                                                             >
                                                                 <option value="manual">Manual</option>
                                                                 <option value="daily">Diaria</option>
@@ -598,44 +598,44 @@ function ProjectContent() {
                                                             </select>
                                                         </td>
                                                         {/* Position */}
-                                                        <td className="py-3 px-2 text-center align-middle border-r border-gray-100">
+                                                        <td className="py-3 px-2 text-center align-middle border-r border-slate-700">
                                                             {isQueued ? (
                                                                 <span className="w-2 h-2 bg-amber-400 rounded-full animate-pulse inline-block"></span>
                                                             ) : currentPos && currentPos > 0 ? (
                                                                 <RankBadge rank={currentPos} hasData={hasPositionData} />
                                                             ) : (
-                                                                <span className="text-gray-400">-</span>
+                                                                <span className="text-slate-500">-</span>
                                                             )}
                                                         </td>
                                                         {/* Change */}
-                                                        <td className="py-3 px-2 text-center align-middle border-r border-gray-100">
+                                                        <td className="py-3 px-2 text-center align-middle border-r border-slate-700">
                                                             {!isQueued && change !== 0 ? (
-                                                                <span className={`text-sm font-bold ${change > 0 ? 'text-green-600' : 'text-red-500'}`}>
+                                                                <span className={`text-sm font-bold ${change > 0 ? 'text-green-400' : 'text-red-500'}`}>
                                                                     {change > 0 ? '↑' : '↓'}{Math.abs(change)}
                                                                 </span>
-                                                            ) : <span className="text-gray-400">-</span>}
+                                                            ) : <span className="text-slate-500">-</span>}
                                                         </td>
                                                         {/* URL */}
-                                                        <td className="py-3 px-3 text-sm text-gray-600 border-r border-gray-100">
+                                                        <td className="py-3 px-3 text-sm text-slate-300 border-r border-slate-700">
                                                             {url ? (
                                                                 <a
                                                                     href={url}
                                                                     target="_blank"
                                                                     rel="noopener noreferrer"
-                                                                    className="text-blue-600 hover:underline truncate block"
+                                                                    className="text-blue-400 hover:underline truncate block"
                                                                     title={url}
                                                                 >
                                                                     {url.replace(/https?:\/\/(www\.)?/, '').substring(0, 35)}
                                                                 </a>
-                                                            ) : <span className="text-gray-400">-</span>}
+                                                            ) : <span className="text-slate-500">-</span>}
                                                         </td>
                                                         {/* Date */}
-                                                        <td className="py-3 px-2 text-center text-xs text-gray-500">
+                                                        <td className="py-3 px-2 text-center text-xs text-slate-400">
                                                             {kw.positions?.[0] ? new Date(kw.positions[0].date).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit' }) : '-'}
                                                         </td>
                                                     </tr>
                                                     {isExpanded && hasHistory && (
-                                                        <tr key={`${kw.id}-chart`} className="bg-gray-50/50">
+                                                        <tr key={`${kw.id}-chart`} className="bg-slate-900/50">
                                                             <td colSpan={11} className="p-6">
                                                                 <RankingChart
                                                                     keywords={[kw]}
@@ -661,10 +661,10 @@ function ProjectContent() {
                 {/* Auto-Tracking Tab Content */}
                 {
                     activeTab === 'autotracking' && (
-                        <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
-                            <div className="p-6 border-b border-gray-200">
-                                <h3 className="text-lg font-semibold text-gray-900">Resumen de Auto-Tracking</h3>
-                                <p className="text-sm text-gray-600 mt-1">Keywords con actualización automática programada</p>
+                        <div className="bg-slate-800 border border-slate-600 rounded-xl overflow-hidden">
+                            <div className="p-6 border-b border-slate-600">
+                                <h3 className="text-lg font-semibold text-white">Resumen de Auto-Tracking</h3>
+                                <p className="text-sm text-slate-300 mt-1">Keywords con actualización automática programada</p>
                             </div>
 
                             {(() => {
@@ -682,18 +682,18 @@ function ProjectContent() {
                                 if (!hasAnyAutoTracking) {
                                     return (
                                         <div className="p-12 text-center">
-                                            <div className="w-16 h-16 mx-auto bg-gray-100 rounded-full flex items-center justify-center mb-4">
-                                                <svg className="w-8 h-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <div className="w-16 h-16 mx-auto bg-slate-700 rounded-full flex items-center justify-center mb-4">
+                                                <svg className="w-8 h-8 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                                 </svg>
                                             </div>
-                                            <h4 className="text-gray-900 font-medium mb-2">Sin auto-tracking activo</h4>
-                                            <p className="text-gray-500 text-sm mb-4">
+                                            <h4 className="text-white font-medium mb-2">Sin auto-tracking activo</h4>
+                                            <p className="text-slate-400 text-sm mb-4">
                                                 Activa el tracking automático en tus keywords para que se actualicen solas.
                                             </p>
                                             <button
                                                 onClick={() => setActiveTab('rankings')}
-                                                className="text-blue-600 hover:text-blue-700 text-sm font-medium"
+                                                className="text-blue-400 hover:text-blue-400 text-sm font-medium"
                                             >
                                                 Ir a Rankings →
                                             </button>
@@ -704,21 +704,21 @@ function ProjectContent() {
                                 return (
                                     <>
                                         {/* Cost Summary Cards */}
-                                        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 p-6 bg-gray-50 border-b border-gray-200">
-                                            <div className="bg-white rounded-lg p-4 border border-gray-200">
-                                                <div className="text-xs text-gray-600 uppercase tracking-wide mb-1">Diarias</div>
+                                        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 p-6 bg-slate-900 border-b border-slate-600">
+                                            <div className="bg-slate-800 rounded-lg p-4 border border-slate-600">
+                                                <div className="text-xs text-slate-300 uppercase tracking-wide mb-1">Diarias</div>
                                                 <div className="text-2xl font-bold text-emerald-600">{dailyKws.length}</div>
-                                                <div className="text-xs text-gray-600 mt-1">€{dailyCost.toFixed(2)}/mes</div>
+                                                <div className="text-xs text-slate-300 mt-1">€{dailyCost.toFixed(2)}/mes</div>
                                             </div>
-                                            <div className="bg-white rounded-lg p-4 border border-gray-200">
-                                                <div className="text-xs text-gray-600 uppercase tracking-wide mb-1">Cada 2 días</div>
-                                                <div className="text-2xl font-bold text-blue-600">{every2DaysKws.length}</div>
-                                                <div className="text-xs text-gray-600 mt-1">€{every2DaysCost.toFixed(2)}/mes</div>
+                                            <div className="bg-slate-800 rounded-lg p-4 border border-slate-600">
+                                                <div className="text-xs text-slate-300 uppercase tracking-wide mb-1">Cada 2 días</div>
+                                                <div className="text-2xl font-bold text-blue-400">{every2DaysKws.length}</div>
+                                                <div className="text-xs text-slate-300 mt-1">€{every2DaysCost.toFixed(2)}/mes</div>
                                             </div>
-                                            <div className="bg-white rounded-lg p-4 border border-gray-200">
-                                                <div className="text-xs text-gray-600 uppercase tracking-wide mb-1">Semanales</div>
+                                            <div className="bg-slate-800 rounded-lg p-4 border border-slate-600">
+                                                <div className="text-xs text-slate-300 uppercase tracking-wide mb-1">Semanales</div>
                                                 <div className="text-2xl font-bold text-purple-600">{weeklyKws.length}</div>
-                                                <div className="text-xs text-gray-600 mt-1">€{weeklyCost.toFixed(2)}/mes</div>
+                                                <div className="text-xs text-slate-300 mt-1">€{weeklyCost.toFixed(2)}/mes</div>
                                             </div>
                                             <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg p-4 text-white">
                                                 <div className="text-xs uppercase tracking-wide opacity-80 mb-1">Coste Total Mensual</div>
@@ -731,21 +731,21 @@ function ProjectContent() {
                                         <div className="overflow-x-auto">
                                             <table className="w-full">
                                                 <thead>
-                                                    <tr className="border-b border-gray-200 bg-gray-50">
-                                                        <th className="py-3 px-6 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Keyword</th>
-                                                        <th className="py-3 px-6 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">Frecuencia</th>
-                                                        <th className="py-3 px-6 text-right text-xs font-semibold text-gray-700 uppercase tracking-wider">Coste/Mes</th>
-                                                        <th className="py-3 px-6 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">Acción</th>
+                                                    <tr className="border-b border-slate-600 bg-slate-900">
+                                                        <th className="py-3 px-6 text-left text-xs font-semibold text-slate-200 uppercase tracking-wider">Keyword</th>
+                                                        <th className="py-3 px-6 text-center text-xs font-semibold text-slate-200 uppercase tracking-wider">Frecuencia</th>
+                                                        <th className="py-3 px-6 text-right text-xs font-semibold text-slate-200 uppercase tracking-wider">Coste/Mes</th>
+                                                        <th className="py-3 px-6 text-center text-xs font-semibold text-slate-200 uppercase tracking-wider">Acción</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody className="divide-y divide-gray-100">
+                                                <tbody className="divide-y divide-slate-700">
                                                     {[...dailyKws, ...every2DaysKws, ...weeklyKws].map(kw => {
                                                         const freq = kw.trackingFrequency;
                                                         const updates = freq === 'daily' ? 30 : freq === 'every_2_days' ? 15 : 4;
                                                         const cost = updates * PRICING.keyword_check_standard;
                                                         const freqLabel = freq === 'daily' ? 'Diaria' : freq === 'every_2_days' ? 'Cada 2 días' : 'Semanal';
                                                         const freqColor = freq === 'daily' ? 'bg-emerald-100 text-emerald-700' :
-                                                            freq === 'every_2_days' ? 'bg-blue-100 text-blue-700' : 'bg-purple-100 text-purple-700';
+                                                            freq === 'every_2_days' ? 'bg-blue-100 text-blue-400' : 'bg-purple-100 text-purple-700';
 
                                                         // Calculate time remaining until next update
                                                         const intervalMs = freq === 'daily' ? 24 * 60 * 60 * 1000 :
@@ -773,25 +773,25 @@ function ProjectContent() {
                                                         }
 
                                                         return (
-                                                            <tr key={kw.id} className="hover:bg-gray-50">
+                                                            <tr key={kw.id} className="hover:bg-slate-900">
                                                                 <td className="py-4 px-6">
-                                                                    <span className="font-medium text-gray-900">{kw.term}</span>
+                                                                    <span className="font-medium text-white">{kw.term}</span>
                                                                 </td>
                                                                 <td className="py-4 px-6 text-center">
                                                                     <div className="flex flex-col items-center gap-1">
                                                                         <span className={`px-2 py-1 rounded-full text-xs font-medium ${freqColor}`}>{freqLabel}</span>
-                                                                        <span className={`text-xs ${remainingMs <= 0 ? 'text-amber-600 font-medium' : 'text-gray-500'}`}>
+                                                                        <span className={`text-xs ${remainingMs <= 0 ? 'text-amber-600 font-medium' : 'text-slate-400'}`}>
                                                                             {remainingMs <= 0 ? '⏳ ' : '⏱️ '}{timeRemaining}
                                                                         </span>
                                                                     </div>
                                                                 </td>
                                                                 <td className="py-4 px-6 text-right">
-                                                                    <span className="font-mono text-gray-700">€{cost.toFixed(2)}</span>
+                                                                    <span className="font-mono text-slate-200">€{cost.toFixed(2)}</span>
                                                                 </td>
                                                                 <td className="py-4 px-6 text-center">
                                                                     <button
                                                                         onClick={() => changeFrequency([kw.id], 'manual')}
-                                                                        className="text-xs text-red-600 hover:text-red-700 hover:underline"
+                                                                        className="text-xs text-red-400 hover:text-red-400 hover:underline"
                                                                     >
                                                                         Desactivar
                                                                     </button>
@@ -814,21 +814,21 @@ function ProjectContent() {
             {
                 showAddModal && (
                     <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-                        <div className="bg-white border border-gray-300 w-full max-w-lg rounded-xl shadow-2xl p-6 relative animate-in zoom-in-95 duration-200">
-                            <button onClick={() => setShowAddModal(false)} className="absolute top-4 right-4 text-gray-500 hover:text-gray-900">✕</button>
-                            <h3 className="text-xl font-bold text-gray-900 mb-2">Añadir Keywords</h3>
-                            <p className="text-gray-600 text-sm mb-6">Introduce una keyword por línea.</p>
+                        <div className="bg-slate-800 border border-slate-500 w-full max-w-lg rounded-xl shadow-2xl p-6 relative animate-in zoom-in-95 duration-200">
+                            <button onClick={() => setShowAddModal(false)} className="absolute top-4 right-4 text-slate-400 hover:text-white">✕</button>
+                            <h3 className="text-xl font-bold text-white mb-2">Añadir Keywords</h3>
+                            <p className="text-slate-300 text-sm mb-6">Introduce una keyword por línea.</p>
 
                             <textarea
-                                className="w-full h-40 bg-gray-50 border border-gray-300 rounded-lg p-3 text-gray-900 text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none resize-none font-mono placeholder-gray-400"
+                                className="w-full h-40 bg-slate-900 border border-slate-500 rounded-lg p-3 text-white text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none resize-none font-mono placeholder-slate-500"
                                 placeholder="keyword 1&#10;keyword 2&#10;keyword 3"
                                 value={newKeyword.term}
                                 onChange={e => setNewKeyword({ ...newKeyword, term: e.target.value })}
                             ></textarea>
 
                             <div className="flex justify-end gap-3 mt-6">
-                                <button onClick={() => setShowAddModal(false)} className="px-4 py-2 text-gray-600 hover:text-gray-900 text-sm font-medium">Cancelar</button>
-                                <button onClick={addKeyword} disabled={loading} className="px-6 py-2 bg-blue-500 hover:bg-blue-600 text-gray-900 rounded-lg text-sm font-medium transition-colors shadow-lg shadow-blue-500/20 disabled:opacity-50">
+                                <button onClick={() => setShowAddModal(false)} className="px-4 py-2 text-slate-300 hover:text-white text-sm font-medium">Cancelar</button>
+                                <button onClick={addKeyword} disabled={loading} className="px-6 py-2 bg-blue-500/200 hover:bg-blue-600 text-white rounded-lg text-sm font-medium transition-colors shadow-lg shadow-blue-500/20 disabled:opacity-50">
                                     {loading ? 'Añadiendo...' : 'Añadir Keywords'}
                                 </button>
                             </div>
@@ -841,10 +841,10 @@ function ProjectContent() {
             {
                 showCompareModal && compareKeywords.length === 2 && (
                     <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-                        <div className="bg-white border border-gray-300 w-full max-w-5xl rounded-xl shadow-2xl p-6 relative animate-in zoom-in-95 duration-200">
-                            <button onClick={() => setShowCompareModal(false)} className="absolute top-4 right-4 text-gray-500 hover:text-gray-900 text-2xl">✕</button>
-                            <h3 className="text-xl font-bold text-gray-900 mb-2">Comparación de Keywords</h3>
-                            <p className="text-gray-600 text-sm mb-6">
+                        <div className="bg-slate-800 border border-slate-500 w-full max-w-5xl rounded-xl shadow-2xl p-6 relative animate-in zoom-in-95 duration-200">
+                            <button onClick={() => setShowCompareModal(false)} className="absolute top-4 right-4 text-slate-400 hover:text-white text-2xl">✕</button>
+                            <h3 className="text-xl font-bold text-white mb-2">Comparación de Keywords</h3>
+                            <p className="text-slate-300 text-sm mb-6">
                                 Comparando: {keywords.filter(k => compareKeywords.includes(k.id)).map(k => k.term).join(' vs ')}
                             </p>
 
@@ -862,7 +862,7 @@ function ProjectContent() {
                                         setShowCompareModal(false);
                                         setCompareKeywords([]);
                                     }}
-                                    className="px-4 py-2 text-gray-600 hover:text-gray-900 text-sm font-medium"
+                                    className="px-4 py-2 text-slate-300 hover:text-white text-sm font-medium"
                                 >
                                     Cerrar
                                 </button>
@@ -876,7 +876,7 @@ function ProjectContent() {
             {
                 showVolumeConfirm && (
                     <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-                        <div className="bg-white border border-gray-300 w-full max-w-md rounded-xl shadow-2xl p-6 relative animate-in zoom-in-95 duration-200">
+                        <div className="bg-slate-800 border border-slate-500 w-full max-w-md rounded-xl shadow-2xl p-6 relative animate-in zoom-in-95 duration-200">
                             <div className="flex items-start gap-4 mb-6">
                                 <div className="flex-shrink-0 w-12 h-12 rounded-full bg-indigo-600/20 flex items-center justify-center">
                                     <svg className="w-6 h-6 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -884,25 +884,25 @@ function ProjectContent() {
                                     </svg>
                                 </div>
                                 <div className="flex-1">
-                                    <h3 className="text-xl font-bold text-gray-900 mb-2">Obtener Volumen de Búsqueda</h3>
-                                    <p className="text-gray-600 text-sm leading-relaxed">
-                                        ¿Deseas obtener el volumen de búsqueda para <span className="text-gray-900 font-semibold">{showVolumeConfirm.count} keyword{showVolumeConfirm.count > 1 ? 's' : ''}</span>?
+                                    <h3 className="text-xl font-bold text-white mb-2">Obtener Volumen de Búsqueda</h3>
+                                    <p className="text-slate-300 text-sm leading-relaxed">
+                                        ¿Deseas obtener el volumen de búsqueda para <span className="text-white font-semibold">{showVolumeConfirm.count} keyword{showVolumeConfirm.count > 1 ? 's' : ''}</span>?
                                     </p>
                                 </div>
                             </div>
 
-                            <div className="bg-gray-50/50 border border-gray-200 rounded-lg p-4 mb-6">
+                            <div className="bg-slate-900/50 border border-slate-600 rounded-lg p-4 mb-6">
                                 <div className="flex justify-between items-center mb-2">
-                                    <span className="text-gray-600 text-sm">Coste por keyword:</span>
-                                    <span className="text-gray-900 font-mono">€0.03</span>
+                                    <span className="text-slate-300 text-sm">Coste por keyword:</span>
+                                    <span className="text-white font-mono">€0.03</span>
                                 </div>
-                                <div className="flex justify-between items-center pt-2 border-t border-gray-200">
-                                    <span className="text-gray-900 font-semibold">Total:</span>
-                                    <span className="text-blue-600 font-bold text-lg">€{showVolumeConfirm.cost.toFixed(2)}</span>
+                                <div className="flex justify-between items-center pt-2 border-t border-slate-600">
+                                    <span className="text-white font-semibold">Total:</span>
+                                    <span className="text-blue-400 font-bold text-lg">€{showVolumeConfirm.cost.toFixed(2)}</span>
                                 </div>
                             </div>
 
-                            <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-3 mb-6">
+                            <div className="bg-blue-500/200/10 border border-blue-500/20 rounded-lg p-3 mb-6">
                                 <p className="text-blue-300 text-xs flex items-start gap-2">
                                     <svg className="w-4 h-4 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -914,13 +914,13 @@ function ProjectContent() {
                             <div className="flex gap-3">
                                 <button
                                     onClick={() => setShowVolumeConfirm(null)}
-                                    className="flex-1 px-4 py-2.5 text-gray-600 hover:text-gray-900 text-sm font-medium border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors"
+                                    className="flex-1 px-4 py-2.5 text-slate-300 hover:text-white text-sm font-medium border border-slate-500 rounded-lg hover:bg-slate-700 transition-colors"
                                 >
                                     Cancelar
                                 </button>
                                 <button
                                     onClick={confirmVolumeRequest}
-                                    className="flex-1 px-4 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-gray-900 rounded-lg text-sm font-medium transition-colors shadow-lg shadow-indigo-900/20"
+                                    className="flex-1 px-4 py-2.5 bg-indigo-600 hover:bg-indigo-500/200 text-white rounded-lg text-sm font-medium transition-colors shadow-lg shadow-indigo-900/20"
                                 >
                                     Confirmar
                                 </button>
@@ -935,40 +935,40 @@ function ProjectContent() {
             {
                 showRankingConfirm && (
                     <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-                        <div className="bg-white border border-gray-300 w-full max-w-md rounded-xl shadow-2xl p-6 relative animate-in zoom-in-95 duration-200">
+                        <div className="bg-slate-800 border border-slate-500 w-full max-w-md rounded-xl shadow-2xl p-6 relative animate-in zoom-in-95 duration-200">
                             <div className="flex items-start gap-4 mb-6">
-                                <div className="flex-shrink-0 w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center">
+                                <div className="flex-shrink-0 w-12 h-12 rounded-full bg-blue-500/200/20 flex items-center justify-center">
                                     <svg className="w-6 h-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                                     </svg>
                                 </div>
                                 <div className="flex-1">
-                                    <h3 className="text-xl font-bold text-gray-900 mb-2">Actualizar Rankings</h3>
-                                    <p className="text-gray-600 text-sm leading-relaxed">
-                                        ¿Deseas comprobar el ranking de <span className="text-gray-900 font-semibold">{showRankingConfirm.count} keyword{showRankingConfirm.count > 1 ? 's' : ''}</span>?
+                                    <h3 className="text-xl font-bold text-white mb-2">Actualizar Rankings</h3>
+                                    <p className="text-slate-300 text-sm leading-relaxed">
+                                        ¿Deseas comprobar el ranking de <span className="text-white font-semibold">{showRankingConfirm.count} keyword{showRankingConfirm.count > 1 ? 's' : ''}</span>?
                                     </p>
                                 </div>
                             </div>
 
                             {/* Mode Selection */}
                             <div className="flex flex-col gap-3 mb-6">
-                                <label className={`flex items-center justify-between p-3 rounded-lg border cursor-pointer transition-all ${updateMode === 'queue' ? 'bg-blue-50 border-blue-500 ring-1 ring-blue-500' : 'bg-white border-gray-200 hover:border-gray-300'}`} onClick={() => setUpdateMode('queue')}>
+                                <label className={`flex items-center justify-between p-3 rounded-lg border cursor-pointer transition-all ${updateMode === 'queue' ? 'bg-blue-500/20 border-blue-500 ring-1 ring-blue-500' : 'bg-slate-800 border-slate-600 hover:border-slate-500'}`} onClick={() => setUpdateMode('queue')}>
                                     <div className="flex items-center gap-3">
-                                        <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${updateMode === 'queue' ? 'border-blue-500 bg-blue-500' : 'border-gray-400'}`}>
-                                            {updateMode === 'queue' && <div className="w-1.5 h-1.5 bg-white rounded-full" />}
+                                        <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${updateMode === 'queue' ? 'border-blue-500 bg-blue-500/200' : 'border-gray-400'}`}>
+                                            {updateMode === 'queue' && <div className="w-1.5 h-1.5 bg-slate-800 rounded-full" />}
                                         </div>
                                         <div>
-                                            <div className="font-medium text-gray-900">Estándar (Cola)</div>
-                                            <div className="text-xs text-gray-500">Resultados en ~2-5 minutos</div>
+                                            <div className="font-medium text-white">Estándar (Cola)</div>
+                                            <div className="text-xs text-slate-400">Resultados en ~2-5 minutos</div>
                                         </div>
                                     </div>
-                                    <div className="font-mono text-sm text-gray-700">€{PRICING.keyword_check_standard.toFixed(2)}/kw</div>
+                                    <div className="font-mono text-sm text-slate-200">€{PRICING.keyword_check_standard.toFixed(2)}/kw</div>
                                 </label>
 
-                                <label className={`flex items-center justify-between p-3 rounded-lg border cursor-pointer transition-all ${updateMode === 'live' ? 'bg-indigo-50 border-indigo-500 ring-1 ring-indigo-500' : 'bg-white border-gray-200 hover:border-gray-300'}`} onClick={() => setUpdateMode('live')}>
+                                <label className={`flex items-center justify-between p-3 rounded-lg border cursor-pointer transition-all ${updateMode === 'live' ? 'bg-indigo-500/20 border-indigo-500 ring-1 ring-indigo-500' : 'bg-slate-800 border-slate-600 hover:border-slate-500'}`} onClick={() => setUpdateMode('live')}>
                                     <div className="flex items-center gap-3">
-                                        <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${updateMode === 'live' ? 'border-indigo-500 bg-indigo-500' : 'border-gray-400'}`}>
-                                            {updateMode === 'live' && <div className="w-1.5 h-1.5 bg-white rounded-full" />}
+                                        <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${updateMode === 'live' ? 'border-indigo-500 bg-indigo-500/200' : 'border-gray-400'}`}>
+                                            {updateMode === 'live' && <div className="w-1.5 h-1.5 bg-slate-800 rounded-full" />}
                                         </div>
                                         <div>
                                             <div className="font-medium text-indigo-900 flex items-center gap-2">
@@ -982,10 +982,10 @@ function ProjectContent() {
                                 </label>
                             </div>
 
-                            <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-6">
+                            <div className="bg-slate-900 border border-slate-600 rounded-lg p-4 mb-6">
                                 <div className="flex justify-between items-center pt-1">
-                                    <span className="text-gray-900 font-semibold">Total a descontar:</span>
-                                    <span className="text-blue-600 font-bold text-lg">
+                                    <span className="text-white font-semibold">Total a descontar:</span>
+                                    <span className="text-blue-400 font-bold text-lg">
                                         €{((showRankingConfirm.count * (updateMode === 'queue' ? PRICING.keyword_check_standard : PRICING.keyword_check_live))).toFixed(2)}
                                     </span>
                                 </div>
@@ -994,13 +994,13 @@ function ProjectContent() {
                             <div className="flex gap-3">
                                 <button
                                     onClick={() => setShowRankingConfirm(null)}
-                                    className="flex-1 px-4 py-2.5 text-gray-600 hover:text-gray-900 text-sm font-medium border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors"
+                                    className="flex-1 px-4 py-2.5 text-slate-300 hover:text-white text-sm font-medium border border-slate-500 rounded-lg hover:bg-slate-700 transition-colors"
                                 >
                                     Cancelar
                                 </button>
                                 <button
                                     onClick={runChecks}
-                                    className="flex-1 px-4 py-2.5 bg-blue-500 hover:bg-blue-600 text-white rounded-lg text-sm font-medium transition-colors shadow-lg shadow-blue-500/20"
+                                    className="flex-1 px-4 py-2.5 bg-blue-500/200 hover:bg-blue-600 text-white rounded-lg text-sm font-medium transition-colors shadow-lg shadow-blue-500/20"
                                 >
                                     Confirmar y Actualizar
                                 </button>
@@ -1015,14 +1015,14 @@ function ProjectContent() {
             {
                 showFrequencyModal && (
                     <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-                        <div className="bg-white border border-gray-300 w-full max-w-md rounded-xl shadow-2xl p-6">
-                            <h3 className="text-xl font-bold text-gray-900 mb-4">Cambiar Frecuencia de Tracking</h3>
-                            <p className="text-gray-600 text-sm mb-4">
+                        <div className="bg-slate-800 border border-slate-500 w-full max-w-md rounded-xl shadow-2xl p-6">
+                            <h3 className="text-xl font-bold text-white mb-4">Cambiar Frecuencia de Tracking</h3>
+                            <p className="text-slate-300 text-sm mb-4">
                                 Configurando {showFrequencyModal.keywordIds.length} keyword(s):
                             </p>
 
                             {/* Cost Warning */}
-                            <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 mb-5">
+                            <div className="bg-amber-500/20 border border-amber-200 rounded-lg p-3 mb-5">
                                 <p className="text-amber-800 text-xs font-medium flex items-start gap-2">
                                     <svg className="w-4 h-4 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -1035,17 +1035,17 @@ function ProjectContent() {
                                 {/* Manual - No cost */}
                                 <button
                                     onClick={() => changeFrequency(showFrequencyModal.keywordIds, 'manual')}
-                                    className="w-full px-4 py-3 rounded-lg text-left transition-all border bg-gray-50 border-gray-200 hover:bg-gray-100"
+                                    className="w-full px-4 py-3 rounded-lg text-left transition-all border bg-slate-900 border-slate-600 hover:bg-slate-700"
                                 >
                                     <div className="flex items-center justify-between">
                                         <div className="flex items-center gap-3">
                                             <span className="text-2xl">⚙️</span>
                                             <div>
-                                                <div className="font-semibold text-gray-900">Manual</div>
-                                                <div className="text-xs text-gray-500">Solo actualiza cuando tú lo pidas</div>
+                                                <div className="font-semibold text-white">Manual</div>
+                                                <div className="text-xs text-slate-400">Solo actualiza cuando tú lo pidas</div>
                                             </div>
                                         </div>
-                                        <span className="text-xs font-medium text-gray-400">Sin coste automático</span>
+                                        <span className="text-xs font-medium text-slate-500">Sin coste automático</span>
                                     </div>
                                 </button>
 
@@ -1072,19 +1072,19 @@ function ProjectContent() {
                                 {/* Every 2 days */}
                                 <button
                                     onClick={() => changeFrequency(showFrequencyModal.keywordIds, 'every_2_days')}
-                                    className="w-full px-4 py-3 rounded-lg text-left transition-all border bg-blue-50 border-blue-200 hover:bg-blue-100"
+                                    className="w-full px-4 py-3 rounded-lg text-left transition-all border bg-blue-500/20 border-blue-500/30 hover:bg-blue-100"
                                 >
                                     <div className="flex items-center justify-between">
                                         <div className="flex items-center gap-3">
                                             <span className="text-2xl">📆</span>
                                             <div>
                                                 <div className="font-semibold text-blue-900">Cada 2 días</div>
-                                                <div className="text-xs text-blue-700">Actualiza cada 48 horas</div>
+                                                <div className="text-xs text-blue-400">Actualiza cada 48 horas</div>
                                             </div>
                                         </div>
                                         <div className="text-right">
-                                            <div className="text-xs font-bold text-blue-700">€{(showFrequencyModal.keywordIds.length * PRICING.keyword_check_standard * 15).toFixed(2)}/mes</div>
-                                            <div className="text-xs text-blue-600">~15 updates</div>
+                                            <div className="text-xs font-bold text-blue-400">€{(showFrequencyModal.keywordIds.length * PRICING.keyword_check_standard * 15).toFixed(2)}/mes</div>
+                                            <div className="text-xs text-blue-400">~15 updates</div>
                                         </div>
                                     </div>
                                 </button>
@@ -1092,7 +1092,7 @@ function ProjectContent() {
                                 {/* Weekly */}
                                 <button
                                     onClick={() => changeFrequency(showFrequencyModal.keywordIds, 'weekly')}
-                                    className="w-full px-4 py-3 rounded-lg text-left transition-all border bg-purple-50 border-purple-200 hover:bg-purple-100"
+                                    className="w-full px-4 py-3 rounded-lg text-left transition-all border bg-purple-500/20 border-purple-200 hover:bg-purple-100"
                                 >
                                     <div className="flex items-center justify-between">
                                         <div className="flex items-center gap-3">
@@ -1110,13 +1110,13 @@ function ProjectContent() {
                                 </button>
                             </div>
 
-                            <div className="text-xs text-gray-500 mb-4 text-center">
+                            <div className="text-xs text-slate-400 mb-4 text-center">
                                 Coste por actualización: €{PRICING.keyword_check_standard.toFixed(2)} × {showFrequencyModal.keywordIds.length} keyword(s) = €{(showFrequencyModal.keywordIds.length * PRICING.keyword_check_standard).toFixed(2)}
                             </div>
 
                             <button
                                 onClick={() => setShowFrequencyModal(null)}
-                                className="w-full px-4 py-2 text-gray-600 hover:text-gray-900 text-sm font-medium border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors"
+                                className="w-full px-4 py-2 text-slate-300 hover:text-white text-sm font-medium border border-slate-500 rounded-lg hover:bg-slate-700 transition-colors"
                             >
                                 Cancelar
                             </button>
@@ -1163,23 +1163,23 @@ function ProjectContent() {
 function RankBadge({ rank, hasData = true }: { rank: number | null, hasData?: boolean }) {
     // No data yet (never checked)
     if (!hasData || rank === null) {
-        return <span className="text-gray-400 text-xs">Nuevo</span>;
+        return <span className="text-slate-500 text-xs">Nuevo</span>;
     }
 
     // Checked but not found in top 100
     if (rank === 0 || rank <= 0) {
         return (
-            <div className="px-2 py-1 mx-auto bg-gray-100 text-gray-500 text-xs font-medium rounded-md border border-gray-200" title="No encontrada en top 100">
+            <div className="px-2 py-1 mx-auto bg-slate-700 text-slate-400 text-xs font-medium rounded-md border border-slate-600" title="No encontrada en top 100">
                 +100
             </div>
         );
     }
 
     // Has position
-    let color = 'bg-gray-100 text-gray-600 border-gray-300';
+    let color = 'bg-slate-700 text-slate-300 border-slate-500';
     if (rank <= 3) color = 'bg-emerald-500/10 text-emerald-600 border-emerald-500/20 shadow-[0_0_15px_-3px_rgba(16,185,129,0.2)]';
-    else if (rank <= 10) color = 'bg-blue-500/10 text-blue-600 border-blue-500/20';
-    else if (rank <= 30) color = 'bg-gray-100 text-gray-700 border-gray-300';
+    else if (rank <= 10) color = 'bg-blue-500/200/10 text-blue-400 border-blue-500/20';
+    else if (rank <= 30) color = 'bg-slate-700 text-slate-200 border-slate-500';
 
     return (
         <div className={`w-8 h-8 mx-auto flex items-center justify-center rounded-lg text-sm font-bold border ${color}`}>
@@ -1190,8 +1190,9 @@ function RankBadge({ rank, hasData = true }: { rank: number | null, hasData?: bo
 
 export default function ProjectDetail() {
     return (
-        <Suspense fallback={<div className="flex-1 flex items-center justify-center min-h-screen bg-gray-50"><div className="w-6 h-6 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin"></div></div>}>
+        <Suspense fallback={<div className="flex-1 flex items-center justify-center min-h-screen bg-slate-900"><div className="w-6 h-6 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin"></div></div>}>
             <ProjectContent />
         </Suspense>
     );
 }
+

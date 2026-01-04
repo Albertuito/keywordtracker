@@ -116,12 +116,12 @@ export default function PricingPage() {
             {/* Header */}
             <div className="flex justify-between items-center">
                 <div className="flex items-center gap-3">
-                    <div className="p-2 bg-green-50 rounded-lg">
-                        <DollarSign className="w-6 h-6 text-green-600" />
+                    <div className="p-2 bg-green-500/20 rounded-lg">
+                        <DollarSign className="w-6 h-6 text-green-400" />
                     </div>
                     <div>
-                        <h2 className="text-2xl font-bold text-gray-900">Editor de Precios</h2>
-                        <p className="text-sm text-gray-500">
+                        <h2 className="text-2xl font-bold text-white">Editor de Precios</h2>
+                        <p className="text-sm text-slate-400">
                             Fuente: {source === 'database' ? '📁 Base de datos' : '📄 Por defecto (código)'}
                         </p>
                     </div>
@@ -129,7 +129,7 @@ export default function PricingPage() {
                 <div className="flex gap-3">
                     <button
                         onClick={handleReset}
-                        className="px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 flex items-center gap-2"
+                        className="px-4 py-2 text-slate-200 bg-slate-800 border border-slate-500 rounded-lg hover:bg-slate-900 flex items-center gap-2"
                     >
                         <RotateCcw className="w-4 h-4" />
                         Restaurar
@@ -147,29 +147,29 @@ export default function PricingPage() {
 
             {/* Message */}
             {message && (
-                <div className={`p-4 rounded-lg ${message.type === 'success' ? 'bg-green-50 text-green-700 border border-green-200' : 'bg-red-50 text-red-700 border border-red-200'}`}>
+                <div className={`p-4 rounded-lg ${message.type === 'success' ? 'bg-green-500/20 text-green-400 border border-green-200' : 'bg-red-500/20 text-red-400 border border-red-500/30'}`}>
                     {message.text}
                 </div>
             )}
 
             {/* Pricing Grid */}
-            <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
-                <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-gray-200">
+            <div className="bg-slate-800 border border-slate-600 rounded-xl overflow-hidden">
+                <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-600">
                     {(Object.keys(PRICING_LABELS) as PricingKey[]).map((key) => (
                         <div key={key} className="p-6 flex items-center justify-between gap-4">
                             <div className="flex-1">
-                                <h3 className="font-medium text-gray-900">{PRICING_LABELS[key].label}</h3>
-                                <p className="text-sm text-gray-500">{PRICING_LABELS[key].description}</p>
+                                <h3 className="font-medium text-white">{PRICING_LABELS[key].label}</h3>
+                                <p className="text-sm text-slate-400">{PRICING_LABELS[key].description}</p>
                             </div>
                             <div className="flex items-center gap-2">
-                                <span className="text-gray-500">€</span>
+                                <span className="text-slate-400">€</span>
                                 <input
                                     type="number"
                                     step="0.01"
                                     min="0"
                                     value={pricing[key] ?? 0}
                                     onChange={(e) => handleChange(key, e.target.value)}
-                                    className="w-24 px-3 py-2 border border-gray-300 rounded-lg text-right font-mono focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    className="w-24 px-3 py-2 border border-slate-500 rounded-lg text-right font-mono focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                 />
                             </div>
                         </div>
@@ -178,7 +178,7 @@ export default function PricingPage() {
             </div>
 
             {/* Info Box */}
-            <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
+            <div className="bg-amber-500/20 border border-amber-200 rounded-lg p-4">
                 <h4 className="font-medium text-amber-800 mb-1">⚠️ Importante</h4>
                 <p className="text-sm text-amber-700">
                     Los cambios de precio se aplican inmediatamente a nuevas transacciones.
@@ -188,3 +188,4 @@ export default function PricingPage() {
         </div>
     );
 }
+

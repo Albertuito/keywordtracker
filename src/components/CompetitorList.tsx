@@ -89,9 +89,9 @@ export default function CompetitorList({ projectId }: CompetitorListProps) {
 
     if (loading) {
         return (
-            <div className="bg-white border border-gray-200 rounded-xl p-8 shadow-sm">
-                <div className="flex items-center justify-center gap-3 text-gray-400">
-                    <div className="w-5 h-5 border-2 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
+            <div className="bg-slate-800 border border-slate-600 rounded-xl p-8 shadow-sm">
+                <div className="flex items-center justify-center gap-3 text-slate-500">
+                    <div className="w-5 h-5 border-2 border-slate-500 border-t-blue-500 rounded-full animate-spin"></div>
                     <span>Analizando competencia...</span>
                 </div>
             </div>
@@ -101,17 +101,17 @@ export default function CompetitorList({ projectId }: CompetitorListProps) {
     return (
         <div className="space-y-6">
             {/* Manual Competitors Section */}
-            <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
+            <div className="bg-slate-800 border border-slate-600 rounded-xl shadow-sm overflow-hidden">
                 {/* Header */}
-                <div className="p-6 border-b border-gray-100">
+                <div className="p-6 border-b border-slate-700">
                     <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
                         <div className="flex items-center gap-3">
-                            <div className="p-2 bg-purple-50 rounded-lg">
+                            <div className="p-2 bg-purple-500/20 rounded-lg">
                                 <Star className="w-5 h-5 text-purple-500" />
                             </div>
                             <div>
-                                <h3 className="text-lg font-semibold text-gray-900">Mis Competidores</h3>
-                                <p className="text-sm text-gray-500">Competidores que quieres monitorizar</p>
+                                <h3 className="text-lg font-semibold text-white">Mis Competidores</h3>
+                                <p className="text-sm text-slate-400">Competidores que quieres monitorizar</p>
                             </div>
                         </div>
                         <div className="flex gap-2">
@@ -135,7 +135,7 @@ export default function CompetitorList({ projectId }: CompetitorListProps) {
                         </div>
                     </div>
                     {error && (
-                        <div className="mt-3 text-sm text-red-600 bg-red-50 px-3 py-2 rounded-lg">
+                        <div className="mt-3 text-sm text-red-400 bg-red-500/20 px-3 py-2 rounded-lg">
                             {error}
                         </div>
                     )}
@@ -146,25 +146,25 @@ export default function CompetitorList({ projectId }: CompetitorListProps) {
                     <div className="overflow-x-auto">
                         <table className="w-full">
                             <thead>
-                                <tr className="bg-gray-50 border-b border-gray-100">
-                                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                <tr className="bg-slate-900 border-b border-slate-700">
+                                    <th className="px-6 py-3 text-left text-xs font-semibold text-slate-400 uppercase tracking-wider">
                                         Dominio
                                     </th>
-                                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                    <th className="px-6 py-3 text-left text-xs font-semibold text-slate-400 uppercase tracking-wider">
                                         Keywords en Común
                                     </th>
-                                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                    <th className="px-6 py-3 text-left text-xs font-semibold text-slate-400 uppercase tracking-wider">
                                         Pos. Media Top 5
                                     </th>
-                                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                    <th className="px-6 py-3 text-left text-xs font-semibold text-slate-400 uppercase tracking-wider">
                                         Overlap
                                     </th>
-                                    <th className="px-6 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                    <th className="px-6 py-3 text-right text-xs font-semibold text-slate-400 uppercase tracking-wider">
                                         Acciones
                                     </th>
                                 </tr>
                             </thead>
-                            <tbody className="divide-y divide-gray-100">
+                            <tbody className="divide-y divide-slate-700">
                                 {manualCompetitors.map((comp) => (
                                     <CompetitorRow
                                         key={comp.id}
@@ -181,12 +181,12 @@ export default function CompetitorList({ projectId }: CompetitorListProps) {
                 ) : (
                     <div className="px-6 py-12 text-center">
                         <div className="flex flex-col items-center gap-3">
-                            <div className="p-3 bg-gray-100 rounded-full">
-                                <Star className="w-6 h-6 text-gray-400" />
+                            <div className="p-3 bg-slate-700 rounded-full">
+                                <Star className="w-6 h-6 text-slate-500" />
                             </div>
                             <div>
-                                <p className="text-gray-600 font-medium">No hay competidores añadidos</p>
-                                <p className="text-sm text-gray-400 mt-1">Añade dominios para monitorizar tu competencia directa</p>
+                                <p className="text-slate-300 font-medium">No hay competidores añadidos</p>
+                                <p className="text-sm text-slate-500 mt-1">Añade dominios para monitorizar tu competencia directa</p>
                             </div>
                         </div>
                     </div>
@@ -195,26 +195,26 @@ export default function CompetitorList({ projectId }: CompetitorListProps) {
 
             {/* Detected Competitors Section */}
             {detectedCompetitors.length > 0 && (
-                <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
+                <div className="bg-slate-800 border border-slate-600 rounded-xl shadow-sm overflow-hidden">
                     <button
                         onClick={() => setShowDetected(!showDetected)}
-                        className="w-full p-6 border-b border-gray-100 flex items-center justify-between hover:bg-gray-50 transition-colors"
+                        className="w-full p-6 border-b border-slate-700 flex items-center justify-between hover:bg-slate-900 transition-colors"
                     >
                         <div className="flex items-center gap-3">
-                            <div className="p-2 bg-blue-50 rounded-lg">
+                            <div className="p-2 bg-blue-500/20 rounded-lg">
                                 <Eye className="w-5 h-5 text-blue-500" />
                             </div>
                             <div className="text-left">
-                                <h3 className="text-lg font-semibold text-gray-900">Competidores Detectados</h3>
-                                <p className="text-sm text-gray-500">
+                                <h3 className="text-lg font-semibold text-white">Competidores Detectados</h3>
+                                <p className="text-sm text-slate-400">
                                     Dominios que aparecen en los resultados de tus keywords ({detectedCompetitors.length})
                                 </p>
                             </div>
                         </div>
                         {showDetected ? (
-                            <ChevronUp className="w-5 h-5 text-gray-400" />
+                            <ChevronUp className="w-5 h-5 text-slate-500" />
                         ) : (
-                            <ChevronDown className="w-5 h-5 text-gray-400" />
+                            <ChevronDown className="w-5 h-5 text-slate-500" />
                         )}
                     </button>
 
@@ -222,25 +222,25 @@ export default function CompetitorList({ projectId }: CompetitorListProps) {
                         <div className="overflow-x-auto">
                             <table className="w-full">
                                 <thead>
-                                    <tr className="bg-gray-50 border-b border-gray-100">
-                                        <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                    <tr className="bg-slate-900 border-b border-slate-700">
+                                        <th className="px-6 py-3 text-left text-xs font-semibold text-slate-400 uppercase tracking-wider">
                                             Dominio
                                         </th>
-                                        <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-left text-xs font-semibold text-slate-400 uppercase tracking-wider">
                                             Keywords en Común
                                         </th>
-                                        <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-left text-xs font-semibold text-slate-400 uppercase tracking-wider">
                                             Pos. Media Top 5
                                         </th>
-                                        <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-left text-xs font-semibold text-slate-400 uppercase tracking-wider">
                                             Overlap
                                         </th>
-                                        <th className="px-6 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-right text-xs font-semibold text-slate-400 uppercase tracking-wider">
                                             Acción
                                         </th>
                                     </tr>
                                 </thead>
-                                <tbody className="divide-y divide-gray-100">
+                                <tbody className="divide-y divide-slate-700">
                                     {detectedCompetitors.map((comp) => (
                                         <DetectedCompetitorRow
                                             key={comp.id}
@@ -271,17 +271,17 @@ export default function CompetitorList({ projectId }: CompetitorListProps) {
 
             {/* Summary Footer */}
             {metadata && (
-                <div className="bg-gray-50 border border-gray-200 rounded-xl p-4">
+                <div className="bg-slate-900 border border-slate-600 rounded-xl p-4">
                     <div className="flex flex-wrap items-center justify-between gap-4 text-sm">
                         <div className="flex items-center gap-6">
-                            <span className="text-gray-500">
-                                <span className="font-semibold text-gray-700">{metadata.manualCount}</span> competidores monitorizados
+                            <span className="text-slate-400">
+                                <span className="font-semibold text-slate-200">{metadata.manualCount}</span> competidores monitorizados
                             </span>
-                            <span className="text-gray-500">
-                                <span className="font-semibold text-gray-700">{metadata.detectedCount}</span> detectados automáticamente
+                            <span className="text-slate-400">
+                                <span className="font-semibold text-slate-200">{metadata.detectedCount}</span> detectados automáticamente
                             </span>
                         </div>
-                        <div className="flex items-center gap-1.5 text-blue-600">
+                        <div className="flex items-center gap-1.5 text-blue-400">
                             <TrendingUp className="w-4 h-4" />
                             <span className="font-medium">
                                 {metadata.totalKeywordsWithData}/{metadata.totalKeywords} keywords con datos
@@ -310,18 +310,18 @@ function CompetitorRow({
 }) {
     return (
         <>
-            <tr className="group hover:bg-gray-50 transition-colors">
+            <tr className="group hover:bg-slate-900 transition-colors">
                 <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
-                        <button onClick={onToggle} className="p-2 bg-gray-100 rounded-lg group-hover:bg-purple-50 transition-colors">
-                            <Globe className="w-4 h-4 text-gray-400 group-hover:text-purple-500" />
+                        <button onClick={onToggle} className="p-2 bg-slate-700 rounded-lg group-hover:bg-purple-500/20 transition-colors">
+                            <Globe className="w-4 h-4 text-slate-500 group-hover:text-purple-500" />
                         </button>
                         <div>
-                            <span className="font-medium text-gray-900">{competitor.domain}</span>
+                            <span className="font-medium text-white">{competitor.domain}</span>
                             {competitor.topKeywords.length > 0 && (
                                 <button
                                     onClick={onToggle}
-                                    className="ml-2 text-xs text-blue-500 hover:text-blue-600"
+                                    className="ml-2 text-xs text-blue-500 hover:text-blue-400"
                                 >
                                     {expanded ? 'Ocultar' : 'Ver keywords'}
                                 </button>
@@ -331,25 +331,25 @@ function CompetitorRow({
                 </td>
                 <td className="px-6 py-4">
                     <div className="flex items-center gap-2">
-                        <Target className="w-4 h-4 text-gray-400" />
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700">
+                        <Target className="w-4 h-4 text-slate-500" />
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-500/20 text-blue-400">
                             {competitor.keywordsInCommon}
                         </span>
-                        <span className="text-xs text-gray-400">/ {totalKeywords}</span>
+                        <span className="text-xs text-slate-500">/ {totalKeywords}</span>
                     </div>
                 </td>
                 <td className="px-6 py-4">
                     {competitor.avgPosition !== null ? (
-                        <span className={`font-medium ${competitor.avgPosition <= 2 ? 'text-green-600' : competitor.avgPosition <= 3 ? 'text-yellow-600' : 'text-gray-600'}`}>
+                        <span className={`font-medium ${competitor.avgPosition <= 2 ? 'text-green-400' : competitor.avgPosition <= 3 ? 'text-yellow-600' : 'text-slate-300'}`}>
                             #{competitor.avgPosition}
                         </span>
                     ) : (
-                        <span className="text-gray-400">-</span>
+                        <span className="text-slate-500">-</span>
                     )}
                 </td>
                 <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
-                        <div className="w-20 h-2 bg-gray-100 rounded-full overflow-hidden">
+                        <div className="w-20 h-2 bg-slate-700 rounded-full overflow-hidden">
                             <div
                                 className={`h-full rounded-full transition-all ${competitor.overlap >= 50 ? 'bg-gradient-to-r from-red-500 to-red-400' :
                                         competitor.overlap >= 25 ? 'bg-gradient-to-r from-yellow-500 to-yellow-400' :
@@ -358,7 +358,7 @@ function CompetitorRow({
                                 style={{ width: `${competitor.overlap}%` }}
                             ></div>
                         </div>
-                        <span className="text-xs text-gray-500 font-medium w-10">{competitor.overlap}%</span>
+                        <span className="text-xs text-slate-400 font-medium w-10">{competitor.overlap}%</span>
                     </div>
                 </td>
                 <td className="px-6 py-4 text-right">
@@ -367,12 +367,12 @@ function CompetitorRow({
                             href={`https://${competitor.domain}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                            className="p-2 text-slate-500 hover:text-blue-400 hover:bg-blue-500/200/20 rounded-lg transition-colors"
                         >
                             <ExternalLink className="w-4 h-4" />
                         </a>
                         <button
-                            className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                            className="p-2 text-slate-500 hover:text-red-400 hover:bg-red-500/200/20 rounded-lg transition-colors"
                             onClick={() => onDelete(competitor.id)}
                         >
                             <Trash2 className="w-4 h-4" />
@@ -381,13 +381,13 @@ function CompetitorRow({
                 </td>
             </tr>
             {expanded && competitor.topKeywords.length > 0 && (
-                <tr className="bg-gray-50">
+                <tr className="bg-slate-900">
                     <td colSpan={5} className="px-6 py-4">
                         <div className="text-sm">
-                            <span className="font-medium text-gray-700">Keywords en común: </span>
+                            <span className="font-medium text-slate-200">Keywords en común: </span>
                             <div className="mt-2 flex flex-wrap gap-2">
                                 {competitor.topKeywords.map((kw, idx) => (
-                                    <span key={idx} className="px-2 py-1 bg-white border border-gray-200 rounded text-xs text-gray-600">
+                                    <span key={idx} className="px-2 py-1 bg-slate-800 border border-slate-600 rounded text-xs text-slate-300">
                                         {kw}
                                     </span>
                                 ))}
@@ -414,18 +414,18 @@ function DetectedCompetitorRow({
 }) {
     return (
         <>
-            <tr className="group hover:bg-gray-50 transition-colors">
+            <tr className="group hover:bg-slate-900 transition-colors">
                 <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
-                        <button onClick={onToggle} className="p-2 bg-gray-100 rounded-lg group-hover:bg-blue-50 transition-colors">
-                            <Globe className="w-4 h-4 text-gray-400 group-hover:text-blue-500" />
+                        <button onClick={onToggle} className="p-2 bg-slate-700 rounded-lg group-hover:bg-blue-500/200/20 transition-colors">
+                            <Globe className="w-4 h-4 text-slate-500 group-hover:text-blue-500" />
                         </button>
                         <div>
-                            <span className="font-medium text-gray-700">{competitor.domain}</span>
+                            <span className="font-medium text-slate-200">{competitor.domain}</span>
                             {competitor.topKeywords.length > 0 && (
                                 <button
                                     onClick={onToggle}
-                                    className="ml-2 text-xs text-blue-500 hover:text-blue-600"
+                                    className="ml-2 text-xs text-blue-500 hover:text-blue-400"
                                 >
                                     {expanded ? 'Ocultar' : 'Ver keywords'}
                                 </button>
@@ -434,30 +434,30 @@ function DetectedCompetitorRow({
                     </div>
                 </td>
                 <td className="px-6 py-4">
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600">
+                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-700 text-slate-300">
                         {competitor.keywordsInCommon}
                     </span>
                 </td>
                 <td className="px-6 py-4">
-                    <span className={`font-medium ${competitor.avgPosition && competitor.avgPosition <= 2 ? 'text-green-600' : 'text-gray-600'}`}>
+                    <span className={`font-medium ${competitor.avgPosition && competitor.avgPosition <= 2 ? 'text-green-400' : 'text-slate-300'}`}>
                         #{competitor.avgPosition}
                     </span>
                 </td>
                 <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
-                        <div className="w-20 h-2 bg-gray-100 rounded-full overflow-hidden">
+                        <div className="w-20 h-2 bg-slate-700 rounded-full overflow-hidden">
                             <div
                                 className="h-full bg-gradient-to-r from-gray-400 to-gray-300 rounded-full"
                                 style={{ width: `${competitor.overlap}%` }}
                             ></div>
                         </div>
-                        <span className="text-xs text-gray-500">{competitor.overlap}%</span>
+                        <span className="text-xs text-slate-400">{competitor.overlap}%</span>
                     </div>
                 </td>
                 <td className="px-6 py-4 text-right">
                     <button
                         onClick={onAddToManual}
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-blue-600 hover:text-blue-700 hover:bg-blue-50 border border-blue-200 rounded-lg transition-colors"
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-blue-400 hover:text-blue-400 hover:bg-blue-500/200/20 border border-blue-500/30 rounded-lg transition-colors"
                     >
                         <Plus className="w-3.5 h-3.5" />
                         Añadir
@@ -465,13 +465,13 @@ function DetectedCompetitorRow({
                 </td>
             </tr>
             {expanded && competitor.topKeywords.length > 0 && (
-                <tr className="bg-gray-50">
+                <tr className="bg-slate-900">
                     <td colSpan={5} className="px-6 py-4">
                         <div className="text-sm">
-                            <span className="font-medium text-gray-700">Keywords donde aparece: </span>
+                            <span className="font-medium text-slate-200">Keywords donde aparece: </span>
                             <div className="mt-2 flex flex-wrap gap-2">
                                 {competitor.topKeywords.map((kw, idx) => (
-                                    <span key={idx} className="px-2 py-1 bg-white border border-gray-200 rounded text-xs text-gray-600">
+                                    <span key={idx} className="px-2 py-1 bg-slate-800 border border-slate-600 rounded text-xs text-slate-300">
                                         {kw}
                                     </span>
                                 ))}
@@ -483,3 +483,4 @@ function DetectedCompetitorRow({
         </>
     );
 }
+

@@ -209,22 +209,22 @@ export default function ContentGeneratorPage() {
             <div className="max-w-5xl mx-auto px-4 py-8">
                 {/* Header */}
                 <div className="text-center mb-10">
-                    <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-blue-100 text-blue-700 rounded-full text-sm font-medium mb-4">
+                    <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-blue-100 text-blue-400 rounded-full text-sm font-medium mb-4">
                         <span className="animate-pulse">●</span> Tecnología de ingeniería inversa SEO
                     </div>
-                    <h1 className="text-4xl font-bold text-gray-900 mb-3">
-                        🎯 Genera contenido que <span className="text-blue-600">supera</span> al TOP 10
+                    <h1 className="text-4xl font-bold text-white mb-3">
+                        🎯 Genera contenido que <span className="text-blue-400">supera</span> al TOP 10
                     </h1>
-                    <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                    <p className="text-lg text-slate-300 max-w-2xl mx-auto">
                         Analizamos lo que funciona en Google y creamos contenido diseñado para competir y ganar.
                     </p>
                 </div>
 
                 {/* Input Section */}
-                <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8 mb-6">
+                <div className="bg-slate-800 rounded-2xl shadow-lg border border-slate-700 p-8 mb-6">
                     <div className="flex flex-col md:flex-row gap-4 mb-6">
                         <div className="flex-1">
-                            <label className="block text-sm font-semibold text-gray-700 mb-2">
+                            <label className="block text-sm font-semibold text-slate-200 mb-2">
                                 Keyword objetivo
                             </label>
                             <input
@@ -232,19 +232,19 @@ export default function ContentGeneratorPage() {
                                 value={keyword}
                                 onChange={(e) => setKeyword(e.target.value)}
                                 placeholder="ej: mejores auriculares bluetooth"
-                                className="w-full px-5 py-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 text-lg"
+                                className="w-full px-5 py-4 border border-slate-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-white text-lg"
                                 disabled={phase !== 'idle' && phase !== 'done'}
                                 onKeyDown={(e) => e.key === 'Enter' && handleAnalyze()}
                             />
                         </div>
                         <div className="w-full md:w-44">
-                            <label className="block text-sm font-semibold text-gray-700 mb-2">
+                            <label className="block text-sm font-semibold text-slate-200 mb-2">
                                 País
                             </label>
                             <select
                                 value={country}
                                 onChange={(e) => setCountry(e.target.value)}
-                                className="w-full px-4 py-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
+                                className="w-full px-4 py-4 border border-slate-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-white"
                                 disabled={phase !== 'idle' && phase !== 'done'}
                             >
                                 <option value="es">🇪🇸 España</option>
@@ -259,7 +259,7 @@ export default function ContentGeneratorPage() {
                                 onClick={handleAnalyze}
                                 disabled={phase === 'analyzing' || phase === 'generating'}
                                 className={`px-8 py-4 rounded-xl font-bold text-lg transition-all shadow-lg ${phase === 'analyzing' || phase === 'generating'
-                                    ? 'bg-gray-200 text-gray-400 cursor-not-allowed shadow-none'
+                                    ? 'bg-gray-200 text-slate-500 cursor-not-allowed shadow-none'
                                     : 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 hover:shadow-xl'
                                     }`}
                             >
@@ -271,46 +271,46 @@ export default function ContentGeneratorPage() {
                     </div>
 
                     {/* Value Proposition */}
-                    <div className="border-t border-gray-100 pt-6">
-                        <p className="text-sm font-medium text-gray-500 mb-4 text-center">¿Qué incluye la generación?</p>
+                    <div className="border-t border-slate-700 pt-6">
+                        <p className="text-sm font-medium text-slate-400 mb-4 text-center">¿Qué incluye la generación?</p>
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                             <div className="text-center p-4 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl">
                                 <div className="text-2xl mb-2">🔍</div>
-                                <p className="text-sm font-semibold text-gray-800">Análisis SERP</p>
-                                <p className="text-xs text-gray-500 mt-1">TOP 10 en tiempo real</p>
+                                <p className="text-sm font-semibold text-slate-100">Análisis SERP</p>
+                                <p className="text-xs text-slate-400 mt-1">TOP 10 en tiempo real</p>
                             </div>
                             <div className="text-center p-4 bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl">
                                 <div className="text-2xl mb-2">🎯</div>
-                                <p className="text-sm font-semibold text-gray-800">Detección de huecos</p>
-                                <p className="text-xs text-gray-500 mt-1">Lo que falta en otros</p>
+                                <p className="text-sm font-semibold text-slate-100">Detección de huecos</p>
+                                <p className="text-xs text-slate-400 mt-1">Lo que falta en otros</p>
                             </div>
                             <div className="text-center p-4 bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl">
                                 <div className="text-2xl mb-2">✍️</div>
-                                <p className="text-sm font-semibold text-gray-800">Redacción experta</p>
-                                <p className="text-xs text-gray-500 mt-1">Contenido humano</p>
+                                <p className="text-sm font-semibold text-slate-100">Redacción experta</p>
+                                <p className="text-xs text-slate-400 mt-1">Contenido humano</p>
                             </div>
                             <div className="text-center p-4 bg-gradient-to-br from-amber-50 to-orange-50 rounded-xl">
                                 <div className="text-2xl mb-2">✅</div>
-                                <p className="text-sm font-semibold text-gray-800">Control de calidad</p>
-                                <p className="text-xs text-gray-500 mt-1">Verificación final</p>
+                                <p className="text-sm font-semibold text-slate-100">Control de calidad</p>
+                                <p className="text-xs text-slate-400 mt-1">Verificación final</p>
                             </div>
                         </div>
-                        <p className="text-center mt-4 text-sm text-gray-500">
-                            💰 Coste total: <span className="font-bold text-gray-900">€0.50</span> por artículo completo
+                        <p className="text-center mt-4 text-sm text-slate-400">
+                            💰 Coste total: <span className="font-bold text-white">€0.50</span> por artículo completo
                         </p>
                     </div>
                 </div>
 
                 {/* Live SERP Analysis */}
                 {phase === 'analyzing' && (
-                    <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 mb-6">
+                    <div className="bg-slate-800 rounded-2xl shadow-lg border border-slate-700 p-6 mb-6">
                         <div className="flex items-center gap-3 mb-5">
                             <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
                                 <span className="text-xl">🔍</span>
                             </div>
                             <div>
-                                <p className="font-bold text-gray-900">Analizando competencia en Google</p>
-                                <p className="text-sm text-gray-500">Extrayendo estructura y patrones del TOP 10</p>
+                                <p className="font-bold text-white">Analizando competencia en Google</p>
+                                <p className="text-sm text-slate-400">Extrayendo estructura y patrones del TOP 10</p>
                             </div>
                         </div>
 
@@ -319,29 +319,29 @@ export default function ContentGeneratorPage() {
                                 <div
                                     key={idx}
                                     className={`flex items-center gap-3 p-3 rounded-lg transition-all duration-300 ${idx < analyzingIndex
-                                        ? 'bg-green-50 border border-green-100'
+                                        ? 'bg-green-500/20 border border-green-500/30'
                                         : idx === analyzingIndex
-                                            ? 'bg-blue-50 border border-blue-200 animate-pulse'
-                                            : 'bg-gray-50 border border-gray-100 opacity-50'
+                                            ? 'bg-blue-500/20 border border-blue-500/30 animate-pulse'
+                                            : 'bg-slate-900 border border-slate-700 opacity-50'
                                         }`}
                                 >
                                     <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold ${idx < analyzingIndex
-                                        ? 'bg-green-500 text-white'
+                                        ? 'bg-green-500/200 text-white'
                                         : idx === analyzingIndex
-                                            ? 'bg-blue-500 text-white'
-                                            : 'bg-gray-200 text-gray-500'
+                                            ? 'bg-blue-500/200 text-white'
+                                            : 'bg-gray-200 text-slate-400'
                                         }`}>
                                         {idx < analyzingIndex ? '✓' : idx + 1}
                                     </div>
                                     <div className="flex-1 min-w-0">
-                                        <p className="text-sm font-medium text-gray-900 truncate">{result.title}</p>
-                                        <p className="text-xs text-gray-500 truncate">{result.domain}</p>
+                                        <p className="text-sm font-medium text-white truncate">{result.title}</p>
+                                        <p className="text-xs text-slate-400 truncate">{result.domain}</p>
                                     </div>
                                     {idx < analyzingIndex && (
-                                        <span className="text-xs text-green-600 font-medium">Analizado</span>
+                                        <span className="text-xs text-green-400 font-medium">Analizado</span>
                                     )}
                                     {idx === analyzingIndex && (
-                                        <span className="text-xs text-blue-600 font-medium animate-pulse">Analizando...</span>
+                                        <span className="text-xs text-blue-400 font-medium animate-pulse">Analizando...</span>
                                     )}
                                 </div>
                             ))}
@@ -355,44 +355,44 @@ export default function ContentGeneratorPage() {
                         {/* Terminal Header */}
                         <div className="flex items-center justify-between mb-4 border-b border-gray-800 pb-3">
                             <div className="flex gap-2">
-                                <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                                <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                                <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                                <div className="w-3 h-3 rounded-full bg-red-500/200"></div>
+                                <div className="w-3 h-3 rounded-full bg-yellow-500/200"></div>
+                                <div className="w-3 h-3 rounded-full bg-green-500/200"></div>
                             </div>
-                            <div className="text-gray-500 font-mono text-xs">sys_override://seo_reverse_engineering.exe</div>
+                            <div className="text-slate-400 font-mono text-xs">sys_override://seo_reverse_engineering.exe</div>
                         </div>
 
                         {/* Terminal Content */}
                         <div className="font-mono text-sm h-64 overflow-y-auto space-y-2" id="terminal-logs">
                             {generationLogs.map((log, idx) => (
                                 <div key={idx} className="flex items-start gap-2 text-green-400 animate-fade-in">
-                                    <span className="text-green-600 shrink-0">$</span>
+                                    <span className="text-green-400 shrink-0">$</span>
                                     <span>{log}</span>
                                 </div>
                             ))}
                             <div className="flex items-center gap-2 text-green-400 animate-pulse">
-                                <span className="text-green-600">$</span>
+                                <span className="text-green-400">$</span>
                                 <span className="w-2 h-4 bg-green-400 block"></span>
                             </div>
                         </div>
 
                         {/* Decorative Background Elements */}
-                        <div className="absolute top-0 right-0 w-64 h-64 bg-green-500/5 rounded-full blur-3xl -z-10"></div>
-                        <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl -z-10"></div>
+                        <div className="absolute top-0 right-0 w-64 h-64 bg-green-500/200/5 rounded-full blur-3xl -z-10"></div>
+                        <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/200/5 rounded-full blur-3xl -z-10"></div>
                     </div>
                 )}
 
                 {/* Error */}
                 {error && (
-                    <div className="bg-red-50 border border-red-200 rounded-xl p-4 mb-6 flex items-center gap-3">
+                    <div className="bg-red-500/20 border border-red-500/30 rounded-xl p-4 mb-6 flex items-center gap-3">
                         <span className="text-2xl">⚠️</span>
-                        <p className="text-red-700">{error}</p>
+                        <p className="text-red-400">{error}</p>
                     </div>
                 )}
 
                 {/* Generated Content */}
                 {generatedContent && (
-                    <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+                    <div className="bg-slate-800 rounded-2xl shadow-lg border border-slate-700 overflow-hidden">
                         <div className="bg-gradient-to-r from-green-500 to-emerald-500 px-6 py-4">
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-3">
@@ -404,13 +404,13 @@ export default function ContentGeneratorPage() {
                                 </div>
                                 <button
                                     onClick={copyToClipboard}
-                                    className="px-5 py-2.5 bg-white/20 hover:bg-white/30 backdrop-blur rounded-lg text-white font-semibold transition-all flex items-center gap-2"
+                                    className="px-5 py-2.5 bg-slate-800/20 hover:bg-slate-800/30 backdrop-blur rounded-lg text-white font-semibold transition-all flex items-center gap-2"
                                 >
                                     <span>📋</span> Copiar contenido
                                 </button>
                             </div>
                         </div>
-                        <div className="p-8 prose prose-lg max-w-none prose-headings:font-bold prose-headings:text-gray-900 prose-h1:text-3xl prose-h2:text-2xl prose-h3:text-xl prose-p:text-gray-600 prose-a:text-blue-600 prose-strong:text-gray-900 prose-li:text-gray-600 prose-img:rounded-xl">
+                        <div className="p-8 prose prose-lg max-w-none prose-headings:font-bold prose-headings:text-white prose-h1:text-3xl prose-h2:text-2xl prose-h3:text-xl prose-p:text-slate-300 prose-a:text-blue-400 prose-strong:text-white prose-li:text-slate-300 prose-img:rounded-xl">
                             <ReactMarkdown>
                                 {generatedContent.content}
                             </ReactMarkdown>
@@ -421,3 +421,4 @@ export default function ContentGeneratorPage() {
         </div>
     );
 }
+

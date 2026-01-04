@@ -15,7 +15,7 @@ export default function CTASection() {
                 </p>
                 <Link
                     href="/register"
-                    className="inline-flex items-center gap-2 px-8 py-4 bg-white hover:bg-gray-50 text-blue-600 rounded-lg font-bold text-lg transition-all shadow-lg hover:shadow-xl"
+                    className="inline-flex items-center gap-2 px-8 py-4 bg-slate-800 hover:bg-slate-900 text-blue-400 rounded-lg font-bold text-lg transition-all shadow-lg hover:shadow-xl"
                 >
                     Crear cuenta gratis
                     <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -26,3 +26,4 @@ export default function CTASection() {
         </section>
     );
 }
+

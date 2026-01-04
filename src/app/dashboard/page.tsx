@@ -103,7 +103,7 @@ export default function Dashboard() {
                             <p className="text-sm font-medium text-slate-400">Proyectos Activos</p>
                             <p className="text-3xl font-bold text-white mt-1">{projects.length}</p>
                         </div>
-                        <div className="w-12 h-12 rounded-xl bg-blue-500/20 flex items-center justify-center">
+                        <div className="w-12 h-12 rounded-xl bg-blue-500/200/20 flex items-center justify-center">
                             <svg className="w-6 h-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                             </svg>
@@ -117,7 +117,7 @@ export default function Dashboard() {
                             <p className="text-sm font-medium text-slate-400">Keywords Monitorizadas</p>
                             <p className="text-3xl font-bold text-white mt-1">{totalKeywords}</p>
                         </div>
-                        <div className="w-12 h-12 rounded-xl bg-green-500/20 flex items-center justify-center">
+                        <div className="w-12 h-12 rounded-xl bg-green-500/200/20 flex items-center justify-center">
                             <svg className="w-6 h-6 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
                             </svg>
@@ -133,7 +133,7 @@ export default function Dashboard() {
                                 {projects.length > 0 ? new Date(projects[0].updatedAt || Date.now()).toLocaleDateString('es-ES', { day: 'numeric', month: 'short' }) : '--'}
                             </p>
                         </div>
-                        <div className="w-12 h-12 rounded-xl bg-purple-500/20 flex items-center justify-center">
+                        <div className="w-12 h-12 rounded-xl bg-purple-500/200/20 flex items-center justify-center">
                             <svg className="w-6 h-6 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
@@ -144,7 +144,7 @@ export default function Dashboard() {
 
             {/* Search */}
             <div className="relative">
-                <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
                 <input
@@ -161,7 +161,7 @@ export default function Dashboard() {
                 // Empty State
                 <div className="text-center py-16 bg-slate-800 rounded-2xl border-2 border-dashed border-slate-600">
                     <div className="w-16 h-16 bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <svg className="w-8 h-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg className="w-8 h-8 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                         </svg>
                     </div>
@@ -205,8 +205,8 @@ export default function Dashboard() {
                                     </div>
                                 </div>
 
-                                <div className="col-span-3 hidden md:flex items-center gap-2 text-sm text-gray-600">
-                                    <svg className="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <div className="col-span-3 hidden md:flex items-center gap-2 text-sm text-slate-300">
+                                    <svg className="w-4 h-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
                                     </svg>
                                     <span className="font-mono text-sm">{proj.domain}</span>
@@ -223,7 +223,7 @@ export default function Dashboard() {
                                 </div>
 
                                 <div className="col-span-1 flex justify-end">
-                                    <div className="p-2 text-gray-400 group-hover:text-blue-500 transition-colors">
+                                    <div className="p-2 text-slate-500 group-hover:text-blue-500 transition-colors">
                                         <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                                         </svg>
@@ -295,11 +295,11 @@ export default function Dashboard() {
                                     <option value="PT">🇵🇹 Portugal</option>
                                     <option value="BR">🇧🇷 Brasil</option>
                                 </select>
-                                <p className="text-xs text-gray-400 mt-1">Determina en qué país se consultarán los rankings de Google.</p>
+                                <p className="text-xs text-slate-500 mt-1">Determina en qué país se consultarán los rankings de Google.</p>
                             </div>
 
                             {error && (
-                                <div className="rounded-lg bg-red-500/20 border border-red-500/30 p-3">
+                                <div className="rounded-lg bg-red-500/200/20 border border-red-500/30 p-3">
                                     <p className="text-sm text-red-400">{error}</p>
                                 </div>
                             )}
@@ -325,3 +325,4 @@ export default function Dashboard() {
         </div>
     );
 }
+

@@ -33,13 +33,13 @@ export default function Features() {
     ];
 
     return (
-        <section id="features" className="py-20 bg-gray-50">
+        <section id="features" className="py-20 bg-slate-900">
             <div className="container mx-auto px-4">
                 <div className="text-center mb-16">
-                    <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                    <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
                         Todo lo que necesitas para dominar los rankings
                     </h2>
-                    <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                    <p className="text-lg text-slate-300 max-w-2xl mx-auto">
                         <strong>Herramientas profesionales</strong> a precio accesible para monitorizar tu SEO.
                     </p>
                 </div>
@@ -48,12 +48,12 @@ export default function Features() {
                     {features.map((feature, i) => (
                         <div
                             key={i}
-                            className="bg-white rounded-xl p-6 border border-gray-200 hover:border-blue-300 hover:shadow-lg transition-all text-center"
+                            className="bg-slate-800 rounded-xl p-6 border border-slate-600 hover:border-blue-300 hover:shadow-lg transition-all text-center"
                         >
                             <div className="text-5xl mb-4">{feature.icon}</div>
-                            <h3 className="text-lg font-bold text-gray-900 mb-3">{feature.title}</h3>
+                            <h3 className="text-lg font-bold text-white mb-3">{feature.title}</h3>
                             <p
-                                className="text-gray-600 leading-relaxed"
+                                className="text-slate-300 leading-relaxed"
                                 dangerouslySetInnerHTML={{ __html: feature.description }}
                             />
                         </div>
@@ -63,3 +63,4 @@ export default function Features() {
         </section>
     );
 }
+

@@ -28,14 +28,14 @@ export default function Home() {
     // However, showing the landing page briefly is also fine as a fallback.
 
     return (
-        <main className="min-h-screen bg-gray-50 text-gray-900 selection:bg-blue-500/20">
+        <main className="min-h-screen bg-slate-900 text-white selection:bg-blue-500/200/20">
 
             {/* Session User Floating Action Button (Still keeping it just in case JS is slow to redirect) */}
             {session && (
                 <div className="fixed bottom-8 right-8 z-50 animate-fade-in-up">
                     <Link
                         href="/dashboard"
-                        className="flex items-center gap-2 px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-full shadow-lg shadow-blue-500/20 transition-all hover:-translate-y-1"
+                        className="flex items-center gap-2 px-6 py-3 bg-blue-500/200 hover:bg-blue-600 text-white font-bold rounded-full shadow-lg shadow-blue-500/20 transition-all hover:-translate-y-1"
                     >
                         <LayoutDashboard className="w-5 h-5" />
                         Ir al Dashboard
@@ -51,13 +51,13 @@ export default function Home() {
             <CTASection />
 
             {/* Simple footer for landing page */}
-            <footer className="py-12 bg-white border-t border-gray-200 text-center text-gray-500 text-sm">
+            <footer className="py-12 bg-slate-800 border-t border-slate-600 text-center text-slate-400 text-sm">
                 <div className="container mx-auto px-4">
                     <div className="flex justify-center gap-8 mb-8">
-                        <Link href="#" className="hover:text-gray-900 transition-colors">Términos</Link>
-                        <Link href="#" className="hover:text-gray-900 transition-colors">Privacidad</Link>
-                        <Link href="#" className="hover:text-gray-900 transition-colors">Cookies</Link>
-                        <Link href="#" className="hover:text-gray-900 transition-colors">Contacto</Link>
+                        <Link href="#" className="hover:text-white transition-colors">Términos</Link>
+                        <Link href="#" className="hover:text-white transition-colors">Privacidad</Link>
+                        <Link href="#" className="hover:text-white transition-colors">Cookies</Link>
+                        <Link href="#" className="hover:text-white transition-colors">Contacto</Link>
                     </div>
                     <p>© {new Date().getFullYear()} KeywordTracker. Todos los derechos reservados.</p>
                 </div>
@@ -65,3 +65,4 @@ export default function Home() {
         </main>
     );
 }
+

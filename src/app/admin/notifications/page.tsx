@@ -37,23 +37,23 @@ export default function AdminNotificationsPage() {
 
     return (
         <div className="max-w-2xl mx-auto space-y-8">
-            <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+            <h2 className="text-2xl font-bold text-white flex items-center gap-2">
                 <Send className="w-6 h-6 text-indigo-600" />
                 Enviar Notificaciones
             </h2>
 
-            <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+            <div className="bg-slate-800 p-6 rounded-xl border border-slate-600 shadow-sm">
                 <form onSubmit={handleSubmit} className="space-y-6">
                     {/* Target Selection */}
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Destinatario</label>
+                        <label className="block text-sm font-medium text-slate-200 mb-2">Destinatario</label>
                         <div className="grid grid-cols-2 gap-4">
                             <button
                                 type="button"
                                 onClick={() => setForm({ ...form, targetUserId: 'ALL' })}
                                 className={`p-4 rounded-lg border flex flex-col items-center gap-2 transition-all ${form.targetUserId === 'ALL'
-                                        ? 'border-indigo-500 bg-indigo-50 text-indigo-700'
-                                        : 'border-gray-200 hover:border-gray-300'
+                                        ? 'border-indigo-500 bg-indigo-500/20 text-indigo-700'
+                                        : 'border-slate-600 hover:border-slate-500'
                                     }`}
                             >
                                 <Users className="w-6 h-6" />
@@ -65,8 +65,8 @@ export default function AdminNotificationsPage() {
                                     type="button"
                                     onClick={() => setForm({ ...form, targetUserId: '' })}
                                     className={`w-full h-full p-4 rounded-lg border flex flex-col items-center gap-2 transition-all ${form.targetUserId !== 'ALL'
-                                            ? 'border-indigo-500 bg-indigo-50 text-indigo-700'
-                                            : 'border-gray-200 hover:border-gray-300'
+                                            ? 'border-indigo-500 bg-indigo-500/20 text-indigo-700'
+                                            : 'border-slate-600 hover:border-slate-500'
                                         }`}
                                 >
                                     <User className="w-6 h-6" />
@@ -90,7 +90,7 @@ export default function AdminNotificationsPage() {
 
                     {/* Type Selection */}
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Tipo de Mensaje</label>
+                        <label className="block text-sm font-medium text-slate-200 mb-2">Tipo de Mensaje</label>
                         <div className="flex gap-4">
                             {['info', 'success', 'warning', 'error'].map(type => (
                                 <button
@@ -98,8 +98,8 @@ export default function AdminNotificationsPage() {
                                     type="button"
                                     onClick={() => setForm({ ...form, type })}
                                     className={`px-4 py-2 rounded-lg capitalize border flex items-center gap-2 ${form.type === type
-                                            ? 'border-indigo-500 bg-indigo-50 text-indigo-700'
-                                            : 'border-gray-200 text-gray-600'
+                                            ? 'border-indigo-500 bg-indigo-500/20 text-indigo-700'
+                                            : 'border-slate-600 text-slate-300'
                                         }`}
                                 >
                                     {type === 'info' && <Info className="w-4 h-4" />}
@@ -113,7 +113,7 @@ export default function AdminNotificationsPage() {
 
                     {/* Content */}
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Título</label>
+                        <label className="block text-sm font-medium text-slate-200 mb-1">Título</label>
                         <input
                             type="text"
                             value={form.title}
@@ -125,7 +125,7 @@ export default function AdminNotificationsPage() {
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Mensaje</label>
+                        <label className="block text-sm font-medium text-slate-200 mb-1">Mensaje</label>
                         <textarea
                             value={form.message}
                             onChange={(e) => setForm({ ...form, message: e.target.value })}
@@ -147,3 +147,4 @@ export default function AdminNotificationsPage() {
         </div>
     );
 }
+

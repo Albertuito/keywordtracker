@@ -66,7 +66,7 @@ function VerifyContent() {
                                 <br />
                                 <span className="text-white font-medium">{email}</span>
                             </p>
-                            <div className="text-sm bg-blue-500/10 border border-blue-500/20 rounded-lg p-3 text-blue-300">
+                            <div className="text-sm bg-blue-500/200/10 border border-blue-500/20 rounded-lg p-3 text-blue-300">
                                 💡 Tip de desarrollo: Mira la consola del servidor para ver el enlace de verificación simulado.
                             </div>
                         </>
@@ -103,3 +103,4 @@ export default function VerifyPage() {
         </Suspense>
     );
 }
+

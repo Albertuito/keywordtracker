@@ -20,7 +20,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="es">
-            <body className={`${inter.className} bg-gray-50 text-gray-900`}>
+            <body className={`${inter.className} bg-slate-900 text-white`}>
                 <AuthProvider>
                     <div className="min-h-screen flex flex-col">
                         <Header />
@@ -35,3 +35,4 @@ export default function RootLayout({
         </html>
     );
 }
+

@@ -26,13 +26,13 @@ export default function RankingChart({ keywords, selectedKeywordIds, height = 40
 
     if (selectedKeywords.length === 0) {
         return (
-            <div className="flex items-center justify-center h-96 bg-white border border-gray-200 rounded-xl">
+            <div className="flex items-center justify-center h-96 bg-slate-800 border border-slate-600 rounded-xl">
                 <div className="text-center">
                     <svg className="w-16 h-16 mx-auto text-gray-300 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                     </svg>
-                    <p className="text-gray-600 text-lg font-medium">Selecciona keywords para ver su evolución</p>
-                    <p className="text-gray-500 text-sm mt-2">Puedes comparar hasta 5 keywords simultáneamente</p>
+                    <p className="text-slate-300 text-lg font-medium">Selecciona keywords para ver su evolución</p>
+                    <p className="text-slate-400 text-sm mt-2">Puedes comparar hasta 5 keywords simultáneamente</p>
                 </div>
             </div>
         );
@@ -69,11 +69,11 @@ export default function RankingChart({ keywords, selectedKeywordIds, height = 40
     });
 
     return (
-        <div className={`bg-white border border-gray-200 rounded-xl ${compact ? 'p-4' : 'p-6'}`}>
+        <div className={`bg-slate-800 border border-slate-600 rounded-xl ${compact ? 'p-4' : 'p-6'}`}>
             {!compact && (
                 <div className="mb-6">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Evolución de Rankings</h3>
-                    <p className="text-sm text-gray-600">
+                    <h3 className="text-lg font-semibold text-white mb-2">Evolución de Rankings</h3>
+                    <p className="text-sm text-slate-300">
                         Mostrando {selectedKeywords.length} keyword{selectedKeywords.length > 1 ? 's' : ''} •
                         Últimos {chartData.length} puntos de datos
                     </p>
@@ -129,7 +129,7 @@ export default function RankingChart({ keywords, selectedKeywordIds, height = 40
 
             {/* Summary Stats */}
             {showStats && (
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6 pt-6 border-t border-gray-200">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6 pt-6 border-t border-slate-600">
                     {selectedKeywords.map((kw, index) => {
                         const positions = kw.positions.filter(p => p.position > 0).map(p => p.position);
                         if (positions.length === 0) return null;
@@ -140,20 +140,20 @@ export default function RankingChart({ keywords, selectedKeywordIds, height = 40
                         const change = previousPosition - currentPosition;
 
                         return (
-                            <div key={kw.id} className="bg-gray-50 rounded-lg p-4 border border-gray-100">
+                            <div key={kw.id} className="bg-slate-900 rounded-lg p-4 border border-slate-700">
                                 <div className="flex items-center gap-2 mb-2">
                                     <div
                                         className="w-3 h-3 rounded-full"
                                         style={{ backgroundColor: COLORS[index % COLORS.length] }}
                                     />
-                                    <p className="text-sm font-medium text-gray-700 truncate">{kw.term}</p>
+                                    <p className="text-sm font-medium text-slate-200 truncate">{kw.term}</p>
                                 </div>
                                 <div className="flex items-baseline gap-2">
-                                    <span className="text-2xl font-bold text-gray-900">{currentPosition}</span>
-                                    <span className="text-xs text-gray-600">posición actual</span>
+                                    <span className="text-2xl font-bold text-white">{currentPosition}</span>
+                                    <span className="text-xs text-slate-300">posición actual</span>
                                 </div>
                                 <div className="flex items-center gap-3 mt-2 text-xs">
-                                    <span className="text-gray-600">Promedio: {avgPosition}</span>
+                                    <span className="text-slate-300">Promedio: {avgPosition}</span>
                                     {change !== 0 && (
                                         <span className={`flex items-center gap-1 font-semibold ${change > 0 ? 'text-emerald-600' : 'text-rose-500'}`}>
                                             {change > 0 ? '↑' : '↓'} {Math.abs(change)}
@@ -168,3 +168,4 @@ export default function RankingChart({ keywords, selectedKeywordIds, height = 40
         </div>
     );
 }
+

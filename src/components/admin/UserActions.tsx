@@ -94,18 +94,18 @@ export default function UserActions({ userId, userName, currentBalance }: Props)
     return (
         <div className="space-y-6">
             {/* Balance Management */}
-            <div className="bg-white border border-gray-200 rounded-xl p-6">
-                <h3 className="font-semibold text-gray-900 mb-4">Gestionar Saldo</h3>
+            <div className="bg-slate-800 border border-slate-600 rounded-xl p-6">
+                <h3 className="font-semibold text-white mb-4">Gestionar Saldo</h3>
 
                 {message && (
-                    <div className={`mb-4 p-3 rounded-lg text-sm ${message.type === 'success' ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
+                    <div className={`mb-4 p-3 rounded-lg text-sm ${message.type === 'success' ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}`}>
                         {message.text}
                     </div>
                 )}
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
-                        <label className="text-xs text-gray-500 mb-1 block">Cantidad (€)</label>
+                        <label className="text-xs text-slate-400 mb-1 block">Cantidad (€)</label>
                         <input
                             type="number"
                             step="0.01"
@@ -113,17 +113,17 @@ export default function UserActions({ userId, userName, currentBalance }: Props)
                             value={amount}
                             onChange={(e) => setAmount(e.target.value)}
                             placeholder="10.00"
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                            className="w-full px-3 py-2 border border-slate-500 rounded-lg"
                         />
                     </div>
                     <div>
-                        <label className="text-xs text-gray-500 mb-1 block">Motivo (opcional)</label>
+                        <label className="text-xs text-slate-400 mb-1 block">Motivo (opcional)</label>
                         <input
                             type="text"
                             value={reason}
                             onChange={(e) => setReason(e.target.value)}
                             placeholder="Ej: Compensación soporte"
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                            className="w-full px-3 py-2 border border-slate-500 rounded-lg"
                         />
                     </div>
                     <div className="flex items-end gap-2">
@@ -160,14 +160,14 @@ export default function UserActions({ userId, userName, currentBalance }: Props)
                 {!showDeleteConfirm ? (
                     <button
                         onClick={() => setShowDeleteConfirm(true)}
-                        className="px-4 py-2 bg-white border border-red-300 text-red-600 rounded-lg hover:bg-red-50 flex items-center gap-2"
+                        className="px-4 py-2 bg-slate-800 border border-red-300 text-red-400 rounded-lg hover:bg-red-500/200/20 flex items-center gap-2"
                     >
                         <Trash2 className="w-4 h-4" />
                         Eliminar Usuario
                     </button>
                 ) : (
-                    <div className="flex items-center gap-2 p-2 bg-red-50 border border-red-200 rounded-lg">
-                        <span className="text-sm text-red-700">¿Seguro? Esta acción es irreversible.</span>
+                    <div className="flex items-center gap-2 p-2 bg-red-500/20 border border-red-500/30 rounded-lg">
+                        <span className="text-sm text-red-400">¿Seguro? Esta acción es irreversible.</span>
                         <button
                             onClick={handleDelete}
                             disabled={loading}
@@ -177,7 +177,7 @@ export default function UserActions({ userId, userName, currentBalance }: Props)
                         </button>
                         <button
                             onClick={() => setShowDeleteConfirm(false)}
-                            className="px-3 py-1 bg-white text-gray-600 text-sm rounded border border-gray-300 hover:bg-gray-50"
+                            className="px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded border border-slate-500 hover:bg-slate-900"
                         >
                             Cancelar
                         </button>
@@ -187,3 +187,4 @@ export default function UserActions({ userId, userName, currentBalance }: Props)
         </div>
     );
 }
+

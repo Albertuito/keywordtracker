@@ -13,7 +13,7 @@ export default function BalanceWidget() {
 
     if (loading) {
         return (
-            <div className="h-9 w-24 bg-gray-100 rounded-lg animate-pulse" />
+            <div className="h-9 w-24 bg-slate-700 rounded-lg animate-pulse" />
         );
     }
 
@@ -21,7 +21,7 @@ export default function BalanceWidget() {
         <>
             <div className="flex items-center gap-3">
                 <div className="text-right">
-                    <div className={`text-sm font-bold ${balance < 2 ? 'text-red-500' : 'text-gray-900'}`}>
+                    <div className={`text-sm font-bold ${balance < 2 ? 'text-red-500' : 'text-white'}`}>
                         {balance.toFixed(2)} €
                     </div>
                     {balance < 2 && (
@@ -33,7 +33,7 @@ export default function BalanceWidget() {
 
                 <button
                     onClick={() => setShowRecharge(true)}
-                    className="bg-green-500 hover:bg-green-600 text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors shadow-sm"
+                    className="bg-green-500/200 hover:bg-green-600 text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors shadow-sm"
                 >
                     Recargar
                 </button>
@@ -57,3 +57,4 @@ export default function BalanceWidget() {
         </>
     );
 }
+

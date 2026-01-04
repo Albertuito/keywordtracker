@@ -43,8 +43,8 @@ function DemoChart() {
                     strokeLinejoin="round"
                 />
             </svg>
-            <div className="absolute bottom-2 left-2 text-xs text-gray-400">30 días</div>
-            <div className="absolute top-2 right-2 flex items-center gap-1 text-xs text-green-600 font-semibold">
+            <div className="absolute bottom-2 left-2 text-xs text-slate-500">30 días</div>
+            <div className="absolute top-2 right-2 flex items-center gap-1 text-xs text-green-400 font-semibold">
                 <span>▲ +42 posiciones</span>
             </div>
         </div>
@@ -98,7 +98,7 @@ export default function Hero() {
     }, []);
 
     return (
-        <section ref={containerRef} className="relative pt-24 pb-16 lg:pt-32 lg:pb-24 overflow-hidden bg-white">
+        <section ref={containerRef} className="relative pt-24 pb-16 lg:pt-32 lg:pb-24 overflow-hidden bg-slate-800">
 
             {/* Interactive Grid */}
             <div className="absolute inset-0 overflow-hidden">
@@ -137,18 +137,18 @@ export default function Hero() {
             <div className="container mx-auto px-4 relative z-10 text-center">
 
                 {/* Badge - 1€ gratis */}
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-50 border border-green-200 text-green-700 text-sm font-semibold mb-8">
-                    <span className="flex h-2 w-2 rounded-full bg-green-500 animate-pulse"></span>
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/20 border border-green-200 text-green-400 text-sm font-semibold mb-8">
+                    <span className="flex h-2 w-2 rounded-full bg-green-500/200 animate-pulse"></span>
                     🎁 1€ GRATIS para nuevos usuarios
                 </div>
 
-                <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-gray-900 mb-6 leading-tight max-w-4xl mx-auto">
+                <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-white mb-6 leading-tight max-w-4xl mx-auto">
                     Monitoriza tus Rankings en Google
                     <span className="text-blue-500"> Sin Cuotas Mensuales</span>
                 </h1>
 
-                <p className="max-w-2xl mx-auto text-xl text-gray-600 mb-6 leading-relaxed">
-                    <strong className="text-gray-900">Paga solo por lo que uses.</strong> Sin suscripciones, sin compromisos.
+                <p className="max-w-2xl mx-auto text-xl text-slate-300 mb-6 leading-relaxed">
+                    <strong className="text-white">Paga solo por lo que uses.</strong> Sin suscripciones, sin compromisos.
                     Consulta rankings cuando tú quieras, con datos 100% reales de Google.
                 </p>
 
@@ -165,7 +165,7 @@ export default function Hero() {
                     {session ? (
                         <Link
                             href="/dashboard"
-                            className="px-8 py-4 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-semibold text-lg transition-all shadow-lg shadow-blue-500/25 flex items-center gap-2"
+                            className="px-8 py-4 bg-blue-500/200 hover:bg-blue-600 text-white rounded-lg font-semibold text-lg transition-all shadow-lg shadow-blue-500/25 flex items-center gap-2"
                         >
                             Ir al Dashboard
                             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -175,7 +175,7 @@ export default function Hero() {
                     ) : (
                         <Link
                             href="/register"
-                            className="px-8 py-4 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-semibold text-lg transition-all shadow-lg shadow-blue-500/25 flex items-center gap-2"
+                            className="px-8 py-4 bg-blue-500/200 hover:bg-blue-600 text-white rounded-lg font-semibold text-lg transition-all shadow-lg shadow-blue-500/25 flex items-center gap-2"
                         >
                             Probar Gratis con 1€
                             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -185,27 +185,27 @@ export default function Hero() {
                     )}
                     <Link
                         href="#how-it-works"
-                        className="px-8 py-4 bg-white hover:bg-gray-50 text-gray-700 rounded-lg font-semibold text-lg border border-gray-200 transition-all flex items-center gap-2"
+                        className="px-8 py-4 bg-slate-800 hover:bg-slate-900 text-slate-200 rounded-lg font-semibold text-lg border border-slate-600 transition-all flex items-center gap-2"
                     >
                         ¿Cómo funciona?
                     </Link>
                 </div>
 
                 {/* Trust indicators */}
-                <div className="flex flex-wrap justify-center gap-x-8 gap-y-4 text-sm text-gray-600 mb-16">
-                    <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-50">
+                <div className="flex flex-wrap justify-center gap-x-8 gap-y-4 text-sm text-slate-300 mb-16">
+                    <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-900">
                         <svg className="w-5 h-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                         </svg>
                         <span><strong>Sin cuotas mensuales</strong></span>
                     </div>
-                    <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-50">
+                    <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-900">
                         <svg className="w-5 h-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                         </svg>
                         <span><strong>Paga solo cuando consultas</strong></span>
                     </div>
-                    <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-50">
+                    <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-900">
                         <svg className="w-5 h-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                         </svg>
@@ -214,36 +214,36 @@ export default function Hero() {
                 </div>
 
                 {/* Dashboard Preview with REAL CHART */}
-                <div className="relative mx-auto max-w-5xl rounded-xl border border-gray-200 bg-white shadow-2xl overflow-hidden">
-                    <div className="bg-gray-100 px-4 py-3 border-b border-gray-200 flex items-center gap-2">
+                <div className="relative mx-auto max-w-5xl rounded-xl border border-slate-600 bg-slate-800 shadow-2xl overflow-hidden">
+                    <div className="bg-slate-700 px-4 py-3 border-b border-slate-600 flex items-center gap-2">
                         <div className="flex gap-1.5">
                             <div className="w-3 h-3 rounded-full bg-red-400"></div>
                             <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
                             <div className="w-3 h-3 rounded-full bg-green-400"></div>
                         </div>
                         <div className="flex-1 text-center">
-                            <div className="inline-block px-4 py-1 bg-white rounded text-xs text-gray-500 border border-gray-200">
+                            <div className="inline-block px-4 py-1 bg-slate-800 rounded text-xs text-slate-400 border border-slate-600">
                                 app.keywordtracker.es/dashboard
                             </div>
                         </div>
                     </div>
-                    <div className="p-6 bg-gray-50">
+                    <div className="p-6 bg-slate-900">
                         <div className="grid grid-cols-3 gap-4 mb-6">
-                            <div className="bg-white p-4 rounded-lg border border-gray-200">
-                                <div className="text-xs text-gray-500 mb-1">Keywords</div>
-                                <div className="text-2xl font-bold text-gray-900">247</div>
+                            <div className="bg-slate-800 p-4 rounded-lg border border-slate-600">
+                                <div className="text-xs text-slate-400 mb-1">Keywords</div>
+                                <div className="text-2xl font-bold text-white">247</div>
                             </div>
-                            <div className="bg-white p-4 rounded-lg border border-gray-200">
-                                <div className="text-xs text-gray-500 mb-1">En Top 10</div>
+                            <div className="bg-slate-800 p-4 rounded-lg border border-slate-600">
+                                <div className="text-xs text-slate-400 mb-1">En Top 10</div>
                                 <div className="text-2xl font-bold text-green-500">89</div>
                             </div>
-                            <div className="bg-white p-4 rounded-lg border border-gray-200">
-                                <div className="text-xs text-gray-500 mb-1">Invertido este mes</div>
+                            <div className="bg-slate-800 p-4 rounded-lg border border-slate-600">
+                                <div className="text-xs text-slate-400 mb-1">Invertido este mes</div>
                                 <div className="text-2xl font-bold text-blue-500">€4.94</div>
                             </div>
                         </div>
-                        <div className="bg-white rounded-lg border border-gray-200 p-4">
-                            <div className="text-sm font-medium text-gray-700 mb-2">Evolución de Rankings</div>
+                        <div className="bg-slate-800 rounded-lg border border-slate-600 p-4">
+                            <div className="text-sm font-medium text-slate-200 mb-2">Evolución de Rankings</div>
                             <DemoChart />
                         </div>
                     </div>
@@ -252,3 +252,4 @@ export default function Hero() {
         </section>
     );
 }
+

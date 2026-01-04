@@ -95,7 +95,7 @@ function BillingContent() {
                                 </tr>
                             ) : (
                                 transactions.map((tx) => (
-                                    <tr key={tx.id} className="hover:bg-white/5 transition-colors">
+                                    <tr key={tx.id} className="hover:bg-slate-800/5 transition-colors">
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             {new Date(tx.createdAt).toLocaleDateString()} <span className="text-slate-600 text-xs ml-1">{new Date(tx.createdAt).toLocaleTimeString()}</span>
                                         </td>
@@ -144,3 +144,4 @@ export default function BillingPage() {
         </Suspense>
     );
 }
+

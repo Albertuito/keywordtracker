@@ -153,20 +153,20 @@ export default function ComoFuncionaPage() {
     ];
 
     return (
-        <div className="bg-gray-50 min-h-screen">
+        <div className="bg-slate-900 min-h-screen">
             {/* Hero Section */}
             <section className="relative py-20 overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-blue-50"></div>
                 <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center max-w-3xl mx-auto">
-                        <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-700 mb-6">
+                        <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-400 mb-6">
                             Sin suscripciones • Pago por uso
                         </span>
-                        <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+                        <h1 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
                             Monitoriza tus keywords de forma
                             <span className="text-blue-500"> simple y económica</span>
                         </h1>
-                        <p className="text-xl text-gray-600 mb-8 leading-relaxed">
+                        <p className="text-xl text-slate-300 mb-8 leading-relaxed">
                             KeywordTracker te permite conocer la posición exacta de tu web en Google.
                             Solo pagas por las consultas que realizas, sin costes fijos ni compromisos.
                         </p>
@@ -174,7 +174,7 @@ export default function ComoFuncionaPage() {
                             {session ? (
                                 <Link
                                     href="/dashboard"
-                                    className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-xl transition-all shadow-lg shadow-blue-500/20"
+                                    className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-blue-500/200 hover:bg-blue-600 text-white font-semibold rounded-xl transition-all shadow-lg shadow-blue-500/20"
                                 >
                                     Ir al Dashboard
                                     <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -185,7 +185,7 @@ export default function ComoFuncionaPage() {
                                 <>
                                     <Link
                                         href="/register"
-                                        className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-xl transition-all shadow-lg shadow-blue-500/20"
+                                        className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-blue-500/200 hover:bg-blue-600 text-white font-semibold rounded-xl transition-all shadow-lg shadow-blue-500/20"
                                     >
                                         Empezar gratis
                                         <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -194,14 +194,14 @@ export default function ComoFuncionaPage() {
                                     </Link>
                                     <Link
                                         href="/login"
-                                        className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white hover:bg-gray-50 text-gray-700 font-semibold rounded-xl transition-all border border-gray-200"
+                                        className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-slate-800 hover:bg-slate-900 text-slate-200 font-semibold rounded-xl transition-all border border-slate-600"
                                     >
                                         Iniciar sesión
                                     </Link>
                                 </>
                             )}
                         </div>
-                        <p className="mt-4 text-sm text-gray-500">
+                        <p className="mt-4 text-sm text-slate-400">
                             🎁 1€ de crédito gratis para nuevos usuarios
                         </p>
                     </div>
@@ -209,13 +209,13 @@ export default function ComoFuncionaPage() {
             </section>
 
             {/* How it works */}
-            <section className="py-20 bg-white">
+            <section className="py-20 bg-slate-800">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center mb-16">
-                        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                        <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
                             Cómo funciona
                         </h2>
-                        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                        <p className="text-lg text-slate-300 max-w-2xl mx-auto">
                             En 4 sencillos pasos tendrás control total sobre tus posiciones en Google
                         </p>
                     </div>
@@ -226,13 +226,13 @@ export default function ComoFuncionaPage() {
                                 {index < steps.length - 1 && (
                                     <div className="hidden lg:block absolute top-12 left-full w-full h-0.5 bg-gradient-to-r from-blue-200 to-transparent -translate-x-8"></div>
                                 )}
-                                <div className="bg-gray-50 rounded-2xl p-8 h-full hover:shadow-lg transition-shadow">
-                                    <div className="w-16 h-16 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center mb-6">
+                                <div className="bg-slate-900 rounded-2xl p-8 h-full hover:shadow-lg transition-shadow">
+                                    <div className="w-16 h-16 rounded-2xl bg-blue-100 text-blue-400 flex items-center justify-center mb-6">
                                         {step.icon}
                                     </div>
                                     <span className="text-sm font-bold text-blue-500 mb-2 block">{step.number}</span>
-                                    <h3 className="text-xl font-bold text-gray-900 mb-3">{step.title}</h3>
-                                    <p className="text-gray-600">{step.description}</p>
+                                    <h3 className="text-xl font-bold text-white mb-3">{step.title}</h3>
+                                    <p className="text-slate-300">{step.description}</p>
                                 </div>
                             </div>
                         ))}
@@ -241,25 +241,25 @@ export default function ComoFuncionaPage() {
             </section>
 
             {/* Features */}
-            <section className="py-20 bg-gray-50">
+            <section className="py-20 bg-slate-900">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center mb-16">
-                        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                        <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
                             Todo lo que necesitas
                         </h2>
-                        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                        <p className="text-lg text-slate-300 max-w-2xl mx-auto">
                             Herramientas profesionales de SEO sin la complejidad ni el precio de las grandes plataformas
                         </p>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {features.map((feature, index) => (
-                            <div key={index} className="bg-white rounded-xl p-6 border border-gray-100 hover:shadow-lg transition-all hover:-translate-y-1">
-                                <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-500 flex items-center justify-center mb-4">
+                            <div key={index} className="bg-slate-800 rounded-xl p-6 border border-slate-700 hover:shadow-lg transition-all hover:-translate-y-1">
+                                <div className="w-12 h-12 rounded-xl bg-blue-500/20 text-blue-500 flex items-center justify-center mb-4">
                                     {feature.icon}
                                 </div>
-                                <h3 className="text-lg font-bold text-gray-900 mb-2">{feature.title}</h3>
-                                <p className="text-gray-600">{feature.description}</p>
+                                <h3 className="text-lg font-bold text-white mb-2">{feature.title}</h3>
+                                <p className="text-slate-300">{feature.description}</p>
                             </div>
                         ))}
                     </div>
@@ -267,13 +267,13 @@ export default function ComoFuncionaPage() {
             </section>
 
             {/* Pricing - Updated with real prices */}
-            <section className="py-20 bg-white" id="precios">
+            <section className="py-20 bg-slate-800" id="precios">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center mb-16">
-                        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                        <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
                             Precios transparentes
                         </h2>
-                        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                        <p className="text-lg text-slate-300 max-w-2xl mx-auto">
                             Sin suscripciones ni costes ocultos. Recarga tu saldo y paga solo por lo que uses.
                         </p>
                     </div>
@@ -285,32 +285,32 @@ export default function ComoFuncionaPage() {
                                 <div
                                     key={index}
                                     className={`rounded-2xl p-6 border-2 transition-all hover:shadow-lg ${action.highlight
-                                            ? 'border-blue-500 bg-blue-50/50'
-                                            : 'border-gray-200 bg-white'
+                                            ? 'border-blue-500 bg-blue-500/20/50'
+                                            : 'border-slate-600 bg-slate-800'
                                         }`}
                                 >
                                     <div className="flex items-start justify-between mb-4">
                                         <div className="flex items-center gap-3">
-                                            <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${action.highlight ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-600'
+                                            <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${action.highlight ? 'bg-blue-500/200 text-white' : 'bg-slate-700 text-slate-300'
                                                 }`}>
                                                 {action.icon}
                                             </div>
                                             <div>
-                                                <h3 className="font-bold text-gray-900">{action.name}</h3>
-                                                <p className="text-sm text-gray-500">{action.description}</p>
+                                                <h3 className="font-bold text-white">{action.name}</h3>
+                                                <p className="text-sm text-slate-400">{action.description}</p>
                                             </div>
                                         </div>
                                         {action.highlight && (
-                                            <span className="px-2 py-1 bg-blue-500 text-white text-xs font-semibold rounded-full">
+                                            <span className="px-2 py-1 bg-blue-500/200 text-white text-xs font-semibold rounded-full">
                                                 Popular
                                             </span>
                                         )}
                                     </div>
                                     <div className="flex items-baseline gap-1">
-                                        <span className="text-3xl font-bold text-gray-900">
+                                        <span className="text-3xl font-bold text-white">
                                             {action.price.toFixed(2).replace('.', ',')}€
                                         </span>
-                                        <span className="text-gray-500">/ consulta</span>
+                                        <span className="text-slate-400">/ consulta</span>
                                     </div>
                                 </div>
                             ))}
@@ -322,15 +322,15 @@ export default function ComoFuncionaPage() {
                                 💡 ¿Cuánto puedes hacer con 1€?
                             </h3>
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                                <div className="bg-white/10 backdrop-blur rounded-xl p-4">
+                                <div className="bg-slate-800/10 backdrop-blur rounded-xl p-4">
                                     <p className="text-4xl font-bold mb-1">50</p>
                                     <p className="text-blue-100 text-sm">Consultas de ranking Standard</p>
                                 </div>
-                                <div className="bg-white/10 backdrop-blur rounded-xl p-4">
+                                <div className="bg-slate-800/10 backdrop-blur rounded-xl p-4">
                                     <p className="text-4xl font-bold mb-1">20</p>
                                     <p className="text-blue-100 text-sm">Consultas Live instantáneas</p>
                                 </div>
-                                <div className="bg-white/10 backdrop-blur rounded-xl p-4">
+                                <div className="bg-slate-800/10 backdrop-blur rounded-xl p-4">
                                     <p className="text-4xl font-bold mb-1">33</p>
                                     <p className="text-blue-100 text-sm">Consultas de volumen</p>
                                 </div>
@@ -341,7 +341,7 @@ export default function ComoFuncionaPage() {
                             {!session && (
                                 <Link
                                     href="/register"
-                                    className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white hover:bg-gray-50 text-blue-600 font-semibold rounded-xl transition-all shadow-lg"
+                                    className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-slate-800 hover:bg-slate-900 text-blue-400 font-semibold rounded-xl transition-all shadow-lg"
                                 >
                                     Crear cuenta gratis
                                     <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -353,25 +353,25 @@ export default function ComoFuncionaPage() {
 
                         {/* Additional pricing info */}
                         <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div className="bg-gray-50 rounded-xl p-6">
-                                <h4 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
+                            <div className="bg-slate-900 rounded-xl p-6">
+                                <h4 className="font-bold text-white mb-3 flex items-center gap-2">
                                     <svg className="w-5 h-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
                                     Sin caducidad
                                 </h4>
-                                <p className="text-gray-600 text-sm">
+                                <p className="text-slate-300 text-sm">
                                     Tu saldo nunca caduca. Recarga cuando quieras y úsalo a tu ritmo, sin presiones ni fechas límite.
                                 </p>
                             </div>
-                            <div className="bg-gray-50 rounded-xl p-6">
-                                <h4 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
+                            <div className="bg-slate-900 rounded-xl p-6">
+                                <h4 className="font-bold text-white mb-3 flex items-center gap-2">
                                     <svg className="w-5 h-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
                                     Sin límites
                                 </h4>
-                                <p className="text-gray-600 text-sm">
+                                <p className="text-slate-300 text-sm">
                                     Crea todos los proyectos y keywords que necesites. Solo pagas cuando consultas las posiciones.
                                 </p>
                             </div>
@@ -381,85 +381,85 @@ export default function ComoFuncionaPage() {
             </section>
 
             {/* FAQ */}
-            <section className="py-20 bg-gray-50">
+            <section className="py-20 bg-slate-900">
                 <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center mb-12">
-                        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                        <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
                             Preguntas frecuentes
                         </h2>
                     </div>
 
                     <div className="space-y-4">
-                        <details className="bg-white rounded-xl p-6 border border-gray-100 group">
-                            <summary className="flex items-center justify-between cursor-pointer text-lg font-semibold text-gray-900">
+                        <details className="bg-slate-800 rounded-xl p-6 border border-slate-700 group">
+                            <summary className="flex items-center justify-between cursor-pointer text-lg font-semibold text-white">
                                 ¿Qué diferencia hay entre Standard y Live?
-                                <svg className="w-5 h-5 text-gray-400 group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <svg className="w-5 h-5 text-slate-500 group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                                 </svg>
                             </summary>
-                            <p className="mt-4 text-gray-600">
+                            <p className="mt-4 text-slate-300">
                                 <strong>Standard (0,02€)</strong> procesa tu consulta en cola, con un tiempo de espera de 2-5 minutos. Ideal para actualizar muchas keywords.
                                 <br /><br />
                                 <strong>Live (0,05€)</strong> te da el resultado al instante. Perfecto cuando necesitas saber la posición en ese momento.
                             </p>
                         </details>
 
-                        <details className="bg-white rounded-xl p-6 border border-gray-100 group">
-                            <summary className="flex items-center justify-between cursor-pointer text-lg font-semibold text-gray-900">
+                        <details className="bg-slate-800 rounded-xl p-6 border border-slate-700 group">
+                            <summary className="flex items-center justify-between cursor-pointer text-lg font-semibold text-white">
                                 ¿De dónde se obtienen los rankings?
-                                <svg className="w-5 h-5 text-gray-400 group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <svg className="w-5 h-5 text-slate-500 group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                                 </svg>
                             </summary>
-                            <p className="mt-4 text-gray-600">
+                            <p className="mt-4 text-slate-300">
                                 Utilizamos DataForSEO, uno de los proveedores de datos SEO más precisos del mercado. Los rankings se consultan directamente a Google para garantizar la máxima precisión.
                             </p>
                         </details>
 
-                        <details className="bg-white rounded-xl p-6 border border-gray-100 group">
-                            <summary className="flex items-center justify-between cursor-pointer text-lg font-semibold text-gray-900">
+                        <details className="bg-slate-800 rounded-xl p-6 border border-slate-700 group">
+                            <summary className="flex items-center justify-between cursor-pointer text-lg font-semibold text-white">
                                 ¿Puedo monitorizar cualquier país?
-                                <svg className="w-5 h-5 text-gray-400 group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <svg className="w-5 h-5 text-slate-500 group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                                 </svg>
                             </summary>
-                            <p className="mt-4 text-gray-600">
+                            <p className="mt-4 text-slate-300">
                                 Sí, soportamos rankings en España, México, Argentina, Colombia, Chile, Perú, Estados Unidos, Reino Unido, Francia, Alemania, Italia, Portugal y Brasil.
                             </p>
                         </details>
 
-                        <details className="bg-white rounded-xl p-6 border border-gray-100 group">
-                            <summary className="flex items-center justify-between cursor-pointer text-lg font-semibold text-gray-900">
+                        <details className="bg-slate-800 rounded-xl p-6 border border-slate-700 group">
+                            <summary className="flex items-center justify-between cursor-pointer text-lg font-semibold text-white">
                                 ¿Qué incluye el análisis de keywords relacionadas?
-                                <svg className="w-5 h-5 text-gray-400 group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <svg className="w-5 h-5 text-slate-500 group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                                 </svg>
                             </summary>
-                            <p className="mt-4 text-gray-600">
+                            <p className="mt-4 text-slate-300">
                                 Por 0,15€ obtienes keywords relacionadas con volumen de búsqueda, dificultad SEO, CPC y un análisis con inteligencia artificial (GPT-4) que te recomienda qué keywords atacar y cómo optimizar tus páginas existentes.
                             </p>
                         </details>
 
-                        <details className="bg-white rounded-xl p-6 border border-gray-100 group">
-                            <summary className="flex items-center justify-between cursor-pointer text-lg font-semibold text-gray-900">
+                        <details className="bg-slate-800 rounded-xl p-6 border border-slate-700 group">
+                            <summary className="flex items-center justify-between cursor-pointer text-lg font-semibold text-white">
                                 ¿Hay límite de keywords o proyectos?
-                                <svg className="w-5 h-5 text-gray-400 group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <svg className="w-5 h-5 text-slate-500 group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                                 </svg>
                             </summary>
-                            <p className="mt-4 text-gray-600">
+                            <p className="mt-4 text-slate-300">
                                 Puedes crear tantos proyectos y keywords como necesites. Solo pagas cuando actualizas las posiciones.
                             </p>
                         </details>
 
-                        <details className="bg-white rounded-xl p-6 border border-gray-100 group">
-                            <summary className="flex items-center justify-between cursor-pointer text-lg font-semibold text-gray-900">
+                        <details className="bg-slate-800 rounded-xl p-6 border border-slate-700 group">
+                            <summary className="flex items-center justify-between cursor-pointer text-lg font-semibold text-white">
                                 ¿Cómo funciona el auto-tracking?
-                                <svg className="w-5 h-5 text-gray-400 group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <svg className="w-5 h-5 text-slate-500 group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                                 </svg>
                             </summary>
-                            <p className="mt-4 text-gray-600">
+                            <p className="mt-4 text-slate-300">
                                 Puedes configurar cada keyword para que se actualice automáticamente cada día, cada 2 días o cada semana. El coste por consulta automática es el mismo que el Standard (0,02€).
                             </p>
                         </details>
@@ -479,7 +479,7 @@ export default function ComoFuncionaPage() {
                     {session ? (
                         <Link
                             href="/dashboard"
-                            className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white hover:bg-gray-50 text-blue-600 font-semibold rounded-xl transition-all shadow-lg"
+                            className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-slate-800 hover:bg-slate-900 text-blue-400 font-semibold rounded-xl transition-all shadow-lg"
                         >
                             Ir al Dashboard
                             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -489,7 +489,7 @@ export default function ComoFuncionaPage() {
                     ) : (
                         <Link
                             href="/register"
-                            className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white hover:bg-gray-50 text-blue-600 font-semibold rounded-xl transition-all shadow-lg"
+                            className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-slate-800 hover:bg-slate-900 text-blue-400 font-semibold rounded-xl transition-all shadow-lg"
                         >
                             Crear cuenta gratis
                             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -502,3 +502,4 @@ export default function ComoFuncionaPage() {
         </div>
     );
 }
+

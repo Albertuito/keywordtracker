@@ -22,46 +22,46 @@ export default function AdminFinancePage() {
 
     return (
         <div className="space-y-8">
-            <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+            <h2 className="text-2xl font-bold text-white flex items-center gap-2">
                 <DollarSign className="w-6 h-6 text-emerald-600" />
                 Reporte Financiero
             </h2>
 
             {/* KPI Cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                    <div className="text-sm text-gray-500 mb-1 flex items-center gap-2">
+                <div className="bg-slate-800 p-6 rounded-xl border border-slate-600 shadow-sm">
+                    <div className="text-sm text-slate-400 mb-1 flex items-center gap-2">
                         <TrendingUp className="w-4 h-4 text-green-500" /> Total Ingresos (Recargas)
                     </div>
-                    <div className="text-3xl font-mono font-bold text-gray-900">
+                    <div className="text-3xl font-mono font-bold text-white">
                         {formatCurrency(data.total.recharged)}
                     </div>
                 </div>
 
-                <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                    <div className="text-sm text-gray-500 mb-1 flex items-center gap-2">
+                <div className="bg-slate-800 p-6 rounded-xl border border-slate-600 shadow-sm">
+                    <div className="text-sm text-slate-400 mb-1 flex items-center gap-2">
                         <TrendingDown className="w-4 h-4 text-blue-500" /> Total Consumo (API)
                     </div>
-                    <div className="text-3xl font-mono font-bold text-gray-900">
+                    <div className="text-3xl font-mono font-bold text-white">
                         {formatCurrency(data.total.used)}
                     </div>
                 </div>
 
-                <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                    <div className="text-sm text-gray-500 mb-1 flex items-center gap-2">
+                <div className="bg-slate-800 p-6 rounded-xl border border-slate-600 shadow-sm">
+                    <div className="text-sm text-slate-400 mb-1 flex items-center gap-2">
                         <DollarSign className="w-4 h-4 text-indigo-500" /> Balance Neto (Pasivo)
                     </div>
                     <div className="text-3xl font-mono font-bold text-indigo-600">
                         {formatCurrency(data.total.recharged - data.total.used)}
                     </div>
-                    <div className="text-xs text-gray-400 mt-1">Dinero en carteras de usuarios</div>
+                    <div className="text-xs text-slate-500 mt-1">Dinero en carteras de usuarios</div>
                 </div>
             </div>
 
             {/* Chart */}
-            <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
-                    <Calendar className="w-5 h-5 text-gray-500" />
+            <div className="bg-slate-800 p-6 rounded-xl border border-slate-600 shadow-sm">
+                <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-2">
+                    <Calendar className="w-5 h-5 text-slate-400" />
                     Actividad últimos 30 días
                 </h3>
 
@@ -76,39 +76,40 @@ export default function AdminFinancePage() {
                             </div>
 
                             {/* Bars */}
-                            <div className="w-full bg-gray-100 rounded-t-sm flex items-end justify-center gap-[1px] h-full relative overflow-hidden">
+                            <div className="w-full bg-slate-700 rounded-t-sm flex items-end justify-center gap-[1px] h-full relative overflow-hidden">
                                 {/* Recharge Bar */}
                                 {day.recharge > 0 && (
                                     <div
-                                        className="w-1/2 bg-green-500/80 hover:bg-green-500 transition-all rounded-t-sm"
+                                        className="w-1/2 bg-green-500/200/80 hover:bg-green-500/200/200 transition-all rounded-t-sm"
                                         style={{ height: `${(day.recharge / maxVal) * 100}%` }}
                                     ></div>
                                 )}
                                 {/* Usage Bar */}
                                 {day.usage > 0 && (
                                     <div
-                                        className="w-1/2 bg-blue-500/80 hover:bg-blue-500 transition-all rounded-t-sm"
+                                        className="w-1/2 bg-blue-500/200/80 hover:bg-blue-500/200/200 transition-all rounded-t-sm"
                                         style={{ height: `${(day.usage / maxVal) * 100}%` }}
                                     ></div>
                                 )}
                             </div>
 
                             {/* Date Label */}
-                            <div className="mt-2 text-[10px] sm:text-xs text-gray-400 text-center truncate w-full transform -rotate-45 sm:rotate-0 origin-top-left sm:origin-center">
+                            <div className="mt-2 text-[10px] sm:text-xs text-slate-500 text-center truncate w-full transform -rotate-45 sm:rotate-0 origin-top-left sm:origin-center">
                                 {day.date.slice(8)}
                             </div>
                         </div>
                     ))}
                 </div>
-                <div className="mt-4 flex justify-center gap-6 text-sm text-gray-500">
+                <div className="mt-4 flex justify-center gap-6 text-sm text-slate-400">
                     <div className="flex items-center gap-2">
-                        <span className="w-3 h-3 bg-green-500 rounded-sm"></span> Recargas
+                        <span className="w-3 h-3 bg-green-500/200 rounded-sm"></span> Recargas
                     </div>
                     <div className="flex items-center gap-2">
-                        <span className="w-3 h-3 bg-blue-500 rounded-sm"></span> Consumo
+                        <span className="w-3 h-3 bg-blue-500/200 rounded-sm"></span> Consumo
                     </div>
                 </div>
             </div>
         </div>
     );
 }
+

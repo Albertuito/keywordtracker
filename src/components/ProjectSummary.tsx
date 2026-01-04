@@ -108,17 +108,18 @@ export default function ProjectSummary({ keywords }: ProjectSummaryProps) {
 
 function SummaryCard({ title, value, subtitle, icon }: { title: string, value: any, subtitle: any, icon: any }) {
     return (
-        <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm hover:border-gray-300 transition-colors">
+        <div className="bg-slate-800 border border-slate-600 rounded-xl p-5 shadow-sm hover:border-slate-500 transition-colors">
             <div className="flex justify-between items-start mb-4">
-                <span className="text-gray-700 text-sm font-medium">{title}</span>
-                <div className="p-2 bg-gray-100 rounded-lg text-gray-600">
+                <span className="text-slate-200 text-sm font-medium">{title}</span>
+                <div className="p-2 bg-slate-700 rounded-lg text-slate-300">
                     {icon}
                 </div>
             </div>
             <div className="flex flex-col">
-                <div className="text-3xl font-bold text-gray-900 tracking-tight">{value}</div>
-                <div className="text-sm text-gray-600 mt-2 font-medium">{subtitle}</div>
+                <div className="text-3xl font-bold text-white tracking-tight">{value}</div>
+                <div className="text-sm text-slate-300 mt-2 font-medium">{subtitle}</div>
             </div>
         </div>
     );
 }
+
