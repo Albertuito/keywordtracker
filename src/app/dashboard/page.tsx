@@ -81,8 +81,8 @@ export default function Dashboard() {
             {/* Header Section */}
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
-                    <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-1">Dashboard</h1>
-                    <p className="text-gray-500">Gestiona y monitoriza todos tus dominios desde un único lugar.</p>
+                    <h1 className="text-2xl md:text-3xl font-bold text-white mb-1">Dashboard</h1>
+                    <p className="text-slate-400">Gestiona y monitoriza todos tus dominios desde un único lugar.</p>
                 </div>
                 <button
                     onClick={() => setShowAddModal(true)}
@@ -100,10 +100,10 @@ export default function Dashboard() {
                 <div className="glass-panel p-6">
                     <div className="flex items-center justify-between">
                         <div>
-                            <p className="text-sm font-medium text-gray-500">Proyectos Activos</p>
-                            <p className="text-3xl font-bold text-gray-900 mt-1">{projects.length}</p>
+                            <p className="text-sm font-medium text-slate-400">Proyectos Activos</p>
+                            <p className="text-3xl font-bold text-white mt-1">{projects.length}</p>
                         </div>
-                        <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center">
+                        <div className="w-12 h-12 rounded-xl bg-blue-500/20 flex items-center justify-center">
                             <svg className="w-6 h-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                             </svg>
@@ -114,10 +114,10 @@ export default function Dashboard() {
                 <div className="glass-panel p-6">
                     <div className="flex items-center justify-between">
                         <div>
-                            <p className="text-sm font-medium text-gray-500">Keywords Monitorizadas</p>
-                            <p className="text-3xl font-bold text-gray-900 mt-1">{totalKeywords}</p>
+                            <p className="text-sm font-medium text-slate-400">Keywords Monitorizadas</p>
+                            <p className="text-3xl font-bold text-white mt-1">{totalKeywords}</p>
                         </div>
-                        <div className="w-12 h-12 rounded-xl bg-green-50 flex items-center justify-center">
+                        <div className="w-12 h-12 rounded-xl bg-green-500/20 flex items-center justify-center">
                             <svg className="w-6 h-6 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
                             </svg>
@@ -128,12 +128,12 @@ export default function Dashboard() {
                 <div className="glass-panel p-6">
                     <div className="flex items-center justify-between">
                         <div>
-                            <p className="text-sm font-medium text-gray-500">Última Actualización</p>
-                            <p className="text-xl font-semibold text-gray-900 mt-1">
+                            <p className="text-sm font-medium text-slate-400">Última Actualización</p>
+                            <p className="text-xl font-semibold text-white mt-1">
                                 {projects.length > 0 ? new Date(projects[0].updatedAt || Date.now()).toLocaleDateString('es-ES', { day: 'numeric', month: 'short' }) : '--'}
                             </p>
                         </div>
-                        <div className="w-12 h-12 rounded-xl bg-purple-50 flex items-center justify-center">
+                        <div className="w-12 h-12 rounded-xl bg-purple-500/20 flex items-center justify-center">
                             <svg className="w-6 h-6 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
@@ -152,21 +152,21 @@ export default function Dashboard() {
                     placeholder="Buscar proyecto..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full md:w-80 pl-12 pr-4 py-3 bg-white border border-gray-200 rounded-xl text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
+                    className="w-full md:w-80 pl-12 pr-4 py-3 bg-slate-800 border border-slate-700 rounded-xl text-sm text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
                 />
             </div>
 
             {/* Projects Grid/Table */}
             {projects.length === 0 ? (
                 // Empty State
-                <div className="text-center py-16 bg-white rounded-2xl border-2 border-dashed border-gray-200">
-                    <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <div className="text-center py-16 bg-slate-800 rounded-2xl border-2 border-dashed border-slate-600">
+                    <div className="w-16 h-16 bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-6">
                         <svg className="w-8 h-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                         </svg>
                     </div>
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2">No hay proyectos todavía</h3>
-                    <p className="text-gray-500 max-w-sm mx-auto mb-6">
+                    <h3 className="text-xl font-semibold text-white mb-2">No hay proyectos todavía</h3>
+                    <p className="text-slate-400 max-w-sm mx-auto mb-6">
                         Empieza creando tu primer proyecto para monitorizar keywords y seguir tu posicionamiento.
                     </p>
                     <button
@@ -177,31 +177,31 @@ export default function Dashboard() {
                     </button>
                 </div>
             ) : (
-                <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+                <div className="bg-slate-800 rounded-xl border border-slate-700 overflow-hidden">
                     {/* Table Header */}
-                    <div className="hidden md:grid grid-cols-12 gap-4 px-6 py-4 bg-gray-50 border-b border-gray-200">
-                        <div className="col-span-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Proyecto</div>
-                        <div className="col-span-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Dominio</div>
-                        <div className="col-span-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">Keywords</div>
-                        <div className="col-span-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">Última Act.</div>
+                    <div className="hidden md:grid grid-cols-12 gap-4 px-6 py-4 bg-slate-900 border-b border-slate-700">
+                        <div className="col-span-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">Proyecto</div>
+                        <div className="col-span-3 text-xs font-semibold text-slate-400 uppercase tracking-wider">Dominio</div>
+                        <div className="col-span-2 text-xs font-semibold text-slate-400 uppercase tracking-wider">Keywords</div>
+                        <div className="col-span-2 text-xs font-semibold text-slate-400 uppercase tracking-wider">Última Act.</div>
                         <div className="col-span-1"></div>
                     </div>
 
                     {/* Project Items */}
-                    <div className="divide-y divide-gray-100">
+                    <div className="divide-y divide-slate-700">
                         {filteredProjects.map((proj) => (
                             <div
                                 key={proj.id}
                                 onClick={() => router.push(`/project?id=${proj.id}`)}
-                                className="group grid grid-cols-1 md:grid-cols-12 gap-4 px-6 py-5 items-center hover:bg-blue-50/50 transition-colors cursor-pointer"
+                                className="group grid grid-cols-1 md:grid-cols-12 gap-4 px-6 py-5 items-center hover:bg-slate-700/50 transition-colors cursor-pointer"
                             >
                                 <div className="col-span-4 flex items-center gap-4">
                                     <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-bold text-sm shadow-sm">
                                         {proj.name.charAt(0).toUpperCase()}
                                     </div>
                                     <div>
-                                        <h3 className="font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">{proj.name}</h3>
-                                        <div className="md:hidden text-xs text-gray-500 mt-0.5">{proj.domain}</div>
+                                        <h3 className="font-semibold text-white group-hover:text-blue-400 transition-colors">{proj.name}</h3>
+                                        <div className="md:hidden text-xs text-slate-400 mt-0.5">{proj.domain}</div>
                                     </div>
                                 </div>
 
@@ -213,12 +213,12 @@ export default function Dashboard() {
                                 </div>
 
                                 <div className="col-span-2 hidden md:block">
-                                    <span className="inline-flex items-center px-2.5 py-1 rounded-lg bg-gray-100 text-xs font-medium text-gray-700">
+                                    <span className="inline-flex items-center px-2.5 py-1 rounded-lg bg-slate-700 text-xs font-medium text-slate-300">
                                         {proj.keywords?.length || 0} keywords
                                     </span>
                                 </div>
 
-                                <div className="col-span-2 hidden md:block text-sm text-gray-500">
+                                <div className="col-span-2 hidden md:block text-sm text-slate-400">
                                     {new Date(proj.updatedAt || Date.now()).toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' })}
                                 </div>
 
@@ -238,10 +238,10 @@ export default function Dashboard() {
             {/* Add Project Modal */}
             {showAddModal && (
                 <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 backdrop-blur-sm p-4">
-                    <div className="bg-white rounded-2xl p-6 md:p-8 w-full max-w-md shadow-2xl relative fade-in">
+                    <div className="bg-slate-800 rounded-2xl p-6 md:p-8 w-full max-w-md shadow-2xl relative fade-in border border-slate-700">
                         <button
                             onClick={() => setShowAddModal(false)}
-                            className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors p-1"
+                            className="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors p-1"
                         >
                             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -249,13 +249,13 @@ export default function Dashboard() {
                         </button>
 
                         <div className="mb-6">
-                            <h2 className="text-xl font-bold text-gray-900 mb-2">Nuevo Proyecto</h2>
-                            <p className="text-sm text-gray-500">Añade un nuevo dominio para empezar a trackear.</p>
+                            <h2 className="text-xl font-bold text-white mb-2">Nuevo Proyecto</h2>
+                            <p className="text-sm text-slate-400">Añade un nuevo dominio para empezar a trackear.</p>
                         </div>
 
                         <div className="space-y-4">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">Nombre del Proyecto</label>
+                                <label className="block text-sm font-medium text-slate-300 mb-2">Nombre del Proyecto</label>
                                 <input
                                     className="input-field"
                                     placeholder="Ej: Mi E-commerce"
@@ -265,7 +265,7 @@ export default function Dashboard() {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">Dominio (sin https://)</label>
+                                <label className="block text-sm font-medium text-slate-300 mb-2">Dominio (sin https://)</label>
                                 <input
                                     className="input-field font-mono"
                                     placeholder="ej: tuweb.com"
@@ -275,7 +275,7 @@ export default function Dashboard() {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">País de posicionamiento</label>
+                                <label className="block text-sm font-medium text-slate-300 mb-2">País de posicionamiento</label>
                                 <select
                                     className="input-field"
                                     value={newProject.country}
@@ -299,8 +299,8 @@ export default function Dashboard() {
                             </div>
 
                             {error && (
-                                <div className="rounded-lg bg-red-50 border border-red-200 p-3">
-                                    <p className="text-sm text-red-700">{error}</p>
+                                <div className="rounded-lg bg-red-500/20 border border-red-500/30 p-3">
+                                    <p className="text-sm text-red-400">{error}</p>
                                 </div>
                             )}
 

@@ -16,7 +16,7 @@ export default function Header() {
     const isAdmin = session?.user?.email === 'infoinfolinfo@gmail.com';
 
     return (
-        <header className="bg-white border-b border-gray-200 sticky top-0 z-30">
+        <header className="bg-slate-900 border-b border-slate-700/50 sticky top-0 z-30">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between items-center h-16">
                     {/* Logo */}
@@ -26,7 +26,7 @@ export default function Header() {
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
                             </svg>
                         </div>
-                        <span className="font-bold text-xl tracking-tight text-gray-900">KeywordTracker</span>
+                        <span className="font-bold text-xl tracking-tight text-white">KeywordTracker</span>
                     </Link>
 
                     {/* Navigation */}
@@ -35,8 +35,8 @@ export default function Header() {
                             <Link
                                 href="/"
                                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${isActive('/')
-                                    ? 'bg-blue-50 text-blue-600'
-                                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                                    ? 'bg-blue-500/20 text-blue-400'
+                                    : 'text-slate-300 hover:text-white hover:bg-slate-800'
                                     }`}
                             >
                                 Inicio
@@ -47,8 +47,8 @@ export default function Header() {
                                 <Link
                                     href="/dashboard"
                                     className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${isActive('/dashboard')
-                                        ? 'bg-blue-50 text-blue-600'
-                                        : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                                        ? 'bg-blue-500/20 text-blue-400'
+                                        : 'text-slate-300 hover:text-white hover:bg-slate-800'
                                         }`}
                                 >
                                     Dashboard
@@ -56,8 +56,8 @@ export default function Header() {
                                 <Link
                                     href="/reports"
                                     className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${isActive('/reports')
-                                        ? 'bg-blue-50 text-blue-600'
-                                        : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                                        ? 'bg-blue-500/20 text-blue-400'
+                                        : 'text-slate-300 hover:text-white hover:bg-slate-800'
                                         }`}
                                 >
                                     Reportes
@@ -65,8 +65,8 @@ export default function Header() {
                                 <Link
                                     href="/content-generator"
                                     className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${isActive('/content-generator')
-                                        ? 'bg-blue-50 text-blue-600'
-                                        : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                                        ? 'bg-blue-500/20 text-blue-400'
+                                        : 'text-slate-300 hover:text-white hover:bg-slate-800'
                                         }`}
                                 >
                                     🎯 Generador
@@ -76,8 +76,8 @@ export default function Header() {
                         <Link
                             href="/como-funciona"
                             className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${isActive('/como-funciona')
-                                ? 'bg-blue-50 text-blue-600'
-                                : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                                ? 'bg-blue-500/20 text-blue-400'
+                                : 'text-slate-300 hover:text-white hover:bg-slate-800'
                                 }`}
                         >
                             Cómo funciona
@@ -86,36 +86,36 @@ export default function Header() {
 
                     <div className="hidden sm:ml-6 sm:flex sm:items-center gap-4">
                         {status === 'loading' ? (
-                            <div className="w-24 h-9 bg-gray-100 rounded-lg animate-pulse"></div>
+                            <div className="w-24 h-9 bg-slate-700 rounded-lg animate-pulse"></div>
                         ) : session ? (
                             <div className="flex items-center gap-3">
                                 <NotificationsBell />
                                 <BalanceWidget />
-                                <div className="h-6 w-px bg-gray-200"></div>
+                                <div className="h-6 w-px bg-slate-700"></div>
                                 <div className="relative group">
-                                    <button className="flex items-center gap-3 pl-2 pr-3 py-1.5 rounded-xl hover:bg-gray-50 transition-colors">
+                                    <button className="flex items-center gap-3 pl-2 pr-3 py-1.5 rounded-xl hover:bg-slate-800 transition-colors">
                                         <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-medium text-sm shadow-sm">
                                             {session.user?.name?.[0]?.toUpperCase() || 'U'}
                                         </div>
                                         <div className="text-left hidden lg:block">
-                                            <div className="text-sm font-medium text-gray-900">{session.user?.name || 'Usuario'}</div>
-                                            <div className="text-xs text-gray-500 truncate max-w-[140px]">{session.user?.email}</div>
+                                            <div className="text-sm font-medium text-slate-100">{session.user?.name || 'Usuario'}</div>
+                                            <div className="text-xs text-slate-400 truncate max-w-[140px]">{session.user?.email}</div>
                                         </div>
                                         <svg className="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                                         </svg>
                                     </button>
-                                    <div className="absolute right-0 mt-2 w-56 rounded-xl shadow-lg bg-white border border-gray-100 ring-1 ring-black/5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 origin-top-right">
+                                    <div className="absolute right-0 mt-2 w-56 rounded-xl shadow-lg bg-slate-800 border border-slate-700 ring-1 ring-black/5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 origin-top-right">
                                         <div className="py-1">
-                                            <div className="px-4 py-3 border-b border-gray-100">
-                                                <p className="text-sm font-medium text-gray-900">{session.user?.name}</p>
-                                                <p className="text-xs text-gray-500 truncate">{session.user?.email}</p>
+                                            <div className="px-4 py-3 border-b border-slate-700">
+                                                <p className="text-sm font-medium text-white">{session.user?.name}</p>
+                                                <p className="text-xs text-slate-400 truncate">{session.user?.email}</p>
                                             </div>
 
                                             {isAdmin && (
                                                 <Link
                                                     href="/admin"
-                                                    className="flex items-center gap-2 px-4 py-2.5 text-sm text-blue-600 hover:bg-blue-50 transition-colors"
+                                                    className="flex items-center gap-2 px-4 py-2.5 text-sm text-blue-400 hover:bg-slate-700 transition-colors"
                                                 >
                                                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
@@ -126,7 +126,7 @@ export default function Header() {
 
                                             <Link
                                                 href="/settings"
-                                                className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                                                className="flex items-center gap-2 px-4 py-2.5 text-sm text-slate-300 hover:bg-slate-700 transition-colors"
                                             >
                                                 <svg className="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
@@ -136,7 +136,7 @@ export default function Header() {
                                             </Link>
                                             <button
                                                 onClick={() => signOut({ callbackUrl: '/' })}
-                                                className="flex items-center gap-2 w-full px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors"
+                                                className="flex items-center gap-2 w-full px-4 py-2.5 text-sm text-red-400 hover:bg-slate-700 transition-colors"
                                             >
                                                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
@@ -151,7 +151,7 @@ export default function Header() {
                             <div className="flex items-center gap-3">
                                 <Link
                                     href="/login"
-                                    className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors"
+                                    className="px-4 py-2 text-sm font-medium text-slate-300 hover:text-white transition-colors"
                                 >
                                     Iniciar Sesión
                                 </Link>
@@ -169,7 +169,7 @@ export default function Header() {
                     <div className="-mr-2 flex items-center sm:hidden">
                         <button
                             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                            className="inline-flex items-center justify-center p-2 rounded-lg text-gray-500 hover:text-gray-700 hover:bg-gray-100 transition-colors"
+                            className="inline-flex items-center justify-center p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
                         >
                             <span className="sr-only">Open main menu</span>
                             <svg className="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -182,13 +182,13 @@ export default function Header() {
 
             {/* Mobile menu */}
             {mobileMenuOpen && (
-                <div className="sm:hidden bg-white border-t border-gray-100">
+                <div className="sm:hidden bg-slate-900 border-t border-slate-700">
                     <div className="py-2 space-y-1">
                         {!session && (
                             <Link
                                 href="/"
                                 onClick={() => setMobileMenuOpen(false)}
-                                className={`block px-4 py-3 text-base font-medium ${isActive('/') ? 'bg-blue-50 text-blue-600' : 'text-gray-700 hover:bg-gray-50'}`}
+                                className={`block px-4 py-3 text-base font-medium ${isActive('/') ? 'bg-blue-500/20 text-blue-400' : 'text-slate-300 hover:bg-slate-800'}`}
                             >
                                 Inicio
                             </Link>
@@ -198,21 +198,21 @@ export default function Header() {
                                 <Link
                                     href="/dashboard"
                                     onClick={() => setMobileMenuOpen(false)}
-                                    className={`block px-4 py-3 text-base font-medium ${isActive('/dashboard') ? 'bg-blue-50 text-blue-600' : 'text-gray-700 hover:bg-gray-50'}`}
+                                    className={`block px-4 py-3 text-base font-medium ${isActive('/dashboard') ? 'bg-blue-500/20 text-blue-400' : 'text-slate-300 hover:bg-slate-800'}`}
                                 >
                                     Dashboard
                                 </Link>
                                 <Link
                                     href="/reports"
                                     onClick={() => setMobileMenuOpen(false)}
-                                    className={`block px-4 py-3 text-base font-medium ${isActive('/reports') ? 'bg-blue-50 text-blue-600' : 'text-gray-700 hover:bg-gray-50'}`}
+                                    className={`block px-4 py-3 text-base font-medium ${isActive('/reports') ? 'bg-blue-500/20 text-blue-400' : 'text-slate-300 hover:bg-slate-800'}`}
                                 >
                                     Reportes
                                 </Link>
                                 <Link
                                     href="/content-generator"
                                     onClick={() => setMobileMenuOpen(false)}
-                                    className={`block px-4 py-3 text-base font-medium ${isActive('/content-generator') ? 'bg-blue-50 text-blue-600' : 'text-gray-700 hover:bg-gray-50'}`}
+                                    className={`block px-4 py-3 text-base font-medium ${isActive('/content-generator') ? 'bg-blue-500/20 text-blue-400' : 'text-slate-300 hover:bg-slate-800'}`}
                                 >
                                     🎯 Generador
                                 </Link>
@@ -221,7 +221,7 @@ export default function Header() {
                         <Link
                             href="/como-funciona"
                             onClick={() => setMobileMenuOpen(false)}
-                            className={`block px-4 py-3 text-base font-medium ${isActive('/como-funciona') ? 'bg-blue-50 text-blue-600' : 'text-gray-700 hover:bg-gray-50'}`}
+                            className={`block px-4 py-3 text-base font-medium ${isActive('/como-funciona') ? 'bg-blue-500/20 text-blue-400' : 'text-slate-300 hover:bg-slate-800'}`}
                         >
                             Cómo funciona
                         </Link>
@@ -229,7 +229,7 @@ export default function Header() {
                             <Link
                                 href="/settings"
                                 onClick={() => setMobileMenuOpen(false)}
-                                className={`block px-4 py-3 text-base font-medium ${isActive('/settings') ? 'bg-blue-50 text-blue-600' : 'text-gray-700 hover:bg-gray-50'}`}
+                                className={`block px-4 py-3 text-base font-medium ${isActive('/settings') ? 'bg-blue-500/20 text-blue-400' : 'text-slate-300 hover:bg-slate-800'}`}
                             >
                                 Configuración
                             </Link>
