@@ -64,6 +64,8 @@ export default function ContentGeneratorPage() {
         return null;
     }
 
+    const [averageWordCount, setAverageWordCount] = useState(0);
+
     const handleAnalyze = async () => {
         if (!keyword.trim()) {
             toast.error('Introduce una keyword');
@@ -76,6 +78,7 @@ export default function ContentGeneratorPage() {
         setAnalyzingIndex(0);
         setGenerationPhase(0);
         setGeneratedContent(null);
+        setGenerationLogs([]);
 
         try {
             const res = await fetch('/api/content-generator/analyze', {
@@ -91,12 +94,13 @@ export default function ContentGeneratorPage() {
             }
 
             setSerpResults(data.results);
+            setAverageWordCount(data.averageWordCount || 1500);
 
             // Wait a bit for the animation to complete
             await new Promise(resolve => setTimeout(resolve, data.results.length * 400 + 500));
 
             // Auto-continue to generation
-            await handleGenerate(data.results);
+            await handleGenerate(data.results, data.averageWordCount);
 
         } catch (err: any) {
             console.error(err);
@@ -106,9 +110,12 @@ export default function ContentGeneratorPage() {
         }
     };
 
-    const handleGenerate = async (results: SerpResult[]) => {
+    const handleGenerate = async (results: SerpResult[], avgCount: number = 1500) => {
         setPhase('generating');
         setGenerationPhase(0);
+
+        // Start Hacker Logs
+        simulateHackerLogs(results);
 
         try {
             const res = await fetch('/api/content-generator/generate', {
@@ -117,7 +124,8 @@ export default function ContentGeneratorPage() {
                 body: JSON.stringify({
                     keyword: keyword.trim(),
                     serpResults: results,
-                    country
+                    country,
+                    averageWordCount: avgCount
                 })
             });
 
@@ -138,6 +146,46 @@ export default function ContentGeneratorPage() {
             setPhase('idle');
             toast.error(err.message);
         }
+    };
+
+    const [generationLogs, setGenerationLogs] = useState<string[]>([]);
+
+    // Auto-scroll terminal
+    useEffect(() => {
+        const terminal = document.getElementById('terminal-logs');
+        if (terminal) {
+            terminal.scrollTop = terminal.scrollHeight;
+        }
+    }, [generationLogs]);
+
+    const simulateHackerLogs = (results: SerpResult[]) => {
+        const logs: string[] = [];
+        let delay = 0;
+
+        const addLog = (msg: string) => {
+            setTimeout(() => {
+                setGenerationLogs(prev => [...prev, msg]);
+            }, delay);
+            delay += Math.random() * 800 + 200;
+        };
+
+        addLog(`> Iniciando protocolo de ingeniería inversa...`);
+        addLog(`> Objetivo: "${keyword}"`);
+
+        results.forEach((r, i) => {
+            setTimeout(() => {
+                setGenerationLogs(prev => [...prev, `> Analizando #${i + 1}: ${r.domain}... [${Math.floor(Math.random() * 2000 + 500)} palabras]`]);
+                if (i % 3 === 0) setGenerationLogs(prev => [...prev, `> Detectando patrones semánticos...`]);
+            }, delay);
+            delay += 600;
+        });
+
+        setTimeout(() => {
+            addLog(`> Calculando media de palabras: ${averageWordCount || '...'}`);
+            addLog(`> Identificando huecos de contenido...`);
+            addLog(`> Diseñando estructura ganadora...`);
+            addLog(`> Redactando contenido optimizado...`);
+        }, delay);
     };
 
     const copyToClipboard = () => {
@@ -299,57 +347,36 @@ export default function ContentGeneratorPage() {
                     </div>
                 )}
 
-                {/* Generation Progress */}
+                {/* Generation Progress (Hacker Terminal) */}
                 {phase === 'generating' && (
-                    <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 mb-6">
-                        <div className="flex items-center gap-3 mb-5">
-                            <div className="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center">
-                                <span className="text-xl">✍️</span>
+                    <div className="bg-gray-900 rounded-xl shadow-2xl border border-gray-800 p-6 mb-6 overflow-hidden relative">
+                        {/* Terminal Header */}
+                        <div className="flex items-center justify-between mb-4 border-b border-gray-800 pb-3">
+                            <div className="flex gap-2">
+                                <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                                <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                                <div className="w-3 h-3 rounded-full bg-green-500"></div>
                             </div>
-                            <div>
-                                <p className="font-bold text-gray-900">Generando contenido competitivo</p>
-                                <p className="text-sm text-gray-500">Aplicando ingeniería inversa al TOP 10</p>
+                            <div className="text-gray-500 font-mono text-xs">sys_override://seo_reverse_engineering.exe</div>
+                        </div>
+
+                        {/* Terminal Content */}
+                        <div className="font-mono text-sm h-64 overflow-y-auto space-y-2" id="terminal-logs">
+                            {generationLogs.map((log, idx) => (
+                                <div key={idx} className="flex items-start gap-2 text-green-400 animate-fade-in">
+                                    <span className="text-green-600 shrink-0">$</span>
+                                    <span>{log}</span>
+                                </div>
+                            ))}
+                            <div className="flex items-center gap-2 text-green-400 animate-pulse">
+                                <span className="text-green-600">$</span>
+                                <span className="w-2 h-4 bg-green-400 block"></span>
                             </div>
                         </div>
 
-                        <div className="space-y-3">
-                            {phases.map((p, idx) => (
-                                <div
-                                    key={idx}
-                                    className={`flex items-center gap-3 p-4 rounded-xl transition-all duration-500 ${idx < generationPhase
-                                        ? 'bg-green-50 border border-green-100'
-                                        : idx === generationPhase
-                                            ? 'bg-blue-50 border border-blue-200'
-                                            : 'bg-gray-50 border border-gray-100 opacity-50'
-                                        }`}
-                                >
-                                    <div className={`w-10 h-10 rounded-full flex items-center justify-center text-lg ${idx < generationPhase
-                                        ? 'bg-green-500 text-white'
-                                        : idx === generationPhase
-                                            ? 'bg-blue-500 text-white animate-pulse'
-                                            : 'bg-gray-200'
-                                        }`}>
-                                        {idx < generationPhase ? '✓' : p.icon}
-                                    </div>
-                                    <div className="flex-1">
-                                        <p className={`font-medium ${idx <= generationPhase ? 'text-gray-900' : 'text-gray-400'}`}>
-                                            {p.name}
-                                        </p>
-                                    </div>
-                                    {idx < generationPhase && (
-                                        <span className="text-xs text-green-600 font-semibold bg-green-100 px-2 py-1 rounded-full">Completado</span>
-                                    )}
-                                    {idx === generationPhase && (
-                                        <div className="flex items-center gap-2">
-                                            <div className="h-1.5 w-16 bg-blue-100 rounded-full overflow-hidden">
-                                                <div className="h-full bg-blue-500 rounded-full animate-pulse" style={{ width: '60%' }}></div>
-                                            </div>
-                                            <span className="text-xs text-blue-600 font-semibold">En proceso</span>
-                                        </div>
-                                    )}
-                                </div>
-                            ))}
-                        </div>
+                        {/* Decorative Background Elements */}
+                        <div className="absolute top-0 right-0 w-64 h-64 bg-green-500/5 rounded-full blur-3xl -z-10"></div>
+                        <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl -z-10"></div>
                     </div>
                 )}
 

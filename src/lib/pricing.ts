@@ -4,13 +4,13 @@
 export const PRICING = {
     // Keyword tracking
     keyword_check_standard: 0.02,   // €0.02 per check (Standard Queue)
-    keyword_check_live: 0.05,       // €0.05 per check (Live Mode - Instant)
+    keyword_check_live: 0.09,       // €0.09 per check (Live Mode - Instant)
 
     // AI features
     ai_overview_check: 0.02,        // €0.02 per AI Overview check
 
     // Data enrichment
-    search_volume: 0.03,            // €0.03 - Volume checks are expensive ($0.025)
+    search_volume: 0.05,            // €0.05 - Volume checks are expensive ($0.025)
     competitor_analysis: 0.01,      // €0.01 per competitor analysis
     keyword_research: 0.50,         // €0.50 per report
     onpage_audit: 1.00,             // €1.00 per deep AI audit
