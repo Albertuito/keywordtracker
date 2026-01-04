@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
@@ -16,11 +16,6 @@ interface SerpResult {
 
 interface GenerationResult {
     content: string;
-    analysis: {
-        strategicSynthesis: string;
-        editorialDecision: string;
-        qualityCheck: string;
-    };
     cost: number;
 }
 
@@ -32,9 +27,31 @@ export default function ContentGeneratorPage() {
     const [country, setCountry] = useState('es');
     const [phase, setPhase] = useState<'idle' | 'analyzing' | 'generating' | 'done'>('idle');
     const [serpResults, setSerpResults] = useState<SerpResult[]>([]);
+    const [analyzingIndex, setAnalyzingIndex] = useState(0);
     const [generatedContent, setGeneratedContent] = useState<GenerationResult | null>(null);
     const [error, setError] = useState('');
-    const [showAnalysis, setShowAnalysis] = useState(false);
+    const [generationPhase, setGenerationPhase] = useState(0);
+
+    // Simulate analyzing each result one by one
+    useEffect(() => {
+        if (phase === 'analyzing' && serpResults.length > 0 && analyzingIndex < serpResults.length) {
+            const timer = setTimeout(() => {
+                setAnalyzingIndex(prev => prev + 1);
+            }, 400);
+            return () => clearTimeout(timer);
+        }
+    }, [phase, serpResults.length, analyzingIndex]);
+
+    // Simulate generation phases
+    useEffect(() => {
+        if (phase === 'generating' && generationPhase < 4) {
+            const delays = [3000, 2500, 8000, 2000]; // Estimated time for each phase
+            const timer = setTimeout(() => {
+                setGenerationPhase(prev => prev + 1);
+            }, delays[generationPhase] || 2000);
+            return () => clearTimeout(timer);
+        }
+    }, [phase, generationPhase]);
 
     if (status === 'loading') {
         return <div className="min-h-screen flex items-center justify-center">
@@ -56,6 +73,8 @@ export default function ContentGeneratorPage() {
         setError('');
         setPhase('analyzing');
         setSerpResults([]);
+        setAnalyzingIndex(0);
+        setGenerationPhase(0);
         setGeneratedContent(null);
 
         try {
@@ -72,7 +91,9 @@ export default function ContentGeneratorPage() {
             }
 
             setSerpResults(data.results);
-            toast.success(`TOP ${data.results.length} analizado`);
+
+            // Wait a bit for the animation to complete
+            await new Promise(resolve => setTimeout(resolve, data.results.length * 400 + 500));
 
             // Auto-continue to generation
             await handleGenerate(data.results);
@@ -87,6 +108,7 @@ export default function ContentGeneratorPage() {
 
     const handleGenerate = async (results: SerpResult[]) => {
         setPhase('generating');
+        setGenerationPhase(0);
 
         try {
             const res = await fetch('/api/content-generator/generate', {
@@ -105,9 +127,10 @@ export default function ContentGeneratorPage() {
                 throw new Error(data.error || 'Error al generar contenido');
             }
 
-            setGeneratedContent(data);
+            setGeneratedContent({ content: data.content, cost: data.cost });
             setPhase('done');
-            toast.success(`Contenido generado! Coste: €${data.cost.toFixed(2)}`);
+            setGenerationPhase(4);
+            toast.success(`¡Contenido generado! Coste: €${data.cost.toFixed(2)}`);
 
         } catch (err: any) {
             console.error(err);
@@ -124,24 +147,34 @@ export default function ContentGeneratorPage() {
         }
     };
 
+    const phases = [
+        { name: 'Detectando patrones del TOP 10', icon: '🔍' },
+        { name: 'Identificando huecos de contenido', icon: '🎯' },
+        { name: 'Redactando contenido competitivo', icon: '✍️' },
+        { name: 'Verificando calidad final', icon: '✅' },
+    ];
+
     return (
-        <div className="min-h-screen bg-gray-50">
-            <div className="max-w-6xl mx-auto px-4 py-8">
+        <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20">
+            <div className="max-w-5xl mx-auto px-4 py-8">
                 {/* Header */}
-                <div className="mb-8">
-                    <h1 className="text-3xl font-bold text-gray-900 mb-2">
-                        🎯 Ingeniería Inversa SEO
+                <div className="text-center mb-10">
+                    <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-blue-100 text-blue-700 rounded-full text-sm font-medium mb-4">
+                        <span className="animate-pulse">●</span> Tecnología de ingeniería inversa SEO
+                    </div>
+                    <h1 className="text-4xl font-bold text-gray-900 mb-3">
+                        🎯 Genera contenido que <span className="text-blue-600">supera</span> al TOP 10
                     </h1>
-                    <p className="text-gray-600">
-                        Analiza el TOP 10 de Google y genera contenido diseñado para superarlos.
+                    <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                        Analizamos lo que funciona en Google y creamos contenido diseñado para competir y ganar.
                     </p>
                 </div>
 
                 {/* Input Section */}
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
-                    <div className="flex flex-col md:flex-row gap-4">
+                <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8 mb-6">
+                    <div className="flex flex-col md:flex-row gap-4 mb-6">
                         <div className="flex-1">
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-semibold text-gray-700 mb-2">
                                 Keyword objetivo
                             </label>
                             <input
@@ -149,18 +182,19 @@ export default function ContentGeneratorPage() {
                                 value={keyword}
                                 onChange={(e) => setKeyword(e.target.value)}
                                 placeholder="ej: mejores auriculares bluetooth"
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
+                                className="w-full px-5 py-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 text-lg"
                                 disabled={phase !== 'idle' && phase !== 'done'}
+                                onKeyDown={(e) => e.key === 'Enter' && handleAnalyze()}
                             />
                         </div>
-                        <div className="w-full md:w-40">
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                        <div className="w-full md:w-44">
+                            <label className="block text-sm font-semibold text-gray-700 mb-2">
                                 País
                             </label>
                             <select
                                 value={country}
                                 onChange={(e) => setCountry(e.target.value)}
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
+                                className="w-full px-4 py-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
                                 disabled={phase !== 'idle' && phase !== 'done'}
                             >
                                 <option value="es">🇪🇸 España</option>
@@ -174,125 +208,183 @@ export default function ContentGeneratorPage() {
                             <button
                                 onClick={handleAnalyze}
                                 disabled={phase === 'analyzing' || phase === 'generating'}
-                                className={`px-6 py-3 rounded-lg font-semibold transition-all ${phase === 'analyzing' || phase === 'generating'
-                                        ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                                        : 'bg-blue-600 text-white hover:bg-blue-700'
+                                className={`px-8 py-4 rounded-xl font-bold text-lg transition-all shadow-lg ${phase === 'analyzing' || phase === 'generating'
+                                    ? 'bg-gray-200 text-gray-400 cursor-not-allowed shadow-none'
+                                    : 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 hover:shadow-xl'
                                     }`}
                             >
                                 {phase === 'analyzing' ? '🔍 Analizando...' :
                                     phase === 'generating' ? '✍️ Generando...' :
-                                        '🚀 Generar contenido'}
+                                        '🚀 Generar'}
                             </button>
                         </div>
                     </div>
-                    <p className="mt-3 text-sm text-gray-500">
-                        💰 Coste: <strong>€0.50</strong> por artículo generado
-                    </p>
-                </div>
 
-                {/* Progress */}
-                {(phase === 'analyzing' || phase === 'generating') && (
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
-                        <div className="flex items-center gap-4">
-                            <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-blue-500"></div>
-                            <div>
-                                <p className="font-medium text-gray-900">
-                                    {phase === 'analyzing' ? 'Analizando TOP 10 de Google...' : 'Generando contenido competitivo...'}
-                                </p>
-                                <p className="text-sm text-gray-500">
-                                    {phase === 'analyzing'
-                                        ? 'Extrayendo datos de los primeros resultados'
-                                        : 'Aplicando ingeniería inversa y redactando...'}
-                                </p>
+                    {/* Value Proposition */}
+                    <div className="border-t border-gray-100 pt-6">
+                        <p className="text-sm font-medium text-gray-500 mb-4 text-center">¿Qué incluye la generación?</p>
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <div className="text-center p-4 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl">
+                                <div className="text-2xl mb-2">🔍</div>
+                                <p className="text-sm font-semibold text-gray-800">Análisis SERP</p>
+                                <p className="text-xs text-gray-500 mt-1">TOP 10 en tiempo real</p>
+                            </div>
+                            <div className="text-center p-4 bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl">
+                                <div className="text-2xl mb-2">🎯</div>
+                                <p className="text-sm font-semibold text-gray-800">Detección de huecos</p>
+                                <p className="text-xs text-gray-500 mt-1">Lo que falta en otros</p>
+                            </div>
+                            <div className="text-center p-4 bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl">
+                                <div className="text-2xl mb-2">✍️</div>
+                                <p className="text-sm font-semibold text-gray-800">Redacción experta</p>
+                                <p className="text-xs text-gray-500 mt-1">Contenido humano</p>
+                            </div>
+                            <div className="text-center p-4 bg-gradient-to-br from-amber-50 to-orange-50 rounded-xl">
+                                <div className="text-2xl mb-2">✅</div>
+                                <p className="text-sm font-semibold text-gray-800">Control de calidad</p>
+                                <p className="text-xs text-gray-500 mt-1">Verificación final</p>
                             </div>
                         </div>
-                        {phase === 'generating' && (
-                            <div className="mt-4 space-y-2">
-                                <div className="flex items-center gap-2 text-sm">
-                                    <span className="text-green-500">✓</span>
-                                    <span className="text-gray-600">Fase 1: Síntesis estratégica</span>
-                                </div>
-                                <div className="flex items-center gap-2 text-sm">
-                                    <span className="text-green-500">✓</span>
-                                    <span className="text-gray-600">Fase 2: Decisión editorial</span>
-                                </div>
-                                <div className="flex items-center gap-2 text-sm animate-pulse">
-                                    <span className="text-blue-500">⏳</span>
-                                    <span className="text-gray-600">Fase 3: Redacción del contenido</span>
-                                </div>
-                                <div className="flex items-center gap-2 text-sm text-gray-400">
-                                    <span>○</span>
-                                    <span>Fase 4: Control de calidad</span>
-                                </div>
+                        <p className="text-center mt-4 text-sm text-gray-500">
+                            💰 Coste total: <span className="font-bold text-gray-900">€0.50</span> por artículo completo
+                        </p>
+                    </div>
+                </div>
+
+                {/* Live SERP Analysis */}
+                {phase === 'analyzing' && (
+                    <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 mb-6">
+                        <div className="flex items-center gap-3 mb-5">
+                            <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                                <span className="text-xl">🔍</span>
                             </div>
-                        )}
+                            <div>
+                                <p className="font-bold text-gray-900">Analizando competencia en Google</p>
+                                <p className="text-sm text-gray-500">Extrayendo estructura y patrones del TOP 10</p>
+                            </div>
+                        </div>
+
+                        <div className="space-y-2">
+                            {serpResults.map((result, idx) => (
+                                <div
+                                    key={idx}
+                                    className={`flex items-center gap-3 p-3 rounded-lg transition-all duration-300 ${idx < analyzingIndex
+                                            ? 'bg-green-50 border border-green-100'
+                                            : idx === analyzingIndex
+                                                ? 'bg-blue-50 border border-blue-200 animate-pulse'
+                                                : 'bg-gray-50 border border-gray-100 opacity-50'
+                                        }`}
+                                >
+                                    <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold ${idx < analyzingIndex
+                                            ? 'bg-green-500 text-white'
+                                            : idx === analyzingIndex
+                                                ? 'bg-blue-500 text-white'
+                                                : 'bg-gray-200 text-gray-500'
+                                        }`}>
+                                        {idx < analyzingIndex ? '✓' : idx + 1}
+                                    </div>
+                                    <div className="flex-1 min-w-0">
+                                        <p className="text-sm font-medium text-gray-900 truncate">{result.title}</p>
+                                        <p className="text-xs text-gray-500 truncate">{result.domain}</p>
+                                    </div>
+                                    {idx < analyzingIndex && (
+                                        <span className="text-xs text-green-600 font-medium">Analizado</span>
+                                    )}
+                                    {idx === analyzingIndex && (
+                                        <span className="text-xs text-blue-600 font-medium animate-pulse">Analizando...</span>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
+
+                {/* Generation Progress */}
+                {phase === 'generating' && (
+                    <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 mb-6">
+                        <div className="flex items-center gap-3 mb-5">
+                            <div className="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center">
+                                <span className="text-xl">✍️</span>
+                            </div>
+                            <div>
+                                <p className="font-bold text-gray-900">Generando contenido competitivo</p>
+                                <p className="text-sm text-gray-500">Aplicando ingeniería inversa al TOP 10</p>
+                            </div>
+                        </div>
+
+                        <div className="space-y-3">
+                            {phases.map((p, idx) => (
+                                <div
+                                    key={idx}
+                                    className={`flex items-center gap-3 p-4 rounded-xl transition-all duration-500 ${idx < generationPhase
+                                            ? 'bg-green-50 border border-green-100'
+                                            : idx === generationPhase
+                                                ? 'bg-blue-50 border border-blue-200'
+                                                : 'bg-gray-50 border border-gray-100 opacity-50'
+                                        }`}
+                                >
+                                    <div className={`w-10 h-10 rounded-full flex items-center justify-center text-lg ${idx < generationPhase
+                                            ? 'bg-green-500 text-white'
+                                            : idx === generationPhase
+                                                ? 'bg-blue-500 text-white animate-pulse'
+                                                : 'bg-gray-200'
+                                        }`}>
+                                        {idx < generationPhase ? '✓' : p.icon}
+                                    </div>
+                                    <div className="flex-1">
+                                        <p className={`font-medium ${idx <= generationPhase ? 'text-gray-900' : 'text-gray-400'}`}>
+                                            {p.name}
+                                        </p>
+                                    </div>
+                                    {idx < generationPhase && (
+                                        <span className="text-xs text-green-600 font-semibold bg-green-100 px-2 py-1 rounded-full">Completado</span>
+                                    )}
+                                    {idx === generationPhase && (
+                                        <div className="flex items-center gap-2">
+                                            <div className="h-1.5 w-16 bg-blue-100 rounded-full overflow-hidden">
+                                                <div className="h-full bg-blue-500 rounded-full animate-pulse" style={{ width: '60%' }}></div>
+                                            </div>
+                                            <span className="text-xs text-blue-600 font-semibold">En proceso</span>
+                                        </div>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 )}
 
                 {/* Error */}
                 {error && (
-                    <div className="bg-red-50 border border-red-200 rounded-xl p-4 mb-6">
+                    <div className="bg-red-50 border border-red-200 rounded-xl p-4 mb-6 flex items-center gap-3">
+                        <span className="text-2xl">⚠️</span>
                         <p className="text-red-700">{error}</p>
                     </div>
                 )}
 
-                {/* Results */}
+                {/* Generated Content */}
                 {generatedContent && (
-                    <div className="space-y-6">
-                        {/* Analysis Toggle */}
-                        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
-                            <button
-                                onClick={() => setShowAnalysis(!showAnalysis)}
-                                className="flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-gray-900"
-                            >
-                                <svg className={`w-4 h-4 transition-transform ${showAnalysis ? 'rotate-90' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                </svg>
-                                {showAnalysis ? 'Ocultar análisis intermedio' : 'Ver análisis intermedio'}
-                            </button>
-
-                            {showAnalysis && (
-                                <div className="mt-4 space-y-4 text-sm">
-                                    <div className="bg-gray-50 p-4 rounded-lg">
-                                        <h4 className="font-semibold text-gray-800 mb-2">📊 Síntesis Estratégica</h4>
-                                        <pre className="whitespace-pre-wrap text-gray-600 text-xs overflow-auto max-h-40">
-                                            {generatedContent.analysis.strategicSynthesis}
-                                        </pre>
-                                    </div>
-                                    <div className="bg-gray-50 p-4 rounded-lg">
-                                        <h4 className="font-semibold text-gray-800 mb-2">📝 Decisión Editorial</h4>
-                                        <pre className="whitespace-pre-wrap text-gray-600 text-xs overflow-auto max-h-40">
-                                            {generatedContent.analysis.editorialDecision}
-                                        </pre>
-                                    </div>
-                                    <div className="bg-gray-50 p-4 rounded-lg">
-                                        <h4 className="font-semibold text-gray-800 mb-2">✅ Control de Calidad</h4>
-                                        <pre className="whitespace-pre-wrap text-gray-600 text-xs">
-                                            {generatedContent.analysis.qualityCheck}
-                                        </pre>
+                    <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+                        <div className="bg-gradient-to-r from-green-500 to-emerald-500 px-6 py-4">
+                            <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-3">
+                                    <span className="text-2xl">🎉</span>
+                                    <div>
+                                        <h3 className="font-bold text-white text-lg">¡Contenido listo!</h3>
+                                        <p className="text-green-100 text-sm">Optimizado para superar al TOP 10</p>
                                     </div>
                                 </div>
-                            )}
-                        </div>
-
-                        {/* Generated Content */}
-                        <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-                            <div className="flex items-center justify-between p-4 border-b border-gray-200">
-                                <h3 className="font-semibold text-gray-900">
-                                    📄 Contenido generado para "{keyword}"
-                                </h3>
                                 <button
                                     onClick={copyToClipboard}
-                                    className="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm font-medium text-gray-700 transition-colors"
+                                    className="px-5 py-2.5 bg-white/20 hover:bg-white/30 backdrop-blur rounded-lg text-white font-semibold transition-all flex items-center gap-2"
                                 >
-                                    📋 Copiar
+                                    <span>📋</span> Copiar contenido
                                 </button>
                             </div>
-                            <div className="p-6 prose prose-lg max-w-none">
-                                <ReactMarkdown>
-                                    {generatedContent.content}
-                                </ReactMarkdown>
-                            </div>
+                        </div>
+                        <div className="p-8 prose prose-lg max-w-none prose-headings:text-gray-900 prose-p:text-gray-700 prose-li:text-gray-700">
+                            <ReactMarkdown>
+                                {generatedContent.content}
+                            </ReactMarkdown>
                         </div>
                     </div>
                 )}
