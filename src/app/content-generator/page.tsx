@@ -31,6 +31,16 @@ export default function ContentGeneratorPage() {
     const [generatedContent, setGeneratedContent] = useState<GenerationResult | null>(null);
     const [error, setError] = useState('');
     const [generationPhase, setGenerationPhase] = useState(0);
+    const [averageWordCount, setAverageWordCount] = useState(0);
+    const [generationLogs, setGenerationLogs] = useState<string[]>([]);
+
+    // Auto-scroll terminal
+    useEffect(() => {
+        const terminal = document.getElementById('terminal-logs');
+        if (terminal) {
+            terminal.scrollTop = terminal.scrollHeight;
+        }
+    }, [generationLogs]);
 
     // Simulate analyzing each result one by one
     useEffect(() => {
@@ -64,7 +74,7 @@ export default function ContentGeneratorPage() {
         return null;
     }
 
-    const [averageWordCount, setAverageWordCount] = useState(0);
+
 
     const handleAnalyze = async () => {
         if (!keyword.trim()) {
@@ -148,15 +158,7 @@ export default function ContentGeneratorPage() {
         }
     };
 
-    const [generationLogs, setGenerationLogs] = useState<string[]>([]);
 
-    // Auto-scroll terminal
-    useEffect(() => {
-        const terminal = document.getElementById('terminal-logs');
-        if (terminal) {
-            terminal.scrollTop = terminal.scrollHeight;
-        }
-    }, [generationLogs]);
 
     const simulateHackerLogs = (results: SerpResult[]) => {
         const logs: string[] = [];
