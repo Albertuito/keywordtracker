@@ -235,13 +235,22 @@ export default function Header() {
                             Cómo funciona
                         </Link>
                         {session && (
-                            <Link
-                                href="/settings"
-                                onClick={() => setMobileMenuOpen(false)}
-                                className={`block px-4 py-3 text-base font-medium ${isActive('/settings') ? 'bg-blue-500/20 text-blue-400' : 'text-slate-300 hover:bg-slate-800'}`}
-                            >
-                                Configuración
-                            </Link>
+                            <>
+                                <Link
+                                    href="/settings"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                    className={`block px-4 py-3 text-base font-medium ${isActive('/settings') ? 'bg-blue-500/20 text-blue-400' : 'text-slate-300 hover:bg-slate-800'}`}
+                                >
+                                    Configuración
+                                </Link>
+                                <Link
+                                    href="/support"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                    className={`block px-4 py-3 text-base font-medium ${isActive('/support') ? 'bg-blue-500/20 text-blue-400' : 'text-slate-300 hover:bg-slate-800'}`}
+                                >
+                                    Soporte
+                                </Link>
+                            </>
                         )}
                     </div>
                 </div>
