@@ -35,6 +35,8 @@ model User {
   reports       KeywordReport[]
   notifications Notification[]
   redemptions   CouponRedemption[]
+  supportTickets SupportTicket[]
+  ticketMessages TicketMessage[]
 }
 
 model GlobalDomainLock {
