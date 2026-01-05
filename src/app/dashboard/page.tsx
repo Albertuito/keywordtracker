@@ -212,8 +212,18 @@ export default function Dashboard() {
                                 className="group grid grid-cols-1 md:grid-cols-12 gap-4 px-6 py-5 items-center hover:bg-slate-700/50 transition-colors cursor-pointer"
                             >
                                 <div className="col-span-4 flex items-center gap-4">
-                                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-bold text-sm shadow-sm">
-                                        {proj.name.charAt(0).toUpperCase()}
+                                    <div className="w-10 h-10 rounded-xl bg-slate-700 flex items-center justify-center overflow-hidden shadow-sm">
+                                        <img
+                                            src={`https://www.google.com/s2/favicons?domain=${proj.domain}&sz=64`}
+                                            alt={proj.name}
+                                            className="w-7 h-7"
+                                            onError={(e) => {
+                                                // Fallback to letter initial on error
+                                                const target = e.target as HTMLImageElement;
+                                                target.style.display = 'none';
+                                                target.parentElement!.innerHTML = `<span class="text-white font-bold text-sm">${proj.name.charAt(0).toUpperCase()}</span>`;
+                                            }}
+                                        />
                                     </div>
                                     <div>
                                         <h3 className="font-semibold text-white group-hover:text-blue-400 transition-colors">{proj.name}</h3>
