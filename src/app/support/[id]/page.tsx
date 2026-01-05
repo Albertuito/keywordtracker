@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, use } from 'react';
 import { Send, User as UserIcon, Lock, CheckCircle, Clock } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
@@ -26,7 +26,8 @@ interface Ticket {
     messages: Message[];
 }
 
-export default function TicketDetailPage({ params }: { params: { id: string } }) {
+export default function TicketDetailPage({ params }: { params: Promise<{ id: string }> }) {
+    const { id } = use(params);
     const { data: session } = useSession();
     const isAdmin = session?.user?.email === 'infoinfolinfo@gmail.com';
     const [ticket, setTicket] = useState<Ticket | null>(null);
@@ -41,7 +42,7 @@ export default function TicketDetailPage({ params }: { params: { id: string } })
         // Poll for new messages every 10 seconds
         const interval = setInterval(fetchTicket, 10000);
         return () => clearInterval(interval);
-    }, [params.id]);
+    }, [id]);
 
     useEffect(() => {
         scrollToBottom();
@@ -53,7 +54,7 @@ export default function TicketDetailPage({ params }: { params: { id: string } })
 
     const fetchTicket = async () => {
         try {
-            const res = await fetch(`/api/tickets/${params.id}`);
+            const res = await fetch(`/api/tickets/${id}`);
             if (!res.ok) {
                 if (res.status === 404) router.push('/support');
                 return;
@@ -74,7 +75,7 @@ export default function TicketDetailPage({ params }: { params: { id: string } })
 
         setSending(true);
         try {
-            const res = await fetch(`/api/tickets/${params.id}`, {
+            const res = await fetch(`/api/tickets/${id}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ message: newMessage })
