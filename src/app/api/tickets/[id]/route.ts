@@ -51,7 +51,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
 
         // Check ownership
         const ticket = await prisma.supportTicket.findUnique({
-            where: { id: params.id }
+            where: { id }
         });
 
         if (!ticket) return NextResponse.json({ error: 'Not found' }, { status: 404 });
@@ -64,7 +64,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
         // Create message
         const newMessage = await prisma.ticketMessage.create({
             data: {
-                ticketId: params.id,
+                ticketId: id,
                 userId: session.user.id,
                 message,
                 isAdmin: isAdmin
@@ -73,7 +73,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
 
         // Update ticket status if needed
         await prisma.supportTicket.update({
-            where: { id: params.id },
+            where: { id },
             data: {
                 status: isAdmin ? 'ANSWERED' : 'OPEN',
                 updatedAt: new Date()
