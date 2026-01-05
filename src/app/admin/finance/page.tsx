@@ -147,7 +147,7 @@ export default function FinancePage() {
                             <Tooltip
                                 contentStyle={{ backgroundColor: '#1e293b', borderColor: '#334155', color: '#fff' }}
                                 itemStyle={{ color: '#fff' }}
-                                formatter={(value: number) => [`€${value.toFixed(2)}`, '']}
+                                formatter={(value: number | undefined) => [`€${(value ?? 0).toFixed(2)}`, '']}
                             />
                             <Area
                                 type="monotone"
