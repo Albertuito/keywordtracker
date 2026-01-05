@@ -60,6 +60,22 @@ export default function Dashboard() {
 
     // Calculate stats
     const totalKeywords = projects.reduce((acc, p) => acc + (p.keywords?.length || 0), 0);
+
+    // Get the most recent keyword update across all projects
+    const getLatestUpdate = (): Date | null => {
+        let latest: Date | null = null;
+        projects.forEach(p => {
+            p.keywords?.forEach((kw: any) => {
+                if (kw.lastChecked) {
+                    const kwDate = new Date(kw.lastChecked);
+                    if (!latest || kwDate > latest) latest = kwDate;
+                }
+            });
+        });
+        return latest;
+    };
+    const latestUpdate = getLatestUpdate();
+
     const filteredProjects = projects.filter(p =>
         p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         p.domain.toLowerCase().includes(searchTerm.toLowerCase())
@@ -130,7 +146,7 @@ export default function Dashboard() {
                         <div>
                             <p className="text-sm font-medium text-slate-400">Última Actualización</p>
                             <p className="text-xl font-semibold text-white mt-1">
-                                {projects.length > 0 ? new Date(projects[0].updatedAt || Date.now()).toLocaleDateString('es-ES', { day: 'numeric', month: 'short' }) : '--'}
+                                {latestUpdate ? latestUpdate.toLocaleDateString('es-ES', { day: 'numeric', month: 'short' }) : '--'}
                             </p>
                         </div>
                         <div className="w-12 h-12 rounded-xl bg-purple-500/20 flex items-center justify-center">
@@ -219,7 +235,11 @@ export default function Dashboard() {
                                 </div>
 
                                 <div className="col-span-2 hidden md:block text-sm text-slate-400">
-                                    {new Date(proj.updatedAt || Date.now()).toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' })}
+                                    {(() => {
+                                        const kwDates = proj.keywords?.map((kw: any) => kw.lastChecked ? new Date(kw.lastChecked) : null).filter(Boolean) || [];
+                                        const latest = kwDates.length > 0 ? new Date(Math.max(...kwDates.map((d: Date) => d.getTime()))) : null;
+                                        return latest ? latest.toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' }) : 'Sin datos';
+                                    })()}
                                 </div>
 
                                 <div className="col-span-1 flex justify-end">
