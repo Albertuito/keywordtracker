@@ -66,10 +66,10 @@ export default function Dashboard() {
         let latest: Date | null = null;
         projects.forEach(p => {
             p.keywords?.forEach((kw: any) => {
-                if (kw.lastChecked) {
-                    const kwDate = new Date(kw.lastChecked);
-                    if (!latest || kwDate > latest) latest = kwDate;
-                }
+                // Use the most recent position date, or keyword updatedAt as fallback
+                const posDate = kw.positions?.[0]?.date ? new Date(kw.positions[0].date) : null;
+                const kwDate = posDate || (kw.updatedAt ? new Date(kw.updatedAt) : null);
+                if (kwDate && (!latest || kwDate > latest)) latest = kwDate;
             });
         });
         return latest;
@@ -236,8 +236,14 @@ export default function Dashboard() {
 
                                 <div className="col-span-2 hidden md:block text-sm text-slate-400">
                                     {(() => {
-                                        const kwDates = proj.keywords?.map((kw: any) => kw.lastChecked ? new Date(kw.lastChecked) : null).filter(Boolean) || [];
-                                        const latest = kwDates.length > 0 ? new Date(Math.max(...kwDates.map((d: Date) => d.getTime()))) : null;
+                                        // Get latest position date from all keywords in this project
+                                        const dates: Date[] = [];
+                                        proj.keywords?.forEach((kw: any) => {
+                                            const posDate = kw.positions?.[0]?.date ? new Date(kw.positions[0].date) : null;
+                                            const kwDate = posDate || (kw.updatedAt ? new Date(kw.updatedAt) : null);
+                                            if (kwDate) dates.push(kwDate);
+                                        });
+                                        const latest = dates.length > 0 ? new Date(Math.max(...dates.map(d => d.getTime()))) : null;
                                         return latest ? latest.toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' }) : 'Sin datos';
                                     })()}
                                 </div>
