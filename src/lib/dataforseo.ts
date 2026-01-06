@@ -233,19 +233,27 @@ export class DataForSEO {
     static async enqueueRankings(keywords: { term: string, country: string, device: string, id: string }[]) {
         // DataForSEO location codes and language codes by country
         const countryConfig: Record<string, { location_code: number, language_code: string }> = {
+            // Spanish-speaking countries only
             'ES': { location_code: 2724, language_code: 'es' },   // Spain
             'MX': { location_code: 2484, language_code: 'es' },   // Mexico
             'AR': { location_code: 2032, language_code: 'es' },   // Argentina
             'CO': { location_code: 2170, language_code: 'es' },   // Colombia
             'CL': { location_code: 2152, language_code: 'es' },   // Chile
             'PE': { location_code: 2604, language_code: 'es' },   // Peru
-            'US': { location_code: 2840, language_code: 'en' },   // United States
-            'GB': { location_code: 2826, language_code: 'en' },   // United Kingdom
-            'FR': { location_code: 2250, language_code: 'fr' },   // France
-            'DE': { location_code: 2276, language_code: 'de' },   // Germany
-            'IT': { location_code: 2380, language_code: 'it' },   // Italy
-            'PT': { location_code: 2620, language_code: 'pt' },   // Portugal
-            'BR': { location_code: 2076, language_code: 'pt' },   // Brazil
+            'VE': { location_code: 2862, language_code: 'es' },   // Venezuela
+            'EC': { location_code: 2218, language_code: 'es' },   // Ecuador
+            'GT': { location_code: 2320, language_code: 'es' },   // Guatemala
+            'CU': { location_code: 2192, language_code: 'es' },   // Cuba
+            'BO': { location_code: 2068, language_code: 'es' },   // Bolivia
+            'DO': { location_code: 2214, language_code: 'es' },   // Dominican Republic
+            'HN': { location_code: 2340, language_code: 'es' },   // Honduras
+            'PY': { location_code: 2600, language_code: 'es' },   // Paraguay
+            'SV': { location_code: 2222, language_code: 'es' },   // El Salvador
+            'NI': { location_code: 2558, language_code: 'es' },   // Nicaragua
+            'CR': { location_code: 2188, language_code: 'es' },   // Costa Rica
+            'PA': { location_code: 2591, language_code: 'es' },   // Panama
+            'UY': { location_code: 2858, language_code: 'es' },   // Uruguay
+            'PR': { location_code: 2630, language_code: 'es' },   // Puerto Rico
         };
 
         const postData = keywords.map(k => {

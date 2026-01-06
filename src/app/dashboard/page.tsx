@@ -323,13 +323,20 @@ export default function Dashboard() {
                                     <option value="CO">🇨🇴 Colombia</option>
                                     <option value="CL">🇨🇱 Chile</option>
                                     <option value="PE">🇵🇪 Perú</option>
-                                    <option value="US">🇺🇸 Estados Unidos</option>
-                                    <option value="GB">🇬🇧 Reino Unido</option>
-                                    <option value="FR">🇫🇷 Francia</option>
-                                    <option value="DE">🇩🇪 Alemania</option>
-                                    <option value="IT">🇮🇹 Italia</option>
-                                    <option value="PT">🇵🇹 Portugal</option>
-                                    <option value="BR">🇧🇷 Brasil</option>
+                                    <option value="VE">🇻🇪 Venezuela</option>
+                                    <option value="EC">🇪🇨 Ecuador</option>
+                                    <option value="GT">🇬🇹 Guatemala</option>
+                                    <option value="CU">🇨🇺 Cuba</option>
+                                    <option value="BO">🇧🇴 Bolivia</option>
+                                    <option value="DO">🇩🇴 Rep. Dominicana</option>
+                                    <option value="HN">🇭🇳 Honduras</option>
+                                    <option value="PY">🇵🇾 Paraguay</option>
+                                    <option value="SV">🇸🇻 El Salvador</option>
+                                    <option value="NI">🇳🇮 Nicaragua</option>
+                                    <option value="CR">🇨🇷 Costa Rica</option>
+                                    <option value="PA">🇵🇦 Panamá</option>
+                                    <option value="UY">🇺🇾 Uruguay</option>
+                                    <option value="PR">🇵🇷 Puerto Rico</option>
                                 </select>
                                 <p className="text-xs text-slate-500 mt-1">Determina en qué país se consultarán los rankings de Google.</p>
                             </div>
