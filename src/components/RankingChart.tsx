@@ -56,8 +56,9 @@ export default function RankingChart({ keywords, selectedKeywordIds, height = 40
         }
 
         const start = new Date();
-        start.setDate(start.getDate() - days);
-        return { startDate: start, dayCount: days };
+        const daysToSubtract = days ?? 30;
+        start.setDate(start.getDate() - daysToSubtract);
+        return { startDate: start, dayCount: daysToSubtract };
     }, [dateRange, selectedKeywords]);
 
     if (selectedKeywords.length === 0) {
@@ -124,8 +125,8 @@ export default function RankingChart({ keywords, selectedKeywordIds, height = 40
                                 key={range.value}
                                 onClick={() => setDateRange(range.value)}
                                 className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all ${dateRange === range.value
-                                        ? 'bg-blue-600 text-white'
-                                        : 'text-slate-400 hover:text-white'
+                                    ? 'bg-blue-600 text-white'
+                                    : 'text-slate-400 hover:text-white'
                                     }`}
                             >
                                 {range.label}
@@ -163,7 +164,7 @@ export default function RankingChart({ keywords, selectedKeywordIds, height = 40
                             boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.3)'
                         }}
                         labelStyle={{ color: '#94a3b8', marginBottom: '8px', fontWeight: '600' }}
-                        formatter={(value: number | null) => value !== null ? [`Posición ${value}`, ''] : ['Sin datos', '']}
+                        formatter={(value: number | null | undefined) => value != null ? [`Posición ${value}`, ''] : ['Sin datos', '']}
                     />
                     <Legend
                         wrapperStyle={{ paddingTop: '20px' }}
