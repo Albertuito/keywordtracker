@@ -4,12 +4,15 @@ import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { formatCurrency } from '@/lib/pricing';
 import { useBalance } from '@/hooks/useBalance';
-import { Download, TrendingUp, TrendingDown } from 'lucide-react';
+import { Download, TrendingUp, TrendingDown, Filter, ArrowUpRight, ArrowDownRight } from 'lucide-react';
+
+type FilterType = 'all' | 'expenses' | 'income';
 
 function BillingContent() {
     const { balance, balanceData, refetch } = useBalance();
     const [transactions, setTransactions] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
+    const [filter, setFilter] = useState<FilterType>('all');
     const searchParams = useSearchParams();
     const router = useRouter();
 
@@ -17,12 +20,11 @@ function BillingContent() {
         // Handle Stripe Success Callback
         if (searchParams.get('success') === 'true') {
             window.dispatchEvent(new Event('balanceUpdated'));
-            refetch(); // Explicit refetch for this page stats
-            // Clean URL
+            refetch();
             router.replace('/settings/billing');
         }
 
-        fetch('/api/transactions?limit=20')
+        fetch('/api/transactions?limit=50')
             .then(res => res.json())
             .then(data => {
                 setTransactions(data.transactions || []);
@@ -30,103 +32,191 @@ function BillingContent() {
             });
     }, [searchParams, router, refetch]);
 
+    // Filter transactions
+    const filteredTransactions = transactions.filter(tx => {
+        if (filter === 'all') return true;
+        if (filter === 'income') return tx.amount > 0;
+        if (filter === 'expenses') return tx.amount < 0;
+        return true;
+    });
+
+    // Parse metadata safely
+    const parseMetadata = (tx: any) => {
+        if (!tx.metadata) return null;
+        if (typeof tx.metadata === 'string') {
+            try {
+                return JSON.parse(tx.metadata);
+            } catch {
+                return null;
+            }
+        }
+        return tx.metadata;
+    };
+
     return (
-        <div className="space-y-8">
+        <div className="max-w-5xl mx-auto space-y-8">
             <div>
-                <h1 className="text-2xl font-bold text-white">Facturación y Créditos</h1>
+                <h1 className="text-2xl font-bold text-white">Historial de Facturación</h1>
                 <p className="text-slate-400">Gestiona tu saldo y revisa tu historial de transacciones.</p>
             </div>
 
             {/* Stats Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
-                    <h3 className="text-slate-400 text-sm font-medium mb-2">Saldo Disponible</h3>
-                    <div className="text-3xl font-bold text-white">{formatCurrency(balance)}</div>
-                    <div className="mt-2 text-xs text-emerald-400">
-                        ~{Math.floor(balance / 0.005)} keyword checks
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="bg-slate-800 border border-slate-700 rounded-xl p-5">
+                    <div className="flex items-center justify-between mb-3">
+                        <h3 className="text-slate-400 text-sm font-medium">Saldo Disponible</h3>
+                        <div className="p-2 bg-blue-500/20 rounded-lg">
+                            <TrendingUp className="w-4 h-4 text-blue-400" />
+                        </div>
+                    </div>
+                    <div className="text-2xl font-bold text-white">{formatCurrency(balance)}</div>
+                    <div className="mt-1 text-xs text-slate-500">
+                        ~{Math.floor(balance / 0.05)} keyword checks
                     </div>
                 </div>
 
-                <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
-                    <h3 className="text-slate-400 text-sm font-medium mb-2">Total Recargado</h3>
-                    <div className="text-3xl font-bold text-white">
-                        {balanceData ? formatCurrency(balanceData.totalRecharged) : '...'}
+                <div className="bg-slate-800 border border-slate-700 rounded-xl p-5">
+                    <div className="flex items-center justify-between mb-3">
+                        <h3 className="text-slate-400 text-sm font-medium">Total Recargado</h3>
+                        <div className="p-2 bg-emerald-500/20 rounded-lg">
+                            <ArrowUpRight className="w-4 h-4 text-emerald-400" />
+                        </div>
                     </div>
-                    <div className="mt-2 text-xs text-slate-500">Histórico de recargas</div>
+                    <div className="text-2xl font-bold text-emerald-400">
+                        +{balanceData ? formatCurrency(balanceData.totalRecharged) : '...'}
+                    </div>
+                    <div className="mt-1 text-xs text-slate-500">Historial completo</div>
                 </div>
 
-                <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
-                    <h3 className="text-slate-400 text-sm font-medium mb-2">Total Gastado</h3>
-                    <div className="text-3xl font-bold text-white">
-                        {balanceData ? formatCurrency(balanceData.totalSpent) : '...'}
+                <div className="bg-slate-800 border border-slate-700 rounded-xl p-5">
+                    <div className="flex items-center justify-between mb-3">
+                        <h3 className="text-slate-400 text-sm font-medium">Total Gastado</h3>
+                        <div className="p-2 bg-red-500/20 rounded-lg">
+                            <ArrowDownRight className="w-4 h-4 text-red-400" />
+                        </div>
                     </div>
-                    <div className="mt-2 text-xs text-slate-500">En servicios de la plataforma</div>
+                    <div className="text-2xl font-bold text-slate-300">
+                        -{balanceData ? formatCurrency(balanceData.totalSpent) : '...'}
+                    </div>
+                    <div className="mt-1 text-xs text-slate-500">En servicios</div>
                 </div>
             </div>
 
             {/* Transactions List */}
-            <div className="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
-                <div className="p-6 border-b border-white/5 flex justify-between items-center">
-                    <h2 className="text-lg font-semibold text-white">Historial de Transacciones</h2>
-                    <button className="text-slate-400 hover:text-white transition-colors">
-                        <Download size={18} />
-                    </button>
+            <div className="bg-slate-800 border border-slate-700 rounded-xl overflow-hidden">
+                <div className="p-4 border-b border-slate-700 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <h2 className="text-lg font-semibold text-white">Transacciones</h2>
+
+                    {/* Filter Tabs */}
+                    <div className="flex items-center gap-2">
+                        <div className="flex bg-slate-900 rounded-lg p-1">
+                            <button
+                                onClick={() => setFilter('all')}
+                                className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all ${filter === 'all'
+                                        ? 'bg-slate-700 text-white'
+                                        : 'text-slate-400 hover:text-white'
+                                    }`}
+                            >
+                                Todos
+                            </button>
+                            <button
+                                onClick={() => setFilter('expenses')}
+                                className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all ${filter === 'expenses'
+                                        ? 'bg-slate-700 text-white'
+                                        : 'text-slate-400 hover:text-white'
+                                    }`}
+                            >
+                                Consumos
+                            </button>
+                            <button
+                                onClick={() => setFilter('income')}
+                                className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all ${filter === 'income'
+                                        ? 'bg-slate-700 text-white'
+                                        : 'text-slate-400 hover:text-white'
+                                    }`}
+                            >
+                                Recargas
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
-                <div className="overflow-x-auto">
-                    <table className="w-full text-left text-sm text-slate-400">
-                        <thead className="bg-slate-950/50 text-slate-200 uppercase text-xs">
-                            <tr>
-                                <th className="px-6 py-3">Fecha</th>
-                                <th className="px-6 py-3">Descripción</th>
-                                <th className="px-6 py-3">Tipo</th>
-                                <th className="px-6 py-3 text-right">Importe</th>
-                                <th className="px-6 py-3 text-right">Saldo</th>
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-white/5">
-                            {loading ? (
-                                <tr>
-                                    <td colSpan={5} className="px-6 py-8 text-center">Cargando transacciones...</td>
-                                </tr>
-                            ) : transactions.length === 0 ? (
-                                <tr>
-                                    <td colSpan={5} className="px-6 py-8 text-center">No hay transacciones aún.</td>
-                                </tr>
-                            ) : (
-                                transactions.map((tx) => (
-                                    <tr key={tx.id} className="hover:bg-slate-800/5 transition-colors">
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                            {new Date(tx.createdAt).toLocaleDateString()} <span className="text-slate-600 text-xs ml-1">{new Date(tx.createdAt).toLocaleTimeString()}</span>
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            <span className="text-slate-300 font-medium block">{tx.description}</span>
-                                            {tx.metadata?.keywordTerm && (
-                                                <span className="text-xs text-slate-500">{tx.metadata.keywordTerm}</span>
-                                            )}
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            {tx.type === 'recharge' ? (
-                                                <span className="inline-flex items-center gap-1 px-2 py-1 rounded bg-emerald-500/10 text-emerald-400 text-xs font-medium">
-                                                    <TrendingUp size={12} /> Recarga
-                                                </span>
-                                            ) : (
-                                                <span className="inline-flex items-center gap-1 px-2 py-1 rounded bg-slate-700/50 text-slate-300 text-xs font-medium">
-                                                    <TrendingDown size={12} /> Consumo
-                                                </span>
-                                            )}
-                                        </td>
-                                        <td className={`px-6 py-4 text-right font-medium ${tx.amount > 0 ? 'text-emerald-400' : 'text-slate-300'}`}>
-                                            {tx.amount > 0 ? '+' : ''}{formatCurrency(tx.amount)}
-                                        </td>
-                                        <td className="px-6 py-4 text-right text-slate-500">
-                                            {formatCurrency(tx.balanceAfter)}
-                                        </td>
-                                    </tr>
-                                ))
-                            )}
-                        </tbody>
-                    </table>
+                <div className="divide-y divide-slate-700/50">
+                    {loading ? (
+                        <div className="p-8 text-center text-slate-400">
+                            <div className="w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-2"></div>
+                            Cargando transacciones...
+                        </div>
+                    ) : filteredTransactions.length === 0 ? (
+                        <div className="p-8 text-center text-slate-400">
+                            No hay transacciones {filter !== 'all' ? 'de este tipo' : ''}.
+                        </div>
+                    ) : (
+                        filteredTransactions.map((tx) => {
+                            const meta = parseMetadata(tx);
+                            const isIncome = tx.amount > 0;
+
+                            return (
+                                <div key={tx.id} className="p-4 hover:bg-slate-700/20 transition-colors">
+                                    <div className="flex items-center justify-between gap-4">
+                                        {/* Left: Icon + Info */}
+                                        <div className="flex items-center gap-3 min-w-0 flex-1">
+                                            <div className={`p-2 rounded-lg shrink-0 ${isIncome
+                                                    ? 'bg-emerald-500/20'
+                                                    : 'bg-slate-700'
+                                                }`}>
+                                                {isIncome ? (
+                                                    <TrendingUp className="w-4 h-4 text-emerald-400" />
+                                                ) : (
+                                                    <TrendingDown className="w-4 h-4 text-slate-400" />
+                                                )}
+                                            </div>
+                                            <div className="min-w-0 flex-1">
+                                                <div className="font-medium text-white text-sm truncate">
+                                                    {tx.description || (isIncome ? 'Recarga de saldo' : 'Consumo')}
+                                                </div>
+                                                <div className="flex items-center gap-2 text-xs text-slate-500 mt-0.5">
+                                                    <span>{new Date(tx.createdAt).toLocaleDateString('es-ES', {
+                                                        day: 'numeric',
+                                                        month: 'short',
+                                                        hour: '2-digit',
+                                                        minute: '2-digit'
+                                                    })}</span>
+                                                    {meta?.keywordTerm && (
+                                                        <>
+                                                            <span className="text-slate-600">•</span>
+                                                            <span className="text-blue-400 font-medium truncate max-w-[150px]">
+                                                                "{meta.keywordTerm}"
+                                                            </span>
+                                                        </>
+                                                    )}
+                                                    {meta?.projectName && (
+                                                        <>
+                                                            <span className="text-slate-600">•</span>
+                                                            <span className="text-slate-400 truncate max-w-[120px]">
+                                                                {meta.projectName}
+                                                            </span>
+                                                        </>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Right: Amount + Balance */}
+                                        <div className="text-right shrink-0">
+                                            <div className={`font-semibold ${isIncome ? 'text-emerald-400' : 'text-slate-300'
+                                                }`}>
+                                                {isIncome ? '+' : ''}{formatCurrency(tx.amount)}
+                                            </div>
+                                            <div className="text-xs text-slate-500">
+                                                Saldo: {formatCurrency(tx.balanceAfter)}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+                        })
+                    )}
                 </div>
             </div>
         </div>
@@ -144,4 +234,3 @@ export default function BillingPage() {
         </Suspense>
     );
 }
-

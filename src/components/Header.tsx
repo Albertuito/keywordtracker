@@ -135,6 +135,15 @@ export default function Header() {
                                                 Configuración
                                             </Link>
                                             <Link
+                                                href="/settings/billing"
+                                                className="flex items-center gap-2 px-4 py-2.5 text-sm text-slate-300 hover:bg-slate-700 transition-colors"
+                                            >
+                                                <svg className="w-4 h-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                </svg>
+                                                Historial
+                                            </Link>
+                                            <Link
                                                 href="/support"
                                                 className="flex items-center gap-2 px-4 py-2.5 text-sm text-slate-300 hover:bg-slate-700 transition-colors"
                                             >
@@ -242,6 +251,13 @@ export default function Header() {
                                     className={`block px-4 py-3 text-base font-medium ${isActive('/settings') ? 'bg-blue-500/20 text-blue-400' : 'text-slate-300 hover:bg-slate-800'}`}
                                 >
                                     Configuración
+                                </Link>
+                                <Link
+                                    href="/settings/billing"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                    className={`block px-4 py-3 text-base font-medium ${isActive('/settings/billing') ? 'bg-blue-500/20 text-blue-400' : 'text-slate-300 hover:bg-slate-800'}`}
+                                >
+                                    Historial
                                 </Link>
                                 <Link
                                     href="/support"
