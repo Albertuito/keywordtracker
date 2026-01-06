@@ -297,7 +297,7 @@ function ProjectContent() {
                             <span>/</span>
                             <span>Detalles</span>
                         </div>
-                        <h1 className="text-3xl font-bold text-white tracking-tight">{project.name} <span className="text-blue-500 text-lg font-normal opacity-50">(v2.0)</span></h1>
+                        <h1 className="text-3xl font-bold text-white tracking-tight">{project.name}</h1>
                         <p className="text-slate-400 text-sm font-mono">{project.domain}</p>
                     </div>
                 </header>
