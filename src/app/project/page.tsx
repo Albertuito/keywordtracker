@@ -469,14 +469,14 @@ function ProjectContent() {
                                         </th>
                                         <th className="py-3 px-2 w-8 text-center border-r border-slate-700"></th>
                                         <th className="py-3 px-3 font-semibold border-r border-slate-700">Keyword</th>
-                                        <th className="py-3 px-2 w-10 text-center font-semibold border-r border-slate-700" title="Comparar">⊕</th>
-                                        <th className="py-3 px-2 w-10 text-center font-semibold border-r border-slate-700" title="Relacionadas">🔍</th>
-                                        <th className="py-3 px-3 w-20 text-center font-semibold border-r border-slate-700">Vol.</th>
-                                        <th className="py-3 px-3 w-24 text-center font-semibold border-r border-slate-700">Freq.</th>
+                                        <th className="py-3 px-2 w-10 text-center font-semibold border-r border-slate-700 hidden lg:table-cell" title="Comparar">⊕</th>
+                                        <th className="py-3 px-2 w-10 text-center font-semibold border-r border-slate-700 hidden lg:table-cell" title="Relacionadas">🔍</th>
+                                        <th className="py-3 px-3 w-20 text-center font-semibold border-r border-slate-700 hidden md:table-cell">Vol.</th>
+                                        <th className="py-3 px-3 w-24 text-center font-semibold border-r border-slate-700 hidden md:table-cell">Freq.</th>
                                         <th className="py-3 px-3 w-16 text-center font-semibold text-blue-400 border-r border-slate-700">Pos.</th>
                                         <th className="py-3 px-2 w-12 text-center font-semibold border-r border-slate-700">Δ</th>
-                                        <th className="py-3 px-3 font-semibold border-r border-slate-700">URL</th>
-                                        <th className="py-3 px-2 w-20 text-center font-semibold">Fecha</th>
+                                        <th className="py-3 px-3 font-semibold border-r border-slate-700 hidden lg:table-cell">URL</th>
+                                        <th className="py-3 px-2 w-20 text-center font-semibold hidden sm:table-cell">Fecha</th>
                                     </tr>
                                 </thead>
                                 <tbody className="text-white">
@@ -543,7 +543,7 @@ function ProjectContent() {
                                                             <span className={`font-medium text-white ${isAutoTracked ? 'border-l-2 border-green-400 pl-2' : ''}`}>{kw.term}</span>
                                                         </td>
                                                         {/* Compare button */}
-                                                        <td className="py-3 px-2 text-center border-r border-slate-700">
+                                                        <td className="py-3 px-2 text-center border-r border-slate-700 hidden lg:table-cell">
                                                             <button
                                                                 onClick={() => { isInCompare ? setCompareKeywords(prev => prev.filter(id => id !== kw.id)) : compareKeywords.length < 2 && setCompareKeywords(prev => [...prev, kw.id]); }}
                                                                 disabled={!isInCompare && compareKeywords.length >= 2}
@@ -554,7 +554,7 @@ function ProjectContent() {
                                                             </button>
                                                         </td>
                                                         {/* Related button */}
-                                                        <td className="py-3 px-2 text-center border-r border-slate-700">
+                                                        <td className="py-3 px-2 text-center border-r border-slate-700 hidden lg:table-cell">
                                                             <button
                                                                 onClick={(e) => { e.stopPropagation(); setRelatedModalKeyword(kw.term); }}
                                                                 className="w-8 h-8 rounded-lg flex items-center justify-center bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30 transition-all"
@@ -564,7 +564,7 @@ function ProjectContent() {
                                                             </button>
                                                         </td>
                                                         {/* Volume */}
-                                                        <td className="py-3 px-3 text-center text-slate-200 text-sm align-middle border-r border-slate-700">
+                                                        <td className="py-3 px-3 text-center text-slate-200 text-sm align-middle border-r border-slate-700 hidden md:table-cell">
                                                             {kw.volume !== null && kw.volume !== undefined ? (
                                                                 <span className="text-slate-200 font-medium">{kw.volume.toLocaleString()}</span>
                                                             ) : fetchingVolume.has(kw.id) ? (
@@ -580,7 +580,7 @@ function ProjectContent() {
                                                             )}
                                                         </td>
                                                         {/* Frequency */}
-                                                        <td className="py-3 px-2 text-center align-middle border-r border-slate-700">
+                                                        <td className="py-3 px-2 text-center align-middle border-r border-slate-700 hidden md:table-cell">
                                                             <select
                                                                 value={kw.trackingFrequency || 'manual'}
                                                                 onChange={(e) => changeFrequency([kw.id], e.target.value)}
@@ -611,7 +611,7 @@ function ProjectContent() {
                                                             ) : <span className="text-slate-500 text-xs">sin cambio</span>}
                                                         </td>
                                                         {/* URL */}
-                                                        <td className="py-3 px-3 text-sm text-slate-300 border-r border-slate-700">
+                                                        <td className="py-3 px-3 text-sm text-slate-300 border-r border-slate-700 hidden lg:table-cell">
                                                             {url ? (
                                                                 <a
                                                                     href={url}
@@ -625,7 +625,7 @@ function ProjectContent() {
                                                             ) : <span className="text-slate-500">-</span>}
                                                         </td>
                                                         {/* Date */}
-                                                        <td className="py-3 px-3 text-center text-xs text-slate-400">
+                                                        <td className="py-3 px-3 text-center text-xs text-slate-400 hidden sm:table-cell">
                                                             {kw.positions?.[0] ? new Date(kw.positions[0].date).toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' }) : '-'}
                                                         </td>
                                                     </tr>
