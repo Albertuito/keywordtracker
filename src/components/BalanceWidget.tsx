@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useBalance } from '@/hooks/useBalance';
 import RechargeModal from './RechargeModal';
 import RedeemCouponModal from './RedeemCouponModal';
@@ -10,6 +10,20 @@ export default function BalanceWidget() {
     const { balance, loading } = useBalance();
     const [showRecharge, setShowRecharge] = useState(false);
     const [showRedeem, setShowRedeem] = useState(false);
+
+    // Listen for mobile menu events
+    useEffect(() => {
+        const handleOpenRecharge = () => setShowRecharge(true);
+        const handleOpenCoupon = () => setShowRedeem(true);
+
+        window.addEventListener('openRechargeModal', handleOpenRecharge);
+        window.addEventListener('openCouponModal', handleOpenCoupon);
+
+        return () => {
+            window.removeEventListener('openRechargeModal', handleOpenRecharge);
+            window.removeEventListener('openCouponModal', handleOpenCoupon);
+        };
+    }, []);
 
     if (loading) {
         return (

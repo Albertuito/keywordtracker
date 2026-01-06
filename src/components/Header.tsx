@@ -202,17 +202,52 @@ export default function Header() {
             {mobileMenuOpen && (
                 <div className="sm:hidden bg-slate-900 border-t border-slate-700">
                     <div className="py-2 space-y-1">
+                        {/* Not logged in */}
                         {!session && (
-                            <Link
-                                href="/"
-                                onClick={() => setMobileMenuOpen(false)}
-                                className={`block px-4 py-3 text-base font-medium ${isActive('/') ? 'bg-blue-500/20 text-blue-400' : 'text-slate-300 hover:bg-slate-800'}`}
-                            >
-                                Inicio
-                            </Link>
+                            <>
+                                <Link
+                                    href="/"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                    className={`block px-4 py-3 text-base font-medium ${isActive('/') ? 'bg-blue-500/20 text-blue-400' : 'text-slate-300 hover:bg-slate-800'}`}
+                                >
+                                    Inicio
+                                </Link>
+                                <Link
+                                    href="/como-funciona"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                    className={`block px-4 py-3 text-base font-medium ${isActive('/como-funciona') ? 'bg-blue-500/20 text-blue-400' : 'text-slate-300 hover:bg-slate-800'}`}
+                                >
+                                    Cómo funciona
+                                </Link>
+                                <div className="px-4 py-3 space-y-2 border-t border-slate-700 mt-2">
+                                    <Link
+                                        href="/login"
+                                        onClick={() => setMobileMenuOpen(false)}
+                                        className="block w-full px-4 py-2.5 text-center text-sm font-semibold text-white bg-slate-700 hover:bg-slate-600 rounded-lg transition-colors"
+                                    >
+                                        Iniciar Sesión
+                                    </Link>
+                                    <Link
+                                        href="/register"
+                                        onClick={() => setMobileMenuOpen(false)}
+                                        className="block w-full px-4 py-2.5 text-center text-sm font-semibold text-white bg-blue-500 hover:bg-blue-600 rounded-lg transition-colors"
+                                    >
+                                        Registrarse Gratis
+                                    </Link>
+                                </div>
+                            </>
                         )}
+
+                        {/* Logged in */}
                         {session && (
                             <>
+                                {/* Balance display */}
+                                <div className="px-4 py-3 border-b border-slate-700 flex items-center justify-between">
+                                    <span className="text-slate-400 text-sm">Tu saldo:</span>
+                                    <BalanceWidget />
+                                </div>
+
+                                {/* Navigation */}
                                 <Link
                                     href="/dashboard"
                                     onClick={() => setMobileMenuOpen(false)}
@@ -234,38 +269,77 @@ export default function Header() {
                                 >
                                     🎯 Generador
                                 </Link>
-                            </>
-                        )}
-                        <Link
-                            href="/como-funciona"
-                            onClick={() => setMobileMenuOpen(false)}
-                            className={`block px-4 py-3 text-base font-medium ${isActive('/como-funciona') ? 'bg-blue-500/20 text-blue-400' : 'text-slate-300 hover:bg-slate-800'}`}
-                        >
-                            Cómo funciona
-                        </Link>
-                        {session && (
-                            <>
+                                <Link
+                                    href="/como-funciona"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                    className={`block px-4 py-3 text-base font-medium ${isActive('/como-funciona') ? 'bg-blue-500/20 text-blue-400' : 'text-slate-300 hover:bg-slate-800'}`}
+                                >
+                                    Cómo funciona
+                                </Link>
+
+                                {/* Divider */}
+                                <div className="border-t border-slate-700 my-2"></div>
+
+                                {/* Account Links */}
                                 <Link
                                     href="/settings"
                                     onClick={() => setMobileMenuOpen(false)}
                                     className={`block px-4 py-3 text-base font-medium ${isActive('/settings') ? 'bg-blue-500/20 text-blue-400' : 'text-slate-300 hover:bg-slate-800'}`}
                                 >
-                                    Configuración
+                                    ⚙️ Configuración
                                 </Link>
                                 <Link
                                     href="/settings/billing"
                                     onClick={() => setMobileMenuOpen(false)}
                                     className={`block px-4 py-3 text-base font-medium ${isActive('/settings/billing') ? 'bg-blue-500/20 text-blue-400' : 'text-slate-300 hover:bg-slate-800'}`}
                                 >
-                                    Historial
+                                    📊 Historial
                                 </Link>
                                 <Link
                                     href="/support"
                                     onClick={() => setMobileMenuOpen(false)}
                                     className={`block px-4 py-3 text-base font-medium ${isActive('/support') ? 'bg-blue-500/20 text-blue-400' : 'text-slate-300 hover:bg-slate-800'}`}
                                 >
-                                    Soporte
+                                    💬 Soporte
                                 </Link>
+
+                                {/* Divider */}
+                                <div className="border-t border-slate-700 my-2"></div>
+
+                                {/* Actions */}
+                                <div className="px-4 py-2 space-y-2">
+                                    <button
+                                        onClick={() => {
+                                            setMobileMenuOpen(false);
+                                            window.dispatchEvent(new CustomEvent('openRechargeModal'));
+                                        }}
+                                        className="w-full px-4 py-2.5 text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-500 rounded-lg transition-colors flex items-center justify-center gap-2"
+                                    >
+                                        💳 Recargar Saldo
+                                    </button>
+                                    <button
+                                        onClick={() => {
+                                            setMobileMenuOpen(false);
+                                            window.dispatchEvent(new CustomEvent('openCouponModal'));
+                                        }}
+                                        className="w-full px-4 py-2.5 text-sm font-medium text-slate-300 bg-slate-700 hover:bg-slate-600 rounded-lg transition-colors flex items-center justify-center gap-2"
+                                    >
+                                        🎟️ Canjear Cupón
+                                    </button>
+                                </div>
+
+                                {/* Logout */}
+                                <div className="border-t border-slate-700 mt-2">
+                                    <button
+                                        onClick={() => {
+                                            setMobileMenuOpen(false);
+                                            signOut({ callbackUrl: '/' });
+                                        }}
+                                        className="w-full px-4 py-3 text-base font-medium text-red-400 hover:bg-slate-800 text-left"
+                                    >
+                                        🚪 Cerrar Sesión
+                                    </button>
+                                </div>
                             </>
                         )}
                     </div>
