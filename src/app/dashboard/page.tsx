@@ -4,6 +4,7 @@ import { useSession } from "next-auth/react";
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import CountrySelect from '@/components/CountrySelect';
 
 export default function Dashboard() {
     const { data: session, status } = useSession();
@@ -312,32 +313,10 @@ export default function Dashboard() {
 
                             <div>
                                 <label className="block text-sm font-medium text-slate-300 mb-2">País de posicionamiento</label>
-                                <select
-                                    className="input-field"
+                                <CountrySelect
                                     value={newProject.country}
-                                    onChange={e => setNewProject({ ...newProject, country: e.target.value })}
-                                >
-                                    <option value="ES">🇪🇸 España</option>
-                                    <option value="MX">🇲🇽 México</option>
-                                    <option value="AR">🇦🇷 Argentina</option>
-                                    <option value="CO">🇨🇴 Colombia</option>
-                                    <option value="CL">🇨🇱 Chile</option>
-                                    <option value="PE">🇵🇪 Perú</option>
-                                    <option value="VE">🇻🇪 Venezuela</option>
-                                    <option value="EC">🇪🇨 Ecuador</option>
-                                    <option value="GT">🇬🇹 Guatemala</option>
-                                    <option value="CU">🇨🇺 Cuba</option>
-                                    <option value="BO">🇧🇴 Bolivia</option>
-                                    <option value="DO">🇩🇴 Rep. Dominicana</option>
-                                    <option value="HN">🇭🇳 Honduras</option>
-                                    <option value="PY">🇵🇾 Paraguay</option>
-                                    <option value="SV">🇸🇻 El Salvador</option>
-                                    <option value="NI">🇳🇮 Nicaragua</option>
-                                    <option value="CR">🇨🇷 Costa Rica</option>
-                                    <option value="PA">🇵🇦 Panamá</option>
-                                    <option value="UY">🇺🇾 Uruguay</option>
-                                    <option value="PR">🇵🇷 Puerto Rico</option>
-                                </select>
+                                    onChange={(code) => setNewProject({ ...newProject, country: code })}
+                                />
                                 <p className="text-xs text-slate-500 mt-1">Determina en qué país se consultarán los rankings de Google.</p>
                             </div>
 
