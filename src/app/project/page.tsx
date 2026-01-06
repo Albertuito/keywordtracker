@@ -300,11 +300,6 @@ function ProjectContent() {
                         <h1 className="text-3xl font-bold text-white tracking-tight">{project.name} <span className="text-blue-500 text-lg font-normal opacity-50">(v2.0)</span></h1>
                         <p className="text-slate-400 text-sm font-mono">{project.domain}</p>
                     </div>
-                    <div className="flex gap-3">
-                        <button className="px-4 py-2 bg-slate-800 border border-slate-600 rounded-lg text-sm font-medium text-slate-200 hover:text-white hover:border-slate-500 transition-all shadow-sm">
-                            Exportar Reporte
-                        </button>
-                    </div>
                 </header>
 
                 {/* KPI Summary */}
