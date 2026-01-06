@@ -108,8 +108,9 @@ export default function RankingChart({ keywords, selectedKeywordIds, height = 40
 
     return (
         <div className={`bg-slate-800 border border-slate-600 rounded-xl ${compact ? 'p-4' : 'p-6'}`}>
-            {!compact && (
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+            {/* Header - always show date selector */}
+            <div className={`flex ${compact ? 'justify-end mb-3' : 'flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6'}`}>
+                {!compact && (
                     <div>
                         <h3 className="text-lg font-semibold text-white mb-1">Evolución de Rankings</h3>
                         <p className="text-sm text-slate-400">
@@ -117,24 +118,24 @@ export default function RankingChart({ keywords, selectedKeywordIds, height = 40
                             {chartData.filter(d => selectedKeywords.some(kw => d[kw.term] !== null)).length} días con datos
                         </p>
                     </div>
+                )}
 
-                    {/* Date Range Selector */}
-                    <div className="flex bg-slate-900 rounded-lg p-1">
-                        {DATE_RANGES.map(range => (
-                            <button
-                                key={range.value}
-                                onClick={() => setDateRange(range.value)}
-                                className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all ${dateRange === range.value
+                {/* Date Range Selector - always visible */}
+                <div className="flex bg-slate-900 rounded-lg p-1">
+                    {DATE_RANGES.map(range => (
+                        <button
+                            key={range.value}
+                            onClick={() => setDateRange(range.value)}
+                            className={`px-2 sm:px-3 py-1 sm:py-1.5 text-xs font-medium rounded-md transition-all ${dateRange === range.value
                                     ? 'bg-blue-600 text-white'
                                     : 'text-slate-400 hover:text-white'
-                                    }`}
-                            >
-                                {range.label}
-                            </button>
-                        ))}
-                    </div>
+                                }`}
+                        >
+                            {range.label}
+                        </button>
+                    ))}
                 </div>
-            )}
+            </div>
 
             <ResponsiveContainer width="100%" height={height}>
                 <LineChart data={chartData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
