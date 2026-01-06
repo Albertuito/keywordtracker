@@ -164,7 +164,7 @@ export default function RankingChart({ keywords, selectedKeywordIds, height = 40
                             boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.3)'
                         }}
                         labelStyle={{ color: '#94a3b8', marginBottom: '8px', fontWeight: '600' }}
-                        formatter={(value: number | null | undefined) => value != null ? [`Posición ${value}`, ''] : ['Sin datos', '']}
+                        formatter={(value: any) => value != null ? [`Posición ${value}`, ''] : ['Sin datos', '']}
                     />
                     <Legend
                         wrapperStyle={{ paddingTop: '20px' }}
