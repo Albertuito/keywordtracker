@@ -67,8 +67,9 @@ export async function processKeywordCheck(keywordId: string, force = false): Pro
             action: 'keyword_check_live',
             metadata: {
                 keywordId: keyword.id,
-                term,
-                projectId: keyword.projectId
+                keywordTerm: term,
+                projectId: keyword.projectId,
+                projectName: keyword.project.name
             }
         });
 
@@ -160,7 +161,7 @@ export async function enqueueDailyChecks(projectId?: string, keywordIds?: string
             volume: true,
             projectId: true, // Needed for grouping
             project: {
-                select: { userId: true, country: true } // Needed for billing and location
+                select: { userId: true, country: true, name: true } // Needed for billing and location
             }
         }
     });
@@ -230,8 +231,9 @@ export async function enqueueDailyChecks(projectId?: string, keywordIds?: string
                 action: 'keyword_check_standard',
                 metadata: {
                     keywordId: kw.id,
-                    term: kw.term,
-                    projectId: kw.projectId
+                    keywordTerm: kw.term,
+                    projectId: kw.projectId,
+                    projectName: kw.project?.name || 'Unknown'
                 }
             });
 
@@ -477,7 +479,7 @@ export async function processAutoTracking() {
         },
         include: {
             project: {
-                select: { userId: true, domain: true }
+                select: { userId: true, domain: true, name: true }
             }
         }
     });
@@ -521,7 +523,13 @@ export async function processAutoTracking() {
                 const result = await deductBalance({
                     userId,
                     action: 'keyword_check_standard',
-                    metadata: { keywordId: kw.id, projectId: kw.projectId, autoTracking: true }
+                    metadata: {
+                        keywordId: kw.id,
+                        keywordTerm: kw.term,
+                        projectId: kw.projectId,
+                        projectName: kw.project?.name || 'Unknown',
+                        autoTracking: true
+                    }
                 });
 
                 if (!result.success) {

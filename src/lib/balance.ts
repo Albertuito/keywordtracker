@@ -9,6 +9,7 @@ interface DeductBalanceOptions {
         keywordId?: string;
         keywordTerm?: string;
         projectId?: string;
+        projectName?: string;
         [key: string]: any;
     };
 }
