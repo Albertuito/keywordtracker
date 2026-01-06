@@ -69,7 +69,7 @@ export async function GET(request: Request) {
         include: {
             positions: {
                 orderBy: { date: 'desc' },
-                take: 30 // Get last 30 days of history for chart
+                take: 365 // Get up to 1 year of history
             }
         },
         orderBy: { createdAt: 'desc' }

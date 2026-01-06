@@ -1,4 +1,5 @@
 'use client';
+import { useState, useMemo } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 interface KeywordData {
@@ -18,11 +19,46 @@ interface RankingChartProps {
     showStats?: boolean;
 }
 
+type DateRange = '7d' | '30d' | '90d' | 'all';
+
+const DATE_RANGES: { value: DateRange; label: string; days: number | null }[] = [
+    { value: '7d', label: '7 días', days: 7 },
+    { value: '30d', label: '30 días', days: 30 },
+    { value: '90d', label: '3 meses', days: 90 },
+    { value: 'all', label: 'Todo', days: null },
+];
+
 const COLORS = ['#10b981', '#3b82f6', '#a855f7', '#f59e0b', '#f43f5e'];
 
 export default function RankingChart({ keywords, selectedKeywordIds, height = 400, compact = false, showStats = true }: RankingChartProps) {
+    const [dateRange, setDateRange] = useState<DateRange>('30d');
+
     // Filter selected keywords
     const selectedKeywords = keywords.filter(k => selectedKeywordIds.includes(k.id));
+
+    // Calculate date range
+    const { startDate, dayCount } = useMemo(() => {
+        const rangeConfig = DATE_RANGES.find(r => r.value === dateRange);
+        const days = rangeConfig?.days;
+
+        if (days === null) {
+            // Find earliest date across all selected keywords
+            let earliest = new Date();
+            selectedKeywords.forEach(kw => {
+                kw.positions.forEach(p => {
+                    const d = new Date(p.date);
+                    if (d < earliest) earliest = d;
+                });
+            });
+            const diffTime = Math.abs(new Date().getTime() - earliest.getTime());
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            return { startDate: earliest, dayCount: Math.max(diffDays, 7) };
+        }
+
+        const start = new Date();
+        start.setDate(start.getDate() - days);
+        return { startDate: start, dayCount: days };
+    }, [dateRange, selectedKeywords]);
 
     if (selectedKeywords.length === 0) {
         return (
@@ -38,27 +74,24 @@ export default function RankingChart({ keywords, selectedKeywordIds, height = 40
         );
     }
 
-    // Prepare chart data - Always show last 30 days
+    // Generate array of days for the range
     const today = new Date();
-    const last30Days: Date[] = [];
-
-    // Generate array of last 30 days
-    for (let i = 29; i >= 0; i--) {
+    const daysArray: Date[] = [];
+    for (let i = dayCount - 1; i >= 0; i--) {
         const date = new Date(today);
         date.setDate(date.getDate() - i);
-        last30Days.push(date);
+        daysArray.push(date);
     }
 
-    // Build chart data structure with all 30 days
-    const chartData = last30Days.map(date => {
+    // Build chart data structure
+    const chartData = daysArray.map(date => {
         const dateStr = date.toLocaleDateString('es-ES', { day: '2-digit', month: 'short' });
-        const dataPoint: any = { date: dateStr };
+        const dataPoint: any = { date: dateStr, fullDate: date };
 
         selectedKeywords.forEach(kw => {
             // Find position for this date
             const positionData = kw.positions.find(p => {
                 const posDate = new Date(p.date);
-                // Compare dates (ignore time)
                 return posDate.toDateString() === date.toDateString();
             });
 
@@ -68,45 +101,69 @@ export default function RankingChart({ keywords, selectedKeywordIds, height = 40
         return dataPoint;
     });
 
+    // Decide tick interval based on data length
+    const tickInterval = chartData.length > 60 ? Math.floor(chartData.length / 15) :
+        chartData.length > 30 ? 3 : 1;
+
     return (
         <div className={`bg-slate-800 border border-slate-600 rounded-xl ${compact ? 'p-4' : 'p-6'}`}>
             {!compact && (
-                <div className="mb-6">
-                    <h3 className="text-lg font-semibold text-white mb-2">Evolución de Rankings</h3>
-                    <p className="text-sm text-slate-300">
-                        Mostrando {selectedKeywords.length} keyword{selectedKeywords.length > 1 ? 's' : ''} •
-                        Últimos {chartData.length} puntos de datos
-                    </p>
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+                    <div>
+                        <h3 className="text-lg font-semibold text-white mb-1">Evolución de Rankings</h3>
+                        <p className="text-sm text-slate-400">
+                            {selectedKeywords.length} keyword{selectedKeywords.length > 1 ? 's' : ''} •
+                            {chartData.filter(d => selectedKeywords.some(kw => d[kw.term] !== null)).length} días con datos
+                        </p>
+                    </div>
+
+                    {/* Date Range Selector */}
+                    <div className="flex bg-slate-900 rounded-lg p-1">
+                        {DATE_RANGES.map(range => (
+                            <button
+                                key={range.value}
+                                onClick={() => setDateRange(range.value)}
+                                className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all ${dateRange === range.value
+                                        ? 'bg-blue-600 text-white'
+                                        : 'text-slate-400 hover:text-white'
+                                    }`}
+                            >
+                                {range.label}
+                            </button>
+                        ))}
+                    </div>
                 </div>
             )}
 
             <ResponsiveContainer width="100%" height={height}>
                 <LineChart data={chartData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" opacity={0.5} />
+                    <CartesianGrid strokeDasharray="3 3" stroke="#334155" opacity={0.5} />
                     <XAxis
                         dataKey="date"
-                        stroke="#374151"
-                        style={{ fontSize: '12px' }}
+                        stroke="#64748b"
+                        style={{ fontSize: '11px' }}
                         angle={-45}
                         textAnchor="end"
-                        height={80}
+                        height={60}
+                        interval={tickInterval}
                     />
                     <YAxis
                         reversed
                         domain={[1, 100]}
-                        stroke="#374151"
-                        style={{ fontSize: '12px' }}
-                        label={{ value: 'Posición', angle: -90, position: 'insideLeft', style: { fill: '#374151' } }}
+                        stroke="#64748b"
+                        style={{ fontSize: '11px' }}
+                        label={{ value: 'Posición', angle: -90, position: 'insideLeft', style: { fill: '#64748b', fontSize: '12px' } }}
                     />
                     <Tooltip
                         contentStyle={{
-                            backgroundColor: '#ffffff',
-                            border: '1px solid #e5e7eb',
+                            backgroundColor: '#1e293b',
+                            border: '1px solid #334155',
                             borderRadius: '8px',
-                            color: '#1f2937',
-                            boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                            color: '#f1f5f9',
+                            boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.3)'
                         }}
-                        labelStyle={{ color: '#374151', marginBottom: '8px', fontWeight: '600' }}
+                        labelStyle={{ color: '#94a3b8', marginBottom: '8px', fontWeight: '600' }}
+                        formatter={(value: number | null) => value !== null ? [`Posición ${value}`, ''] : ['Sin datos', '']}
                     />
                     <Legend
                         wrapperStyle={{ paddingTop: '20px' }}
@@ -119,7 +176,7 @@ export default function RankingChart({ keywords, selectedKeywordIds, height = 40
                             dataKey={kw.term}
                             stroke={COLORS[index % COLORS.length]}
                             strokeWidth={2}
-                            dot={{ fill: COLORS[index % COLORS.length], r: 4 }}
+                            dot={{ fill: COLORS[index % COLORS.length], r: chartData.length > 60 ? 0 : 3 }}
                             activeDot={{ r: 6 }}
                             connectNulls
                         />
@@ -135,8 +192,8 @@ export default function RankingChart({ keywords, selectedKeywordIds, height = 40
                         if (positions.length === 0) return null;
 
                         const avgPosition = (positions.reduce((a, b) => a + b, 0) / positions.length).toFixed(1);
-                        const currentPosition = positions[positions.length - 1];
-                        const previousPosition = positions.length > 1 ? positions[positions.length - 2] : currentPosition;
+                        const currentPosition = positions[0]; // First is most recent (desc order)
+                        const previousPosition = positions.length > 1 ? positions[1] : currentPosition;
                         const change = previousPosition - currentPosition;
 
                         return (
@@ -150,12 +207,12 @@ export default function RankingChart({ keywords, selectedKeywordIds, height = 40
                                 </div>
                                 <div className="flex items-baseline gap-2">
                                     <span className="text-2xl font-bold text-white">{currentPosition}</span>
-                                    <span className="text-xs text-slate-300">posición actual</span>
+                                    <span className="text-xs text-slate-400">posición actual</span>
                                 </div>
                                 <div className="flex items-center gap-3 mt-2 text-xs">
-                                    <span className="text-slate-300">Promedio: {avgPosition}</span>
+                                    <span className="text-slate-400">Promedio: {avgPosition}</span>
                                     {change !== 0 && (
-                                        <span className={`flex items-center gap-1 font-semibold ${change > 0 ? 'text-emerald-600' : 'text-rose-500'}`}>
+                                        <span className={`flex items-center gap-1 font-semibold ${change > 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
                                             {change > 0 ? '↑' : '↓'} {Math.abs(change)}
                                         </span>
                                     )}
@@ -168,4 +225,3 @@ export default function RankingChart({ keywords, selectedKeywordIds, height = 40
         </div>
     );
 }
-
