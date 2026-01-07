@@ -101,3 +101,77 @@ export async function notifyNewTicket(email: string, ticketSubject: string, id: 
         `
     });
 }
+
+// ============== USER EMAIL NOTIFICATIONS ==============
+
+/**
+ * Email to user when their balance drops below €1
+ */
+export async function emailLowBalance(to: string, currentBalance: number) {
+    const dashboardUrl = `${process.env.NEXTAUTH_URL || 'https://keywordtracker.es'}/settings/billing`;
+    await sendEmail({
+        to,
+        subject: '⚠️ Tu saldo está bajo - KeywordTracker',
+        html: `
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background: #1e293b; color: white; border-radius: 12px;">
+                <h2 style="color: #fbbf24;">⚠️ Saldo bajo</h2>
+                <p>Tu saldo actual es <strong style="color: #f97316;">€${currentBalance.toFixed(2)}</strong>.</p>
+                <p>Recarga tu cuenta para seguir monitorizando tus keywords y recibir actualizaciones automáticas.</p>
+                <div style="margin: 30px 0;">
+                    <a href="${dashboardUrl}" style="background: linear-gradient(to right, #3b82f6, #6366f1); color: white; padding: 14px 28px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block;">Recargar Ahora</a>
+                </div>
+                <p style="color: #94a3b8; font-size: 12px;">KeywordTracker - Monitorización SEO al mejor precio</p>
+            </div>
+        `
+    });
+}
+
+/**
+ * Email to user when admin replies to their ticket
+ */
+export async function emailTicketReply(to: string, ticketSubject: string, ticketId: string) {
+    const ticketUrl = `${process.env.NEXTAUTH_URL || 'https://keywordtracker.es'}/support/${ticketId}`;
+    await sendEmail({
+        to,
+        subject: '💬 Respuesta a tu ticket - KeywordTracker',
+        html: `
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background: #1e293b; color: white; border-radius: 12px;">
+                <h2 style="color: #3b82f6;">💬 Nueva respuesta</h2>
+                <p>Hemos respondido a tu ticket:</p>
+                <p style="background: #334155; padding: 12px 16px; border-radius: 8px; margin: 16px 0;"><strong>"${ticketSubject}"</strong></p>
+                <div style="margin: 30px 0;">
+                    <a href="${ticketUrl}" style="background: #3b82f6; color: white; padding: 14px 28px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block;">Ver Respuesta</a>
+                </div>
+                <p style="color: #94a3b8; font-size: 12px;">KeywordTracker - Soporte</p>
+            </div>
+        `
+    });
+}
+
+/**
+ * Email to user when their keyword intelligence report is ready
+ */
+export async function emailReportReady(to: string, seedKeyword: string) {
+    const reportsUrl = `${process.env.NEXTAUTH_URL || 'https://keywordtracker.es'}/reports`;
+    await sendEmail({
+        to,
+        subject: '✨ Tu análisis está listo - KeywordTracker',
+        html: `
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background: #1e293b; color: white; border-radius: 12px;">
+                <h2 style="color: #10b981;">✨ Reporte completado</h2>
+                <p>Tu análisis de Keyword Intelligence para:</p>
+                <p style="background: linear-gradient(to right, #6366f1, #8b5cf6); padding: 12px 16px; border-radius: 8px; margin: 16px 0; font-size: 18px;"><strong>"${seedKeyword}"</strong></p>
+                <p>Ya está listo con:</p>
+                <ul style="color: #94a3b8;">
+                    <li>Keywords relacionadas con métricas</li>
+                    <li>Recomendaciones SEO personalizadas</li>
+                    <li>Estructura de contenido sugerida</li>
+                </ul>
+                <div style="margin: 30px 0;">
+                    <a href="${reportsUrl}" style="background: linear-gradient(to right, #10b981, #059669); color: white; padding: 14px 28px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block;">Ver Reporte</a>
+                </div>
+                <p style="color: #94a3b8; font-size: 12px;">KeywordTracker - Keyword Intelligence</p>
+            </div>
+        `
+    });
+}

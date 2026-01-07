@@ -83,7 +83,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
 
         // Notify user if admin replied
         if (isAdmin && ticket.userId !== session.user.id) {
-            notifyTicketReply(ticket.userId, ticket.subject);
+            notifyTicketReply(ticket.userId, ticket.subject, id);
         }
 
         return NextResponse.json({ message: newMessage });
