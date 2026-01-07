@@ -1,505 +1,173 @@
-'use client';
-
-import { useSession } from "next-auth/react";
-import Link from "next/link";
-import { PRICING } from "@/lib/pricing";
+import Link from 'next/link';
+import Image from 'next/image';
 
 export default function ComoFuncionaPage() {
-    const { data: session } = useSession();
-
-    const steps = [
-        {
-            number: "01",
-            title: "Crea tu proyecto",
-            description: "Añade tu dominio y configura el país de posicionamiento. En segundos tendrás tu proyecto listo para empezar a monitorizar.",
-            icon: (
-                <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                </svg>
-            )
-        },
-        {
-            number: "02",
-            title: "Añade tus keywords",
-            description: "Introduce las palabras clave que quieres monitorizar. Puedes añadirlas una a una o importar un listado completo.",
-            icon: (
-                <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                </svg>
-            )
-        },
-        {
-            number: "03",
-            title: "Consulta posiciones",
-            description: "Solicita actualizaciones de ranking cuando lo necesites. Solo pagas por las consultas que realices, sin suscripciones mensuales.",
-            icon: (
-                <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                </svg>
-            )
-        },
-        {
-            number: "04",
-            title: "Analiza y mejora",
-            description: "Visualiza el histórico de posiciones, identifica tendencias y descubre oportunidades para mejorar tu SEO.",
-            icon: (
-                <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                </svg>
-            )
-        }
-    ];
-
-    const features = [
-        {
-            title: "Pago por uso",
-            description: "Sin suscripciones. Recarga tu saldo cuando lo necesites y solo paga por lo que uses.",
-            icon: (
-                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-            )
-        },
-        {
-            title: "Datos en tiempo real",
-            description: "Rankings consultados directamente en Google. Datos 100% precisos y actualizados.",
-            icon: (
-                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-            )
-        },
-        {
-            title: "Histórico completo",
-            description: "Historial completo de posiciones para analizar tendencias y medir tu progreso SEO.",
-            icon: (
-                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-            )
-        },
-        {
-            title: "Análisis de competencia",
-            description: "Descubre qué URLs de la competencia posicionan por tus mismas keywords.",
-            icon: (
-                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                </svg>
-            )
-        },
-        {
-            title: "Múltiples países",
-            description: "Monitoriza rankings en todos los países hispanohablantes: España, México, Argentina, Colombia y más.",
-            icon: (
-                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-            )
-        },
-        {
-            title: "Auto-tracking programado",
-            description: "Actualizaciones automáticas diarias, cada 2 días o semanales para tus keywords.",
-            icon: (
-                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                </svg>
-            )
-        }
-    ];
-
-    // Pricing data from real pricing.ts
-    const pricingActions = [
-        {
-            name: "Ranking Standard",
-            price: PRICING.keyword_check_standard,
-            description: "Consulta en cola (2-5 min)",
-            icon: (
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-            ),
-            highlight: true
-        },
-        {
-            name: "Ranking Live",
-            price: PRICING.keyword_check_live,
-            description: "Resultado instantáneo",
-            icon: (
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-            )
-        },
-        {
-            name: "Volumen de búsqueda",
-            price: PRICING.search_volume,
-            description: "Datos mensuales de búsqueda",
-            icon: (
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                </svg>
-            )
-        },
-        {
-            name: "Keywords relacionadas",
-            price: PRICING.related_keywords,
-            description: "Análisis inteligente de keywords",
-            icon: (
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                </svg>
-            )
-        }
-    ];
-
     return (
         <div className="bg-slate-900 min-h-screen">
             {/* Hero Section */}
             <section className="relative py-20 overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900"></div>
-                <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="text-center max-w-3xl mx-auto">
-                        <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-500/20 text-blue-400 mb-6">
-                            Sin suscripciones • Pago por uso
-                        </span>
-                        <h1 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
-                            Monitoriza tus keywords de forma
-                            <span className="text-blue-500"> simple y económica</span>
-                        </h1>
-                        <p className="text-xl text-slate-300 mb-8 leading-relaxed">
-                            KeywordTracker te permite conocer la posición exacta de tu web en Google.
-                            Solo pagas por las consultas que realizas, sin costes fijos ni compromisos.
-                        </p>
-                        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                            {session ? (
-                                <Link
-                                    href="/dashboard"
-                                    className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-xl transition-all shadow-lg shadow-blue-500/30"
-                                >
-                                    Ir al Dashboard
-                                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                                    </svg>
-                                </Link>
-                            ) : (
-                                <>
-                                    <Link
-                                        href="/register"
-                                        className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-xl transition-all shadow-lg shadow-blue-500/30"
-                                    >
-                                        Empezar gratis
-                                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                                        </svg>
-                                    </Link>
-                                    <Link
-                                        href="/login"
-                                        className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-slate-700 hover:bg-slate-600 text-white font-semibold rounded-xl transition-all border border-slate-500"
-                                    >
-                                        Iniciar sesión
-                                    </Link>
-                                </>
-                            )}
-                        </div>
-                        <p className="mt-4 text-sm text-slate-400">
-                            🎁 1€ de crédito gratis para nuevos usuarios
-                        </p>
-                    </div>
-                </div>
-            </section>
-
-            {/* How it works */}
-            <section className="py-20 bg-slate-800">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="text-center mb-16">
-                        <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                            Cómo funciona
-                        </h2>
-                        <p className="text-lg text-slate-300 max-w-2xl mx-auto">
-                            En 4 sencillos pasos tendrás control total sobre tus posiciones en Google
-                        </p>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                        {steps.map((step, index) => (
-                            <div key={index} className="relative">
-                                {index < steps.length - 1 && (
-                                    <div className="hidden lg:block absolute top-12 left-full w-full h-0.5 bg-gradient-to-r from-blue-500/30 to-transparent -translate-x-8"></div>
-                                )}
-                                <div className="bg-slate-900 rounded-2xl p-8 h-full hover:shadow-lg transition-shadow text-center">
-                                    <div className="w-16 h-16 rounded-2xl bg-blue-500/20 text-blue-400 flex items-center justify-center mb-6 mx-auto">
-                                        {step.icon}
-                                    </div>
-                                    <span className="text-sm font-bold text-blue-500 mb-2 block">{step.number}</span>
-                                    <h3 className="text-xl font-bold text-white mb-3">{step.title}</h3>
-                                    <p className="text-slate-300">{step.description}</p>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* Features */}
-            <section className="py-20 bg-slate-900">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="text-center mb-16">
-                        <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                            Todo lo que necesitas
-                        </h2>
-                        <p className="text-lg text-slate-300 max-w-2xl mx-auto">
-                            Herramientas profesionales de SEO sin la complejidad ni el precio de las grandes plataformas
-                        </p>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {features.map((feature, index) => (
-                            <div key={index} className="bg-slate-800 rounded-xl p-6 border border-slate-700 hover:shadow-lg transition-all hover:-translate-y-1 text-center">
-                                <div className="w-12 h-12 rounded-xl bg-blue-500/20 text-blue-500 flex items-center justify-center mb-4 mx-auto">
-                                    {feature.icon}
-                                </div>
-                                <h3 className="text-lg font-bold text-white mb-2">{feature.title}</h3>
-                                <p className="text-slate-300">{feature.description}</p>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* Pricing - Updated with real prices */}
-            <section className="py-20 bg-slate-800" id="precios">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="text-center mb-16">
-                        <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                            Precios transparentes
-                        </h2>
-                        <p className="text-lg text-slate-300 max-w-2xl mx-auto">
-                            Sin suscripciones ni costes ocultos. Recarga tu saldo y paga solo por lo que uses.
-                        </p>
-                    </div>
-
-                    <div className="max-w-4xl mx-auto">
-                        {/* Price cards */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
-                            {pricingActions.map((action, index) => (
-                                <div
-                                    key={index}
-                                    className={`rounded-2xl p-6 border-2 transition-all hover:shadow-lg ${action.highlight
-                                        ? 'border-blue-500 bg-blue-500/20/50'
-                                        : 'border-slate-600 bg-slate-800'
-                                        }`}
-                                >
-                                    <div className="flex items-start justify-between mb-4">
-                                        <div className="flex items-center gap-3">
-                                            <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${action.highlight ? 'bg-blue-500 text-white' : 'bg-slate-700 text-slate-300'
-                                                }`}>
-                                                {action.icon}
-                                            </div>
-                                            <div>
-                                                <h3 className="font-bold text-white">{action.name}</h3>
-                                                <p className="text-sm text-slate-400">{action.description}</p>
-                                            </div>
-                                        </div>
-                                        {action.highlight && (
-                                            <span className="px-2 py-1 bg-blue-500 text-white text-xs font-semibold rounded-full">
-                                                Popular
-                                            </span>
-                                        )}
-                                    </div>
-                                    <div className="flex items-baseline gap-1">
-                                        <span className="text-3xl font-bold text-white">
-                                            {action.price.toFixed(2).replace('.', ',')}€
-                                        </span>
-                                        <span className="text-slate-400">/ consulta</span>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-
-                        {/* Value proposition box */}
-                        <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-3xl p-8 md:p-12 text-white text-center">
-                            <h3 className="text-2xl md:text-3xl font-bold mb-4">
-                                💡 ¿Cuánto puedes hacer con 1€?
-                            </h3>
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                                <div className="bg-slate-800/10 backdrop-blur rounded-xl p-4">
-                                    <p className="text-4xl font-bold mb-1">50</p>
-                                    <p className="text-blue-100 text-sm">Consultas de ranking Standard</p>
-                                </div>
-                                <div className="bg-slate-800/10 backdrop-blur rounded-xl p-4">
-                                    <p className="text-4xl font-bold mb-1">20</p>
-                                    <p className="text-blue-100 text-sm">Consultas Live instantáneas</p>
-                                </div>
-                                <div className="bg-slate-800/10 backdrop-blur rounded-xl p-4">
-                                    <p className="text-4xl font-bold mb-1">33</p>
-                                    <p className="text-blue-100 text-sm">Consultas de volumen</p>
-                                </div>
-                            </div>
-                            <p className="text-blue-100 mb-6">
-                                Los nuevos usuarios reciben <strong className="text-white">1€ gratis</strong> para probar todas las funcionalidades
-                            </p>
-                            {!session && (
-                                <Link
-                                    href="/register"
-                                    className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-slate-800 hover:bg-slate-900 text-blue-400 font-semibold rounded-xl transition-all shadow-lg"
-                                >
-                                    Crear cuenta gratis
-                                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                                    </svg>
-                                </Link>
-                            )}
-                        </div>
-
-                        {/* Additional pricing info */}
-                        <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div className="bg-slate-900 rounded-xl p-6">
-                                <h4 className="font-bold text-white mb-3 flex items-center gap-2">
-                                    <svg className="w-5 h-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                    Sin caducidad
-                                </h4>
-                                <p className="text-slate-300 text-sm">
-                                    Tu saldo nunca caduca. Recarga cuando quieras y úsalo a tu ritmo, sin presiones ni fechas límite.
-                                </p>
-                            </div>
-                            <div className="bg-slate-900 rounded-xl p-6">
-                                <h4 className="font-bold text-white mb-3 flex items-center gap-2">
-                                    <svg className="w-5 h-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                    Sin límites
-                                </h4>
-                                <p className="text-slate-300 text-sm">
-                                    Crea todos los proyectos y keywords que necesites. Solo pagas cuando consultas las posiciones.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* FAQ */}
-            <section className="py-20 bg-slate-900">
-                <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="text-center mb-12">
-                        <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                            Preguntas frecuentes
-                        </h2>
-                    </div>
-
-                    <div className="space-y-4">
-                        <details className="bg-slate-800 rounded-xl p-6 border border-slate-700 group">
-                            <summary className="flex items-center justify-between cursor-pointer text-lg font-semibold text-white">
-                                ¿Qué diferencia hay entre Standard y Live?
-                                <svg className="w-5 h-5 text-slate-500 group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                </svg>
-                            </summary>
-                            <p className="mt-4 text-slate-300">
-                                <strong>Standard (0,05€)</strong> procesa tu consulta en cola, con un tiempo de espera de 2-5 minutos. Ideal para actualizar muchas keywords.
-                                <br /><br />
-                                <strong>Live (0,09€)</strong> te da el resultado al instante. Perfecto cuando necesitas saber la posición en ese momento.
-                            </p>
-                        </details>
-
-                        <details className="bg-slate-800 rounded-xl p-6 border border-slate-700 group">
-                            <summary className="flex items-center justify-between cursor-pointer text-lg font-semibold text-white">
-                                ¿De dónde se obtienen los rankings?
-                                <svg className="w-5 h-5 text-slate-500 group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                </svg>
-                            </summary>
-                            <p className="mt-4 text-slate-300">
-                                Nuestros bots de rastreo consultan las posiciones directamente en Google en tiempo real. Esto garantiza que los datos sean 100% precisos y actualizados al momento de la consulta.
-                            </p>
-                        </details>
-
-                        <details className="bg-slate-800 rounded-xl p-6 border border-slate-700 group">
-                            <summary className="flex items-center justify-between cursor-pointer text-lg font-semibold text-white">
-                                ¿Puedo monitorizar cualquier país?
-                                <svg className="w-5 h-5 text-slate-500 group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                </svg>
-                            </summary>
-                            <p className="mt-4 text-slate-300">
-                                Sí, soportamos rankings en todos los países hispanohablantes: España, México, Argentina, Colombia, Chile, Perú, Venezuela, Ecuador, Guatemala, Bolivia, República Dominicana, Honduras, Paraguay, El Salvador, Nicaragua, Costa Rica, Panamá, Uruguay, Puerto Rico y Cuba.
-                            </p>
-                        </details>
-
-                        <details className="bg-slate-800 rounded-xl p-6 border border-slate-700 group">
-                            <summary className="flex items-center justify-between cursor-pointer text-lg font-semibold text-white">
-                                ¿Qué incluye el análisis de keywords relacionadas?
-                                <svg className="w-5 h-5 text-slate-500 group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                </svg>
-                            </summary>
-                            <p className="mt-4 text-slate-300">
-                                Por 0,15€ obtienes keywords relacionadas con volumen de búsqueda, dificultad SEO, CPC y un <strong>análisis inteligente</strong> que te recomienda qué keywords atacar y cómo optimizar tus páginas existentes.
-                            </p>
-                        </details>
-
-                        <details className="bg-slate-800 rounded-xl p-6 border border-slate-700 group">
-                            <summary className="flex items-center justify-between cursor-pointer text-lg font-semibold text-white">
-                                ¿Hay límite de keywords o proyectos?
-                                <svg className="w-5 h-5 text-slate-500 group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                </svg>
-                            </summary>
-                            <p className="mt-4 text-slate-300">
-                                Puedes crear tantos proyectos y keywords como necesites. Solo pagas cuando actualizas las posiciones.
-                            </p>
-                        </details>
-
-                        <details className="bg-slate-800 rounded-xl p-6 border border-slate-700 group">
-                            <summary className="flex items-center justify-between cursor-pointer text-lg font-semibold text-white">
-                                ¿Cómo funciona el auto-tracking?
-                                <svg className="w-5 h-5 text-slate-500 group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                </svg>
-                            </summary>
-                            <p className="mt-4 text-slate-300">
-                                Puedes configurar cada keyword para que se actualice automáticamente cada día, cada 2 días o cada semana. El coste por consulta automática es el mismo que el Standard (<strong>0,05€</strong>).
-                            </p>
-                        </details>
-                    </div>
-                </div>
-            </section>
-
-            {/* CTA */}
-            <section className="py-20 bg-gradient-to-br from-blue-500 to-blue-600">
-                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                    <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-                        ¿Listo para empezar?
-                    </h2>
-                    <p className="text-xl text-blue-100 mb-8">
-                        Crea tu cuenta gratis y recibe 1€ de crédito para probar la plataforma
+                <div className="absolute inset-0 bg-blue-600/5 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-900/40 via-slate-900/0 to-slate-900/0"></div>
+                <div className="max-w-7xl mx-auto px-6 relative z-10 text-center">
+                    <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
+                        Domina el SEO en <span className="text-blue-500">4 Pasos Sencillos</span>
+                    </h1>
+                    <p className="text-xl text-slate-400 max-w-2xl mx-auto">
+                        KeywordTracker simplifica el seguimiento de tus posiciones en Google. Sin curvas de aprendizaje complejas.
                     </p>
-                    {session ? (
-                        <Link
-                            href="/dashboard"
-                            className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-slate-800 hover:bg-slate-900 text-blue-400 font-semibold rounded-xl transition-all shadow-lg"
-                        >
-                            Ir al Dashboard
-                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                            </svg>
-                        </Link>
-                    ) : (
-                        <Link
-                            href="/register"
-                            className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-slate-800 hover:bg-slate-900 text-blue-400 font-semibold rounded-xl transition-all shadow-lg"
-                        >
-                            Crear cuenta gratis
-                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                            </svg>
-                        </Link>
-                    )}
+                </div>
+            </section>
+
+            {/* Steps Container */}
+            <div className="max-w-7xl mx-auto px-6 py-12 space-y-24">
+
+                {/* Step 1: Create Project */}
+                <div className="grid md:grid-cols-2 gap-12 items-center">
+                    <div className="order-2 md:order-1 relative group">
+                        <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
+                        <div className="relative rounded-2xl overflow-hidden border border-slate-700 shadow-2xl">
+                            <img
+                                src="c:/Users/Alberto/.gemini/antigravity/brain/d2feeb63-c7d4-4ff5-881e-4ab1f4eccd2d/howitworks_create_project_1767789623066.png"
+                                alt="Crear Proyecto"
+                                className="w-full h-auto object-cover"
+                            />
+                        </div>
+                    </div>
+                    <div className="order-1 md:order-2 space-y-6">
+                        <div className="w-12 h-12 bg-blue-500/20 text-blue-400 rounded-xl flex items-center justify-center font-bold text-xl border border-blue-500/30">1</div>
+                        <h2 className="text-3xl font-bold text-white">Crea tu Proyecto</h2>
+                        <p className="text-slate-400 text-lg leading-relaxed">
+                            El primer paso es definir qué dominio quieres monitorizar. Simplemente introduce la URL de tu web (ej. <code>tiendaonline.com</code>) y selecciona el idioma/país objetivo.
+                        </p>
+                        <ul className="space-y-3 text-slate-300">
+                            <li className="flex items-center gap-3">
+                                <svg className="w-5 h-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+                                Soporte para Google local (ES, US, UK, etc.)
+                            </li>
+                            <li className="flex items-center gap-3">
+                                <svg className="w-5 h-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+                                Configuración en segundos
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                {/* Step 2: Add Keywords */}
+                <div className="grid md:grid-cols-2 gap-12 items-center">
+                    <div className="space-y-6">
+                        <div className="w-12 h-12 bg-purple-500/20 text-purple-400 rounded-xl flex items-center justify-center font-bold text-xl border border-purple-500/30">2</div>
+                        <h2 className="text-3xl font-bold text-white">Añade tus Palabras Clave</h2>
+                        <p className="text-slate-400 text-lg leading-relaxed">
+                            Dinos por qué términos quieres que te encuentren tus clientes. Puedes añadirlas manualmente una a una o pegar una lista completa.
+                        </p>
+                        <div className="bg-slate-800 p-4 rounded-lg border border-slate-700">
+                            <p className="text-sm text-slate-400 mb-2">💡 <strong>Consejo Pro:</strong></p>
+                            <p className="text-slate-300 text-sm">Usa términos específicos ("zapatillas running baratas") en lugar de genéricos ("zapatillas") para obtener resultados más rápidos.</p>
+                        </div>
+                    </div>
+                    <div className="relative group">
+                        <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
+                        <div className="relative rounded-2xl overflow-hidden border border-slate-700 shadow-2xl">
+                            <img
+                                src="c:/Users/Alberto/.gemini/antigravity/brain/d2feeb63-c7d4-4ff5-881e-4ab1f4eccd2d/howitworks_add_keyword_1767789642836.png"
+                                alt="Añadir Keyword"
+                                className="w-full h-auto object-cover"
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                {/* Step 3: Analyze Dashboard */}
+                <div className="grid md:grid-cols-2 gap-12 items-center">
+                    <div className="order-2 md:order-1 relative group">
+                        <div className="absolute -inset-1 bg-gradient-to-r from-emerald-600 to-teal-600 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
+                        <div className="relative rounded-2xl overflow-hidden border border-slate-700 shadow-2xl">
+                            <img
+                                src="c:/Users/Alberto/.gemini/antigravity/brain/d2feeb63-c7d4-4ff5-881e-4ab1f4eccd2d/howitworks_dashboard_1767789663959.png"
+                                alt="Dashboard Análisis"
+                                className="w-full h-auto object-cover"
+                            />
+                        </div>
+                    </div>
+                    <div className="order-1 md:order-2 space-y-6">
+                        <div className="w-12 h-12 bg-emerald-500/20 text-emerald-400 rounded-xl flex items-center justify-center font-bold text-xl border border-emerald-500/30">3</div>
+                        <h2 className="text-3xl font-bold text-white">Analiza tus Posiciones</h2>
+                        <p className="text-slate-400 text-lg leading-relaxed">
+                            Accede a tu Dashboard para ver en tiempo real dónde apareces en Google. Los datos se actualizan automáticamente para que sepas si subes o bajas.
+                        </p>
+                        <ul className="space-y-3 text-slate-300">
+                            <li className="flex items-center gap-3">
+                                <span className="text-green-400 font-bold">TOP 1-3</span>
+                                Tus mejores posiciones destacadas
+                            </li>
+                            <li className="flex items-center gap-3">
+                                <span className="text-blue-400 font-bold">Tendencias</span>
+                                Gráficos visuales de tu progreso
+                            </li>
+                            <li className="flex items-center gap-3">
+                                <span className="text-slate-400 font-bold">Volumen</span>
+                                Cuánta gente busca esa palabra al mes
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                {/* Step 4: Tracking & Reports */}
+                <div className="grid md:grid-cols-2 gap-12 items-center">
+                    <div className="space-y-6">
+                        <div className="w-12 h-12 bg-amber-500/20 text-amber-400 rounded-xl flex items-center justify-center font-bold text-xl border border-amber-500/30">4</div>
+                        <h2 className="text-3xl font-bold text-white">Autotracking y Seguridad</h2>
+                        <p className="text-slate-400 text-lg leading-relaxed">
+                            Olvídate de revisar manualmente. Nuestro sistema realiza comprobaciones periódicas y te mantenemos en control de tu presupuesto. Pagas solo por lo que usas.
+                        </p>
+                        <div className="flex gap-4">
+                            <Link href="/register" className="px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-xl shadow-lg shadow-blue-500/20 transition-all">
+                                Empezar Ahora
+                            </Link>
+                            <Link href="/pricing" className="px-6 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium rounded-xl border border-slate-700 transition-all">
+                                Ver Precios
+                            </Link>
+                        </div>
+                    </div>
+                    <div className="relative group">
+                        <div className="absolute -inset-1 bg-gradient-to-r from-amber-600 to-orange-600 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
+                        <div className="relative rounded-2xl overflow-hidden border border-slate-700 shadow-2xl">
+                            <img
+                                src="c:/Users/Alberto/.gemini/antigravity/brain/d2feeb63-c7d4-4ff5-881e-4ab1f4eccd2d/howitworks_report_1767789690321.png"
+                                alt="Reportes Automatizados"
+                                className="w-full h-auto object-cover"
+                            />
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            {/* FAQ Section */}
+            <section className="bg-slate-800/50 py-20 mt-20 border-t border-slate-800">
+                <div className="max-w-4xl mx-auto px-6">
+                    <h2 className="text-3xl font-bold text-white text-center mb-12">Preguntas Frecuentes</h2>
+                    <div className="space-y-6">
+                        <div className="bg-slate-900 border border-slate-700 rounded-xl p-6">
+                            <h3 className="font-semibold text-lg text-white mb-2">¿Cómo funciona el sistema de créditos?</h3>
+                            <p className="text-slate-400">
+                                Es muy simple: 1 Keyword = 1 Crédito por actualización. Si monitorizas 10 palabras clave todos los días, consumirás 10 créditos diarios. Sin cuotas mensuales fijas obligatorias.
+                            </p>
+                        </div>
+                        <div className="bg-slate-900 border border-slate-700 rounded-xl p-6">
+                            <h3 className="font-semibold text-lg text-white mb-2">¿Puedo monitorizar a mi competencia?</h3>
+                            <p className="text-slate-400">
+                                ¡Sí! Puedes crear proyectos separados para tus competidores y ver exactamente por qué palabras clave están posicionando mejor que tú.
+                            </p>
+                        </div>
+                        <div className="bg-slate-900 border border-slate-700 rounded-xl p-6">
+                            <h3 className="font-semibold text-lg text-white mb-2">¿Son los datos fiables?</h3>
+                            <p className="text-slate-400">
+                                Usamos fuentes de datos de nivel empresarial que simulan búsquedas reales en Google desde la ubicación específica que elijas, garantizando una precisión del 99.9%.
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </section>
         </div>
     );
 }
-

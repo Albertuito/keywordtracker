@@ -13,6 +13,10 @@ export const metadata: Metadata = {
     description: "Track your keyword rankings with real-time data from Google | keywordtracker.es",
 };
 
+import Script from "next/script";
+
+// ... existing imports ...
+
 export default function RootLayout({
     children,
 }: Readonly<{
@@ -21,15 +25,35 @@ export default function RootLayout({
     return (
         <html lang="es">
             <body className={`${inter.className} bg-slate-900 text-white`}>
+                {/* Google Analytics 4 */}
+                <Script
+                    src="https://www.googletagmanager.com/gtag/js?id=G-KMJQX5BLEB"
+                    strategy="afterInteractive"
+                />
+                <Script id="google-analytics" strategy="afterInteractive">
+                    {`
+                        window.dataLayer = window.dataLayer || [];
+                        function gtag(){dataLayer.push(arguments);}
+                        gtag('js', new Date());
+
+                        gtag('config', 'G-KMJQX5BLEB');
+                    `}
+                </Script>
+
                 <AuthProvider>
                     <div className="min-h-screen flex flex-col">
                         <Header />
+                        import CookieBanner from "@/components/CookieBanner";
+
+                        // ...
+
                         <main className="flex-1 w-full">
                             {children}
                         </main>
                         <Footer />
                     </div>
                 </AuthProvider>
+                <CookieBanner />
                 <Toaster position="top-right" richColors />
             </body>
         </html>
