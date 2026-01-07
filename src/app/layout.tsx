@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import AuthProvider from "./providers";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import CookieBanner from "@/components/CookieBanner";
 import { Toaster } from 'sonner';
 
 const inter = Inter({ subsets: ["latin"] });
@@ -12,10 +14,6 @@ export const metadata: Metadata = {
     title: "KeywordTracker - Monitoriza tus Rankings en Google",
     description: "Track your keyword rankings with real-time data from Google | keywordtracker.es",
 };
-
-import Script from "next/script";
-
-// ... existing imports ...
 
 export default function RootLayout({
     children,
@@ -43,10 +41,6 @@ export default function RootLayout({
                 <AuthProvider>
                     <div className="min-h-screen flex flex-col">
                         <Header />
-                        import CookieBanner from "@/components/CookieBanner";
-
-                        // ...
-
                         <main className="flex-1 w-full">
                             {children}
                         </main>
@@ -59,4 +53,3 @@ export default function RootLayout({
         </html>
     );
 }
-
