@@ -13,6 +13,10 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
     title: "KeywordTracker - Monitoriza tus Rankings en Google",
     description: "Track your keyword rankings with real-time data from Google | keywordtracker.es",
+    icons: {
+        icon: "/favicon.png",
+        apple: "/favicon.png",
+    },
 };
 
 export default function RootLayout({
