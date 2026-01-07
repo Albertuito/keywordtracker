@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
+import PayPalButton from './PayPalButton';
 
 interface RechargeModalProps {
     isOpen: boolean;
@@ -12,6 +13,7 @@ export default function RechargeModal({ isOpen, onClose }: RechargeModalProps) {
     const [amount, setAmount] = useState<number>(10);
     const [loading, setLoading] = useState(false);
     const [mounted, setMounted] = useState(false);
+    const [paymentMethod, setPaymentMethod] = useState<'stripe' | 'paypal'>('stripe');
 
     useEffect(() => {
         setMounted(true);
@@ -102,20 +104,49 @@ export default function RechargeModal({ isOpen, onClose }: RechargeModalProps) {
                         ))}
                     </div>
 
-                    <button
-                        onClick={handlePurchase}
-                        disabled={loading}
-                        className="w-full bg-green-500 hover:bg-green-600 text-white py-4 rounded-xl font-bold text-lg shadow-lg shadow-green-500/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-                    >
-                        {loading ? (
-                            <>
-                                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                                <span>Procesando...</span>
-                            </>
-                        ) : (
-                            <span>Pagar {amount}€ con Stripe</span>
-                        )}
-                    </button>
+                    {/* Payment Method Selector */}
+                    <div className="flex bg-slate-900 p-1 rounded-xl mb-6">
+                        <button
+                            onClick={() => setPaymentMethod('stripe')}
+                            className={`flex-1 py-2 text-sm font-medium rounded-lg transition-all ${paymentMethod === 'stripe' ? 'bg-slate-700 text-white shadow' : 'text-slate-400 hover:text-slate-300'}`}
+                        >
+                            Tarjeta (Stripe)
+                        </button>
+                        <button
+                            onClick={() => setPaymentMethod('paypal')}
+                            className={`flex-1 py-2 text-sm font-medium rounded-lg transition-all ${paymentMethod === 'paypal' ? 'bg-slate-700 text-white shadow' : 'text-slate-400 hover:text-slate-300'}`}
+                        >
+                            PayPal
+                        </button>
+                    </div>
+
+                    {paymentMethod === 'stripe' ? (
+                        <button
+                            onClick={handlePurchase}
+                            disabled={loading}
+                            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-xl font-bold text-lg shadow-lg shadow-blue-500/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                        >
+                            {loading ? (
+                                <>
+                                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                                    <span>Procesando...</span>
+                                </>
+                            ) : (
+                                <span>Pagar {amount}€ con Tarjeta</span>
+                            )}
+                        </button>
+                    ) : (
+                        <div className="w-full min-h-[50px]">
+                            {/* PayPal Button */}
+                            <PayPalButton
+                                amount={amount}
+                                onSuccess={() => {
+                                    onClose();
+                                    // Optionally trigger a balance refresh context or toast
+                                }}
+                            />
+                        </div>
+                    )}
 
                     <div className="flex items-center justify-center gap-3 text-xs text-slate-500">
                         <span className="flex items-center gap-1">
