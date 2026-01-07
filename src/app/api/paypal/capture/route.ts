@@ -40,8 +40,10 @@ export async function POST(req: Request) {
         const capture = await client.execute(request);
 
         // 2. Verify Success
-        if (capture.result.status !== "COMPLETED") {
-            console.error(`[PayPal] Capture failed: ${capture.result.status}`);
+        const result = capture.result as any;
+
+        if (result.status !== "COMPLETED") {
+            console.error(`[PayPal] Capture failed: ${result.status}`);
             return NextResponse.json({ error: "Payment not completed" }, { status: 400 });
         }
 
@@ -50,7 +52,7 @@ export async function POST(req: Request) {
         // 3. Get Amount
         // PayPal returns amount in capture.result.purchase_units[0].payments.captures[0].amount.value
         // But safely we can check the top level purchase_units if we used intent=CAPTURE
-        const purchaseUnit = capture.result.purchase_units[0];
+        const purchaseUnit = result.purchase_units[0];
         const captureDetails = purchaseUnit.payments.captures[0];
         const amountStr = captureDetails.amount.value;
         const currency = captureDetails.amount.currency_code;
