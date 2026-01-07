@@ -7,6 +7,10 @@ import { PRICING } from '@/lib/pricing';
 type PricingKey = keyof typeof PRICING;
 
 const PRICING_LABELS: Record<PricingKey, { label: string; description: string }> = {
+    keyword_check_daily: {
+        label: 'Check Diario (Auto)',
+        description: 'Verificación automática diaria (mejor precio)'
+    },
     keyword_check_standard: {
         label: 'Check Standard (Cola)',
         description: 'Verificación de posición en cola (~5min)'
