@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 import { stripe } from '@/lib/stripe';
 import { addCredits } from '@/lib/balance';
 import Stripe from 'stripe';
+import { notifyNewRecharge } from '@/lib/email';
 
 export const dynamic = 'force-dynamic';
 
@@ -48,6 +49,9 @@ export async function POST(req: Request) {
 
             if (result.success) {
                 console.log(`✅ Successfully added €${credits} to user ${userId}`);
+                // Notify Admin
+                const userEmail = session.customer_details?.email || `user-${userId}@unknown.com`;
+                notifyNewRecharge(userEmail, credits, 'Stripe').catch(err => console.error("Email notification failed", err));
             } else {
                 console.error(`❌ Failed to add credits to user ${userId}`);
                 return new NextResponse('Database Error', { status: 500 });

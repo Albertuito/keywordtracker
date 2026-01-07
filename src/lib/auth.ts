@@ -76,10 +76,10 @@ export const authOptions: AuthOptions = {
                 const isValid = await bcrypt.compare(creds.password, user.password);
                 if (!isValid) throw new Error("Contraseña incorrecta");
 
-                // 4. Check Verification (Bypass for Admin/Dev)
-                if (!user.emailVerified && user.email !== 'infoinfolinfo@gmail.com') {
-                    throw new Error("Debes verificar tu email antes de entrar.");
-                }
+                // 4. Check Verification (Optional now)
+                // if (!user.emailVerified && user.email !== 'martinalbertoblog@gmail.com') {
+                //     throw new Error("Debes verificar tu email antes de entrar.");
+                // }
 
                 // Update Login Stats
                 await prisma.user.update({

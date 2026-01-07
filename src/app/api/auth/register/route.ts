@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcryptjs';
+import crypto from 'crypto';
+import { sendVerificationEmail, notifyNewUser } from '@/lib/email';
 
 const prisma = new PrismaClient();
 
@@ -42,6 +44,9 @@ export async function POST(req: Request) {
         // 3. Hash password
         const hashedPassword = await bcrypt.hash(password, 10);
 
+        // Generate Verification Token
+        const verificationToken = crypto.randomUUID();
+
         // 4. Create User
         const user = await prisma.user.create({
             data: {
@@ -50,18 +55,31 @@ export async function POST(req: Request) {
                 password: hashedPassword,
                 companyName: companyName || null,
                 role: 'USER',
-                plan: 'PREPAID', // Default plan
-                emailVerified: new Date(), // Auto-verify email for now to bypass check
+                plan: 'PREPAID',
+                // emailVerified: new Date(), // <-- Removed auto-verification
+                verificationToken: verificationToken, // Save token
+
                 // Initialize balance entry automatically
                 balance: {
                     create: {
-                        balance: 1.00, // Welcome bonus 1€
+                        balance: 1.00,
                         totalRecharged: 0,
                         totalSpent: 0
                     }
                 }
             },
         });
+
+        // 5. Send Emails (Non-blocking)
+        try {
+            await Promise.all([
+                sendVerificationEmail(email, verificationToken),
+                notifyNewUser(email, userName)
+            ]);
+        } catch (emailError) {
+            console.error("Failed to send welcome emails:", emailError);
+            // Continue execution, don't fail registration
+        }
 
         // Remove password from response
         const { password: _, ...userWithoutPassword } = user;

@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import prisma from '@/lib/prisma';
+import { notifyNewTicket } from '@/lib/email';
 
 export async function GET(req: Request) {
     const session = await getServerSession(authOptions);
@@ -60,6 +61,12 @@ export async function POST(req: Request) {
                 messages: true
             }
         });
+
+        // Notify Admin
+        if (session.user.email) {
+            // Non-blocking notification
+            notifyNewTicket(session.user.email, subject, ticket.id).catch(err => console.error("Email notification failed", err));
+        }
 
         return NextResponse.json({ ticket });
     } catch (error) {

@@ -13,6 +13,7 @@ model User {
   name          String?
   email         String?   @unique
   emailVerified DateTime?
+  verificationToken String?
   image         String?
   password      String?
   role          String    @default("USER") // USER, ADMIN
