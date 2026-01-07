@@ -947,33 +947,33 @@ function ProjectContent() {
 
                             {/* Mode Selection */}
                             <div className="flex flex-col gap-3 mb-6">
-                                <label className={`flex items-center justify-between p-3 rounded-lg border cursor-pointer transition-all ${updateMode === 'queue' ? 'bg-blue-500/20 border-blue-500 ring-1 ring-blue-500' : 'bg-slate-800 border-slate-600 hover:border-slate-500'}`} onClick={() => setUpdateMode('queue')}>
+                                <label className={`flex items-center justify-between p-4 rounded-xl border cursor-pointer transition-all ${updateMode === 'queue' ? 'bg-blue-500/10 border-blue-500 ring-2 ring-blue-500/50' : 'bg-slate-800 border-slate-600 hover:border-slate-500'}`} onClick={() => setUpdateMode('queue')}>
                                     <div className="flex items-center gap-3">
-                                        <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${updateMode === 'queue' ? 'border-blue-500 bg-blue-500' : 'border-gray-400'}`}>
-                                            {updateMode === 'queue' && <div className="w-1.5 h-1.5 bg-slate-800 rounded-full" />}
+                                        <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${updateMode === 'queue' ? 'border-blue-500 bg-blue-500' : 'border-slate-500'}`}>
+                                            {updateMode === 'queue' && <div className="w-2 h-2 bg-white rounded-full" />}
                                         </div>
                                         <div>
-                                            <div className="font-medium text-white">Estándar (Cola)</div>
-                                            <div className="text-xs text-slate-400">Resultados en ~2-5 minutos</div>
+                                            <div className="font-semibold text-white">Estándar (Cola)</div>
+                                            <div className="text-xs text-slate-400">Resultados en ~3-15 minutos</div>
                                         </div>
                                     </div>
-                                    <div className="font-mono text-sm text-slate-200">€{PRICING.keyword_check_standard.toFixed(2)}/kw</div>
+                                    <div className="font-mono text-sm text-blue-400 font-bold">€{PRICING.keyword_check_standard.toFixed(2)}/kw</div>
                                 </label>
 
-                                <label className={`flex items-center justify-between p-3 rounded-lg border cursor-pointer transition-all ${updateMode === 'live' ? 'bg-indigo-500/20 border-indigo-500 ring-1 ring-indigo-500' : 'bg-slate-800 border-slate-600 hover:border-slate-500'}`} onClick={() => setUpdateMode('live')}>
+                                <label className={`flex items-center justify-between p-4 rounded-xl border cursor-pointer transition-all ${updateMode === 'live' ? 'bg-amber-500/10 border-amber-500 ring-2 ring-amber-500/50' : 'bg-slate-800 border-slate-600 hover:border-slate-500'}`} onClick={() => setUpdateMode('live')}>
                                     <div className="flex items-center gap-3">
-                                        <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${updateMode === 'live' ? 'border-indigo-500 bg-indigo-500' : 'border-gray-400'}`}>
-                                            {updateMode === 'live' && <div className="w-1.5 h-1.5 bg-slate-800 rounded-full" />}
+                                        <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${updateMode === 'live' ? 'border-amber-500 bg-amber-500' : 'border-slate-500'}`}>
+                                            {updateMode === 'live' && <div className="w-2 h-2 bg-white rounded-full" />}
                                         </div>
                                         <div>
-                                            <div className="font-medium text-indigo-900 flex items-center gap-2">
+                                            <div className="font-semibold text-white flex items-center gap-2">
                                                 Modo Rápido (Live)
-                                                <span className="px-1.5 py-0.5 bg-indigo-500/20 text-indigo-400 text-[10px] rounded-full uppercase tracking-wider font-bold">⚡ Rápido</span>
+                                                <span className="px-2 py-0.5 bg-amber-500 text-slate-900 text-[10px] rounded-full uppercase tracking-wider font-bold">⚡ Rápido</span>
                                             </div>
-                                            <div className="text-xs text-indigo-600">Actualización en tiempo real</div>
+                                            <div className="text-xs text-slate-400">Resultados en ~1 minuto</div>
                                         </div>
                                     </div>
-                                    <div className="font-mono text-sm text-indigo-400 font-bold">€{PRICING.keyword_check_live.toFixed(2)}/kw</div>
+                                    <div className="font-mono text-sm text-amber-400 font-bold">€{PRICING.keyword_check_live.toFixed(2)}/kw</div>
                                 </label>
                             </div>
 
