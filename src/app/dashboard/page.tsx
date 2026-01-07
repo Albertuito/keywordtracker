@@ -197,7 +197,8 @@ export default function Dashboard() {
                 <div className="bg-slate-800 rounded-xl border border-slate-700 overflow-hidden">
                     {/* Table Header */}
                     <div className="hidden md:grid grid-cols-12 gap-4 px-6 py-4 bg-slate-900 border-b border-slate-700">
-                        <div className="col-span-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">Proyecto</div>
+                        <div className="col-span-3 text-xs font-semibold text-slate-400 uppercase tracking-wider">Proyecto</div>
+                        <div className="col-span-1 text-xs font-semibold text-slate-400 uppercase tracking-wider text-center">País</div>
                         <div className="col-span-3 text-xs font-semibold text-slate-400 uppercase tracking-wider">Dominio</div>
                         <div className="col-span-2 text-xs font-semibold text-slate-400 uppercase tracking-wider">Keywords</div>
                         <div className="col-span-2 text-xs font-semibold text-slate-400 uppercase tracking-wider">Última Act.</div>
@@ -212,7 +213,7 @@ export default function Dashboard() {
                                 onClick={() => router.push(`/project?id=${proj.id}`)}
                                 className="group grid grid-cols-1 md:grid-cols-12 gap-4 px-6 py-5 items-center hover:bg-slate-700/50 transition-colors cursor-pointer"
                             >
-                                <div className="col-span-4 flex items-center gap-4">
+                                <div className="col-span-3 flex items-center gap-4">
                                     <div className="w-10 h-10 rounded-xl bg-slate-700 flex items-center justify-center overflow-hidden shadow-sm">
                                         <img
                                             src={`https://www.google.com/s2/favicons?domain=${proj.domain}&sz=64`}
@@ -230,6 +231,24 @@ export default function Dashboard() {
                                         <h3 className="font-semibold text-white group-hover:text-blue-400 transition-colors">{proj.name}</h3>
                                         <div className="md:hidden text-xs text-slate-400 mt-0.5">{proj.domain}</div>
                                     </div>
+                                </div>
+
+                                <div className="col-span-1 hidden md:flex justify-center">
+                                    <span className="text-lg" title={proj.country?.toUpperCase() || 'ES'}>
+                                        {proj.country === 'ES' ? '🇪🇸' :
+                                            proj.country === 'US' ? '🇺🇸' :
+                                                proj.country === 'UK' ? '🇬🇧' :
+                                                    proj.country === 'DE' ? '🇩🇪' :
+                                                        proj.country === 'FR' ? '🇫🇷' :
+                                                            proj.country === 'IT' ? '🇮🇹' :
+                                                                proj.country === 'PT' ? '🇵🇹' :
+                                                                    proj.country === 'MX' ? '🇲🇽' :
+                                                                        proj.country === 'AR' ? '🇦🇷' :
+                                                                            proj.country === 'CO' ? '🇨🇴' :
+                                                                                proj.country === 'CL' ? '🇨🇱' :
+                                                                                    proj.country === 'BR' ? '🇧🇷' :
+                                                                                        '🌍'}
+                                    </span>
                                 </div>
 
                                 <div className="col-span-3 hidden md:flex items-center gap-2 text-sm text-slate-300">
