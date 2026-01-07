@@ -508,7 +508,7 @@ export async function processAutoTracking() {
             where: { userId }
         });
 
-        if (!userBalance || userBalance.balance < PRICING.keyword_check_standard * userKeywords.length) {
+        if (!userBalance || userBalance.balance < PRICING.keyword_check_daily * userKeywords.length) {
             logWorker(`⚠️ Insufficient balance for user ${userId}. Skipping auto-tracking.`);
             // TODO: Send email notification
             continue;
@@ -520,15 +520,20 @@ export async function processAutoTracking() {
 
             // Deduct balance for this batch
             for (const kw of batch) {
+                // Use daily pricing (€0.03) for daily frequency, standard (€0.05) for others
+                const isDaily = kw.trackingFrequency === 'daily';
+                const action = isDaily ? 'keyword_check_daily' : 'keyword_check_standard';
+
                 const result = await deductBalance({
                     userId,
-                    action: 'keyword_check_standard',
+                    action,
                     metadata: {
                         keywordId: kw.id,
                         keywordTerm: kw.term,
                         projectId: kw.projectId,
                         projectName: kw.project?.name || 'Unknown',
-                        autoTracking: true
+                        autoTracking: true,
+                        frequency: kw.trackingFrequency
                     }
                 });
 

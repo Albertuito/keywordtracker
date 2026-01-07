@@ -3,7 +3,8 @@
 
 export const PRICING = {
     // Keyword tracking
-    keyword_check_standard: 0.05,   // €0.05 per check (Standard Queue)
+    keyword_check_daily: 0.03,      // €0.03 per check (Auto-tracking Daily - Best value)
+    keyword_check_standard: 0.05,   // €0.05 per check (Standard Queue - Every 2 days, weekly, manual)
     keyword_check_live: 0.09,       // €0.09 per check (Live Mode - Instant)
 
     // AI features
@@ -43,6 +44,7 @@ export function formatCredits(credits: number): string {
 
 // Action descriptions for transaction history
 export const ACTION_DESCRIPTIONS: Record<PricingAction, string> = {
+    keyword_check_daily: 'Keyword ranking check (Daily Auto)',
     keyword_check_standard: 'Keyword ranking check (Standard)',
     keyword_check_live: 'Keyword ranking check (Live)',
     ai_overview_check: 'AI Overview check',

@@ -667,7 +667,7 @@ function ProjectContent() {
                                 const every2DaysKws = keywords.filter(k => k.trackingFrequency === 'every_2_days');
                                 const weeklyKws = keywords.filter(k => k.trackingFrequency === 'weekly');
 
-                                const dailyCost = dailyKws.length * PRICING.keyword_check_standard * 30;
+                                const dailyCost = dailyKws.length * PRICING.keyword_check_daily * 30;
                                 const every2DaysCost = every2DaysKws.length * PRICING.keyword_check_standard * 15;
                                 const weeklyCost = weeklyKws.length * PRICING.keyword_check_standard * 4;
                                 const totalMonthlyCost = dailyCost + every2DaysCost + weeklyCost;
@@ -1058,7 +1058,7 @@ function ProjectContent() {
                                             </div>
                                         </div>
                                         <div className="text-right">
-                                            <div className="text-xs font-bold text-emerald-700">€{(showFrequencyModal.keywordIds.length * PRICING.keyword_check_standard * 30).toFixed(2)}/mes</div>
+                                            <div className="text-xs font-bold text-emerald-700">€{(showFrequencyModal.keywordIds.length * PRICING.keyword_check_daily * 30).toFixed(2)}/mes</div>
                                             <div className="text-xs text-emerald-600">~30 updates</div>
                                         </div>
                                     </div>
