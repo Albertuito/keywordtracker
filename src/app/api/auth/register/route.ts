@@ -3,11 +3,23 @@ import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 import { sendVerificationEmail, notifyNewUser } from '@/lib/email';
+import { checkRateLimit, getClientIP } from '@/lib/rateLimit';
 
 const prisma = new PrismaClient();
 
 export async function POST(req: Request) {
     try {
+        // Rate limiting: 5 registrations per minute per IP
+        const clientIP = getClientIP(req);
+        const rateCheck = checkRateLimit(`register:${clientIP}`, { limit: 5, windowSeconds: 60 });
+
+        if (!rateCheck.success) {
+            return NextResponse.json(
+                { error: `Demasiados intentos. Espera ${rateCheck.resetIn} segundos.` },
+                { status: 429 }
+            );
+        }
+
         const body = await req.json();
         const { name, email, password, companyName } = body;
 
@@ -22,9 +34,9 @@ export async function POST(req: Request) {
         // Use email prefix as default name if not provided
         const userName = name || email.split('@')[0];
 
-        if (password.length < 6) {
+        if (password.length < 8) {
             return NextResponse.json(
-                { error: 'La contraseña debe tener al menos 6 caracteres' },
+                { error: 'La contraseña debe tener al menos 8 caracteres' },
                 { status: 400 }
             );
         }

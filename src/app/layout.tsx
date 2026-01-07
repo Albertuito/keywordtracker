@@ -11,11 +11,38 @@ import { Toaster } from 'sonner';
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-    title: "KeywordTracker - Monitoriza tus Rankings en Google",
-    description: "Track your keyword rankings with real-time data from Google | keywordtracker.es",
+    title: "KeywordTracker - Monitoriza tus Rankings en Google | SEO Rank Tracker",
+    description: "Herramienta SEO para monitorizar posiciones en Google. Seguimiento de keywords, informes automáticos y análisis de competencia. Desde €0.003/keyword. ¡Empieza gratis!",
+    keywords: "rank tracker, posicionamiento SEO, monitorizar keywords, seguimiento Google, herramienta SEO, keywordtracker",
+    authors: [{ name: "KeywordTracker" }],
+    creator: "KeywordTracker",
+    publisher: "KeywordTracker",
+    robots: "index, follow",
     icons: {
         icon: "/favicon.png",
         apple: "/favicon.png",
+    },
+    openGraph: {
+        type: "website",
+        locale: "es_ES",
+        url: "https://keywordtracker.es",
+        siteName: "KeywordTracker",
+        title: "KeywordTracker - Monitoriza tus Rankings en Google",
+        description: "Herramienta SEO para monitorizar posiciones en Google. Seguimiento de keywords, informes automáticos y análisis de competencia. Desde €0.003/keyword.",
+        images: [
+            {
+                url: "https://keywordtracker.es/og-image.png",
+                width: 1200,
+                height: 630,
+                alt: "KeywordTracker - SEO Rank Tracker",
+            },
+        ],
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "KeywordTracker - Monitoriza tus Rankings en Google",
+        description: "Herramienta SEO para monitorizar posiciones en Google. Desde €0.003/keyword. ¡Empieza gratis!",
+        images: ["https://keywordtracker.es/og-image.png"],
     },
 };
 
