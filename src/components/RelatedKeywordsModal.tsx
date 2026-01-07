@@ -284,7 +284,7 @@ export default function RelatedKeywordsModal({
                                 Obtén keywords de calidad con dificultad SEO, intención de búsqueda, y recomendaciones IA personalizadas.
                             </p>
                             <p className="text-sm text-slate-400 mb-6">
-                                Coste: <span className="font-semibold text-indigo-600">€0.15</span> (DataForSEO Labs + GPT-4)
+                                Coste: <span className="font-semibold text-indigo-400">€0.15</span> por análisis
                             </p>
                             <button
                                 onClick={handleSearch}
