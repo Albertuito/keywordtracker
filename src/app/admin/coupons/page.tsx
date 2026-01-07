@@ -101,7 +101,7 @@ export default function AdminCouponsPage() {
                             value={form.code}
                             onChange={(e) => setForm({ ...form, code: e.target.value.toUpperCase() })}
                             placeholder="EJ: PROMO10"
-                            className="w-full px-3 py-2 border rounded-lg uppercase font-mono"
+                            className="w-full px-3 py-2 border border-slate-500 rounded-lg uppercase font-mono bg-slate-700 text-white placeholder-slate-400"
                             required
                         />
                     </div>
@@ -113,7 +113,7 @@ export default function AdminCouponsPage() {
                             onChange={(e) => setForm({ ...form, amount: e.target.value })}
                             placeholder="10.00"
                             step="0.01"
-                            className="w-full px-3 py-2 border rounded-lg"
+                            className="w-full px-3 py-2 border border-slate-500 rounded-lg bg-slate-700 text-white placeholder-slate-400"
                             required
                         />
                     </div>
@@ -123,7 +123,7 @@ export default function AdminCouponsPage() {
                             type="number"
                             value={form.maxUses}
                             onChange={(e) => setForm({ ...form, maxUses: e.target.value })}
-                            className="w-full px-3 py-2 border rounded-lg"
+                            className="w-full px-3 py-2 border border-slate-500 rounded-lg bg-slate-700 text-white"
                             min="1"
                             required
                         />
