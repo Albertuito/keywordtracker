@@ -816,7 +816,7 @@ function ProjectContent() {
 
                             <textarea
                                 className="w-full h-40 bg-slate-900 border border-slate-500 rounded-lg p-3 text-white text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none resize-none font-mono placeholder-slate-500"
-                                placeholder="keyword 1&#10;keyword 2&#10;keyword 3"
+                                placeholder={`zapatillas running baratas\nmejor calzado deportivo\ncomprar zapatillas online`}
                                 value={newKeyword.term}
                                 onChange={e => setNewKeyword({ ...newKeyword, term: e.target.value })}
                             ></textarea>
