@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import prisma from '@/lib/prisma';
+import { notifyTicketReply } from '@/lib/notifications';
 
 export async function GET(req: Request, { params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
@@ -79,6 +80,11 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
                 updatedAt: new Date()
             }
         });
+
+        // Notify user if admin replied
+        if (isAdmin && ticket.userId !== session.user.id) {
+            notifyTicketReply(ticket.userId, ticket.subject);
+        }
 
         return NextResponse.json({ message: newMessage });
     } catch (error) {

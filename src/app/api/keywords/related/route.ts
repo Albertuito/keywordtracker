@@ -6,6 +6,7 @@ import { OpenAIService } from '@/lib/openai';
 import { deductBalance } from '@/lib/balance';
 import { PRICING } from '@/lib/pricing';
 import prisma from '@/lib/prisma';
+import { notifyReportReady } from '@/lib/notifications';
 
 export const dynamic = 'force-dynamic';
 
@@ -139,6 +140,9 @@ export async function POST(req: Request) {
                 country
             }
         });
+
+        // Notify user that report is ready
+        notifyReportReady(session.user.id, keyword);
 
         console.log('[Related Keywords API] Report saved:', report.id);
 

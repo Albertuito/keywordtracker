@@ -1,6 +1,7 @@
 // Balance management utilities
 import prisma from './prisma';
 import { PRICING, PricingAction, getActionDescription } from './pricing';
+import { notifyLowBalance } from './notifications';
 
 interface DeductBalanceOptions {
     userId: string;
@@ -82,6 +83,11 @@ export async function deductBalance(
                 },
             }),
         ]);
+
+        // Notify user if balance drops below €1
+        if (updatedBalance.balance < 1 && balanceBefore >= 1) {
+            notifyLowBalance(userId, updatedBalance.balance);
+        }
 
         return {
             success: true,
