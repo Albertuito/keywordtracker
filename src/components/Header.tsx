@@ -62,15 +62,7 @@ export default function Header() {
                                 >
                                     Reportes
                                 </Link>
-                                <Link
-                                    href="/content-generator"
-                                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${isActive('/content-generator')
-                                        ? 'bg-blue-500/20 text-blue-400'
-                                        : 'text-slate-300 hover:text-white hover:bg-slate-800'
-                                        }`}
-                                >
-                                    🎯 Generador
-                                </Link>
+                                {/* Generator Link Removed for Launch */}
                             </>
                         )}
                         <Link
@@ -262,13 +254,7 @@ export default function Header() {
                                 >
                                     Reportes
                                 </Link>
-                                <Link
-                                    href="/content-generator"
-                                    onClick={() => setMobileMenuOpen(false)}
-                                    className={`block px-4 py-3 text-base font-medium ${isActive('/content-generator') ? 'bg-blue-500/20 text-blue-400' : 'text-slate-300 hover:bg-slate-800'}`}
-                                >
-                                    🎯 Generador
-                                </Link>
+                                {/* Generator Link Removed for Launch */}
                                 <Link
                                     href="/como-funciona"
                                     onClick={() => setMobileMenuOpen(false)}
