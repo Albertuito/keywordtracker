@@ -17,9 +17,9 @@ export default function AvisoLegalPage() {
                         En cumplimiento de la Ley 34/2002, de 11 de julio, de Servicios de la Sociedad de la Información y de Comercio Electrónico (LSSI-CE), se informa que el titular del sitio web <strong>keywordtracker.es</strong> es:
                     </p>
                     <ul className="list-disc pl-6 mt-2 space-y-1">
-                        <li><strong>Razón Social / Nombre:</strong> [Nombre o Razón Social]</li>
-                        <li><strong>DNI / CIF:</strong> [CIF/NIF]</li>
-                        <li><strong>Domicilio Social:</strong> [Dirección Completa]</li>
+                        <li><strong>Nombre:</strong> Alberto Martín Sánchez</li>
+                        <li><strong>DNI:</strong> 32074025L</li>
+                        <li><strong>Domicilio:</strong> Jerez de la Frontera, 11405 (Cádiz)</li>
                         <li><strong>Email de contacto:</strong> info@keywordtracker.es</li>
                     </ul>
                 </div>
@@ -48,7 +48,7 @@ export default function AvisoLegalPage() {
                 <div>
                     <h2 className="text-xl font-semibold text-white mb-3">5. Ley aplicable y jurisdicción</h2>
                     <p>
-                        Para la resolución de todas las controversias o cuestiones relacionadas con el presente sitio web o de las actividades en él desarrolladas, será de aplicación la legislación española, a la que se someten expresamente las partes, siendo competentes para la resolución de todos los conflictos derivados o relacionados con su uso los Juzgados y Tribunales de [Indicar Ciudad].
+                        Para la resolución de todas las controversias o cuestiones relacionadas con el presente sitio web o de las actividades en él desarrolladas, será de aplicación la legislación española, a la que se someten expresamente las partes, siendo competentes para la resolución de todos los conflictos derivados o relacionados con su uso los Juzgados y Tribunales de Jerez de la Frontera (Cádiz).
                     </p>
                 </div>
             </section>

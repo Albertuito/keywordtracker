@@ -49,19 +49,6 @@ export default function Home() {
             <HowItWorks />
             <Testimonials />
             <CTASection />
-
-            {/* Simple footer for landing page */}
-            <footer className="py-12 bg-slate-800 border-t border-slate-600 text-center text-slate-400 text-sm">
-                <div className="container mx-auto px-4">
-                    <div className="flex justify-center gap-8 mb-8">
-                        <Link href="#" className="hover:text-white transition-colors">Términos</Link>
-                        <Link href="#" className="hover:text-white transition-colors">Privacidad</Link>
-                        <Link href="#" className="hover:text-white transition-colors">Cookies</Link>
-                        <Link href="#" className="hover:text-white transition-colors">Contacto</Link>
-                    </div>
-                    <p>© {new Date().getFullYear()} KeywordTracker. Todos los derechos reservados.</p>
-                </div>
-            </footer>
         </main>
     );
 }

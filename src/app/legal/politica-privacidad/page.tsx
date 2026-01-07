@@ -18,7 +18,7 @@ export default function PoliticaPrivacidadPage() {
                 <div>
                     <h2 className="text-xl font-semibold text-white mb-3">1. Responsable del tratamiento</h2>
                     <p>
-                        Los datos personales recabados a través de este sitio web serán tratados por <strong>[Nombre o Razón Social]</strong>, con CIF [CIF/NIF] y email de contacto info@keywordtracker.es.
+                        Los datos personales recabados a través de este sitio web serán tratados por <strong>Alberto Martín Sánchez</strong>, con DNI 32074025L y email de contacto info@keywordtracker.es.
                     </p>
                 </div>
 
