@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { X, Search, Plus, Loader2, TrendingUp, DollarSign, AlertCircle, CheckCircle, Download, Sparkles, Target, FileText, HelpCircle, Lightbulb, FileDown, Zap, AlertTriangle } from 'lucide-react';
+import { X, Search, Plus, Loader2, TrendingUp, DollarSign, AlertCircle, CheckCircle, Download, Sparkles, Target, FileText, HelpCircle, Lightbulb, FileDown, Zap, AlertTriangle, Copy, MessageSquare } from 'lucide-react';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import { KeywordReportPDF } from './KeywordReportPDF';
 
@@ -581,19 +581,19 @@ export default function RelatedKeywordsModal({
                                                         const strategy = isObj ? item.strategy : '';
 
                                                         return (
-                                                            <div key={i} className="flex flex-col sm:flex-row sm:items-start gap-3 p-3 bg-blue-500/20/50 border border-blue-500/30 rounded-lg">
-                                                                <div className="shrink-0 pt-1">
-                                                                    <div className="w-6 h-6 bg-blue-500/20 rounded-full flex items-center justify-center text-blue-400 text-xs font-bold">
+                                                            <div key={i} className="flex flex-col sm:flex-row sm:items-start gap-3 p-4 bg-slate-700/50 border border-slate-600 rounded-lg hover:bg-slate-700 transition-colors">
+                                                                <div className="shrink-0">
+                                                                    <div className="w-8 h-8 bg-blue-500/30 rounded-full flex items-center justify-center text-blue-400 text-sm font-bold">
                                                                         {i + 1}
                                                                     </div>
                                                                 </div>
-                                                                <div className="space-y-1">
-                                                                    <div className="font-semibold text-blue-900">{keyword}</div>
+                                                                <div className="space-y-2 flex-1">
+                                                                    <div className="font-semibold text-white text-base">{keyword}</div>
                                                                     {isObj && (
-                                                                        <>
-                                                                            <p className="text-sm text-blue-800"><span className="font-medium">Por qué:</span> {rationale}</p>
-                                                                            <p className="text-sm text-blue-400"><span className="font-medium">Acción:</span> {strategy}</p>
-                                                                        </>
+                                                                        <div className="space-y-1">
+                                                                            <p className="text-sm text-slate-300"><span className="text-slate-400 font-medium">Por qué:</span> {rationale}</p>
+                                                                            <p className="text-sm text-emerald-400"><span className="text-emerald-500 font-medium">Acción:</span> {strategy}</p>
+                                                                        </div>
                                                                     )}
                                                                 </div>
                                                             </div>
@@ -622,6 +622,49 @@ export default function RelatedKeywordsModal({
                                             </div>
                                         </div>
                                     )}
+                                </div>
+                            )}
+
+                            {/* AI Prompt Copy Button */}
+                            {analysis && (
+                                <div className="mt-6 pt-6 border-t border-slate-600">
+                                    <button
+                                        onClick={() => {
+                                            const h2s = analysis.optimized_recommendations?.h2_structure || [];
+                                            const opportunities = analysis.keyword_usage_strategy?.supporting_keywords?.map(item =>
+                                                typeof item === 'string' ? item : item.keyword
+                                            ) || [];
+                                            const primaryKws = analysis.keyword_usage_strategy?.primary_keywords || [];
+
+                                            const prompt = `Eres un experto SEO, escritor y copywriter profesional.
+
+Tema principal a tratar: "${seedKeyword}"
+
+Palabras clave principales a incluir: ${primaryKws.join(', ')}
+
+Estructura H2 recomendada:
+${h2s.map((h2, i) => `${i + 1}. ${h2}`).join('\n')}
+
+Oportunidades de palabras clave secundarias a incorporar:
+${opportunities.map((kw, i) => `- ${kw}`).join('\n')}
+
+Instrucciones:
+1. Escribe un artículo SEO optimizado sobre "${seedKeyword}"
+2. Usa los H2 sugeridos como estructura del contenido
+3. Incorpora naturalmente las palabras clave principales y secundarias
+4. El tono debe ser profesional pero accesible
+5. Incluye una introducción atractiva y una conclusión con CTA
+6. Extensión recomendada: 1500-2000 palabras`;
+
+                                            navigator.clipboard.writeText(prompt);
+                                            alert('¡Prompt copiado al portapapeles!');
+                                        }}
+                                        className="w-full px-4 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-xl font-medium hover:from-purple-500 hover:to-indigo-500 transition-all flex items-center justify-center gap-2 shadow-lg shadow-purple-500/20"
+                                    >
+                                        <MessageSquare className="w-5 h-5" />
+                                        Copiar Prompt para IA
+                                    </button>
+                                    <p className="text-xs text-slate-400 text-center mt-2">Copia este prompt y pégalo en ChatGPT, Claude o tu IA favorita</p>
                                 </div>
                             )}
                         </div>
