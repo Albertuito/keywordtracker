@@ -128,7 +128,7 @@ export async function notifyAdmin(title: string, message: string, type: Notifica
     try {
         // Find admin user
         const adminUser = await prisma.user.findFirst({
-            where: { email: 'infoinfolinfo@gmail.com' },
+            where: { role: 'ADMIN' },
             select: { id: true }
         });
 

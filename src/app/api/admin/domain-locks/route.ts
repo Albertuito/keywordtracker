@@ -3,7 +3,7 @@ import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@/lib/auth';
 import prisma from '@/lib/prisma';
 
-const ADMIN_EMAIL = 'infoinfolinfo@gmail.com';
+
 
 // GET /api/admin/domain-locks - List all domain locks
 export async function GET(req: Request) {

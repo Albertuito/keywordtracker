@@ -29,7 +29,7 @@ interface Ticket {
 export default function TicketDetailPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = use(params);
     const { data: session } = useSession();
-    const isAdmin = session?.user?.email === 'infoinfolinfo@gmail.com';
+    const isAdmin = session?.user?.role === 'ADMIN';
     const [ticket, setTicket] = useState<Ticket | null>(null);
     const [loading, setLoading] = useState(true);
     const [newMessage, setNewMessage] = useState('');

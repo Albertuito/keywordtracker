@@ -7,7 +7,7 @@ export async function POST(request: Request) {
     const session = await getServerSession(authOptions);
 
     // STRICT LOCKDOWN
-    if (!session?.user?.email || (session.user.role !== 'ADMIN' && session.user.email !== 'infoinfolinfo@gmail.com')) {
+    if (!session?.user?.email || session.user.role !== 'ADMIN') {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 

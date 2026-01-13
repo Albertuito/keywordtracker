@@ -13,7 +13,7 @@ export default function Header() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     const isActive = (path: string) => pathname === path;
-    const isAdmin = session?.user?.email === 'infoinfolinfo@gmail.com';
+    const isAdmin = session?.user?.role === 'ADMIN';
 
     return (
         <header className="bg-slate-900 border-b border-slate-700/50 sticky top-0 z-30">

@@ -12,7 +12,7 @@ export default async function AdminLayout({
     const session = await getServerSession(authOptions);
 
     // STRICT LOCKDOWN: Only specific email allowed
-    if (!session?.user?.email || session.user.email !== 'infoinfolinfo@gmail.com') {
+    if (!session?.user?.email || session.user.role !== 'ADMIN') {
         redirect('/');
     }
 

@@ -29,7 +29,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
             return NextResponse.json({ error: 'Ticket not found' }, { status: 404 });
         }
 
-        if (ticket.userId !== session.user.id && session.user.email !== 'infoinfolinfo@gmail.com') {
+        if (ticket.userId !== session.user.id && session.user.role !== 'ADMIN') {
             return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
         }
 
@@ -57,7 +57,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
 
         if (!ticket) return NextResponse.json({ error: 'Not found' }, { status: 404 });
 
-        const isAdmin = session.user.email === 'infoinfolinfo@gmail.com';
+        const isAdmin = session.user.role === 'ADMIN';
         if (ticket.userId !== session.user.id && !isAdmin) {
             return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
         }

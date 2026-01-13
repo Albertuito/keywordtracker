@@ -9,7 +9,7 @@ export const dynamic = 'force-dynamic';
 export async function GET(req: Request) {
     const session = await getServerSession(authOptions);
 
-    if (!session?.user?.email || session.user.email !== 'infoinfolinfo@gmail.com') {
+    if (!session?.user?.email || session.user.role !== 'ADMIN') {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 

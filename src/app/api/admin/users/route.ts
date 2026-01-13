@@ -7,7 +7,7 @@ import prisma from '@/lib/prisma';
 export async function PUT(request: Request) {
     const session = await getServerSession(authOptions);
 
-    if (!session?.user?.email || (session.user.role !== 'ADMIN' && session.user.email !== 'infoinfolinfo@gmail.com')) {
+    if (!session?.user?.email || session.user.role !== 'ADMIN') {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
     try {
@@ -40,7 +40,7 @@ export async function PUT(request: Request) {
 export async function DELETE(request: Request) {
     const session = await getServerSession(authOptions);
 
-    if (!session?.user?.email || (session.user.role !== 'ADMIN' && session.user.email !== 'infoinfolinfo@gmail.com')) {
+    if (!session?.user?.email || session.user.role !== 'ADMIN') {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
