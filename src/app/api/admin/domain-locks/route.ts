@@ -9,7 +9,7 @@ import prisma from '@/lib/prisma';
 export async function GET(req: Request) {
     const session = await getServerSession(authOptions);
 
-    if (!session || session.user?.email !== ADMIN_EMAIL) {
+    if (!session || session.user?.role !== 'ADMIN') {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -44,7 +44,7 @@ export async function GET(req: Request) {
 export async function DELETE(req: Request) {
     const session = await getServerSession(authOptions);
 
-    if (!session || session.user?.email !== ADMIN_EMAIL) {
+    if (!session || session.user?.role !== 'ADMIN') {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
