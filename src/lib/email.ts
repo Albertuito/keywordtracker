@@ -1,4 +1,23 @@
 import nodemailer from 'nodemailer';
+import prisma from '@/lib/prisma'; // Ensure this uses the singleton
+
+// Helper to get admin email
+async function getAdminEmail(): Promise<string> {
+    if (process.env.ADMIN_EMAIL) return process.env.ADMIN_EMAIL;
+
+    // Fallback: Fetch first admin from DB
+    try {
+        const admin = await prisma.user.findFirst({
+            where: { role: 'ADMIN' },
+            select: { email: true }
+        });
+        if (admin?.email) return admin.email;
+    } catch (e) {
+        console.error("Failed to fetch admin email from DB", e);
+    }
+
+    return 'infoinfolinfo@gmail.com'; // Last resort fallback
+}
 
 // Helper to send email
 async function sendEmail({ to, subject, html }: { to: string, subject: string, html: string }) {
@@ -54,7 +73,7 @@ export async function sendVerificationEmail(to: string, token: string) {
 }
 
 export async function notifyNewUser(email: string, name: string) {
-    const adminEmail = process.env.ADMIN_EMAIL || 'infoinfolinfo@gmail.com';
+    const adminEmail = await getAdminEmail();
     await sendEmail({
         to: adminEmail,
         subject: '🆕 Nuevo Usuario en KeywordTracker',
@@ -70,7 +89,7 @@ export async function notifyNewUser(email: string, name: string) {
 }
 
 export async function notifyNewRecharge(email: string, amount: number, method: string) {
-    const adminEmail = process.env.ADMIN_EMAIL || 'infoinfolinfo@gmail.com';
+    const adminEmail = await getAdminEmail();
     await sendEmail({
         to: adminEmail,
         subject: '💰 Nueva Recarga Recibida',
@@ -86,7 +105,7 @@ export async function notifyNewRecharge(email: string, amount: number, method: s
 }
 
 export async function notifyNewTicket(email: string, ticketSubject: string, id: string) {
-    const adminEmail = process.env.ADMIN_EMAIL || 'infoinfolinfo@gmail.com';
+    const adminEmail = await getAdminEmail();
     await sendEmail({
         to: adminEmail,
         subject: '🎫 Nuevo Ticket de Soporte',
